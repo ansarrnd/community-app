@@ -1,12 +1,22 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
+import { render, fireEvent } from '@testing-library/react-native';
 import { RoleBadge } from '../../components/RoleBadge';
 import { ThemedText } from '../../components/ThemedText';
 import { OfflineBanner } from '../../components/OfflineBanner';
+import { LiquidGlassCard } from '../../components/LiquidGlassCard';
+import { EventImage } from '../../components/EventImage';
 import { useNetworkGuard } from '../../application/hooks/useNetworkGuard';
 
 jest.mock('../../application/hooks/useNetworkGuard', () => ({
   useNetworkGuard: jest.fn(),
+}));
+
+jest.mock('expo-image', () => ({
+  Image: (props: any) => React.createElement('ExpoImage', props),
+}));
+
+jest.mock('expo-blur', () => ({
+  BlurView: (props: any) => React.createElement('BlurView', props),
 }));
 
 describe('UI Component Unit Tests', () => {
@@ -37,6 +47,17 @@ describe('UI Component Unit Tests', () => {
       const { getByText } = render(<ThemedText variant="h1">Header Title</ThemedText>);
       expect(getByText('Header Title')).toBeTruthy();
     });
+
+    it('applies secondary, muted, and custom colors correctly', () => {
+      const { getByText: getSec } = render(<ThemedText secondary>Secondary Text</ThemedText>);
+      expect(getSec('Secondary Text')).toBeTruthy();
+
+      const { getByText: getMuted } = render(<ThemedText muted>Muted Text</ThemedText>);
+      expect(getMuted('Muted Text')).toBeTruthy();
+
+      const { getByText: getCustom } = render(<ThemedText color="#FF0000">Custom Color Text</ThemedText>);
+      expect(getCustom('Custom Color Text')).toBeTruthy();
+    });
   });
 
   describe('OfflineBanner', () => {
@@ -50,6 +71,41 @@ describe('UI Component Unit Tests', () => {
       (useNetworkGuard as jest.Mock).mockReturnValue({ isConnected: false, isInternetReachable: false });
       const { getByText } = render(<OfflineBanner />);
       expect(getByText(/Offline Mode: Showing cached events. Writes are queued./i)).toBeTruthy();
+    });
+  });
+
+  describe('LiquidGlassCard', () => {
+    it('renders children content inside glass card container', () => {
+      const { getByText } = render(
+        <LiquidGlassCard>
+          <ThemedText>Card Content</ThemedText>
+        </LiquidGlassCard>
+      );
+      expect(getByText('Card Content')).toBeTruthy();
+    });
+
+    it('handles onPress event when card is interactive', () => {
+      const onPressMock = jest.fn();
+      const { getByText } = render(
+        <LiquidGlassCard onPress={onPressMock}>
+          <ThemedText>Clickable Card</ThemedText>
+        </LiquidGlassCard>
+      );
+
+      fireEvent.press(getByText('Clickable Card'));
+      expect(onPressMock).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('EventImage', () => {
+    it('renders EventImage container component with default fallback URI', () => {
+      const { container } = render(<EventImage />);
+      expect(container).toBeTruthy();
+    });
+
+    it('renders EventImage with custom image URI', () => {
+      const { container } = render(<EventImage uri="https://example.com/custom.jpg" height={200} />);
+      expect(container).toBeTruthy();
     });
   });
 });
