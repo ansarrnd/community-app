@@ -84,7 +84,7 @@ const INITIAL_MOCK_EVENTS: CommunityEvent[] = [
 ];
 
 export class MockEventRepository implements IEventRepository {
-  private events: CommunityEvent[] = [...INITIAL_MOCK_EVENTS];
+  private events: CommunityEvent[] = INITIAL_MOCK_EVENTS.map((e) => ({ ...e }));
   private rsvps: Record<string, Record<string, 'ATTENDING' | 'DECLINED'>> = {};
 
   async getApprovedEvents(categoryFilter?: string, searchQuery?: string): Promise<CommunityEvent[]> {

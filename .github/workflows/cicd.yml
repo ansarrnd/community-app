@@ -78,6 +78,16 @@ jobs:
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
         run: bundle exec fastlane ios beta
 
+        # Inside your self-hosted iOS job in .github/workflows/cicd.yml
+        # Cleanup step always runs, even if previous steps fail
+      - name: Post-Job DerivedData & Simulator Cleanup
+        if: always()
+        run: |
+          echo "Clearing Xcode DerivedData for this workflow..."
+          rm -rf ~/Library/Developer/Xcode/DerivedData/*
+          echo "Erasing Simulator instances..."
+          xcrun simctl erase all || true
+
   # =======================================================
   # JOB 5: SELF-HOSTED - Android Hardware-Accelerated E2E (M2 Pro)
   # =======================================================
