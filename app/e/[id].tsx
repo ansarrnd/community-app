@@ -1,0 +1,356 @@
+import React from 'react';
+import { View, StyleSheet, ScrollView, Pressable, Platform } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
+import * as Linking from 'expo-linking';
+import { useEventDetail, useRsvpMutation, useUserRsvps } from '../../application/hooks/useEventsQuery';
+import { useAuthStore } from '../../application/stores/useAuthStore';
+import { LiquidGlassCard } from '../../components/LiquidGlassCard';
+import { EventImage } from '../../components/EventImage';
+import { ThemedText } from '../../components/ThemedText';
+import { useTheme } from '../../context/ThemeContext';
+import { whatsappService } from '../../infrastructure/services/whatsappService';
+import { MapPin, Calendar, Clock, Share2, CheckCircle2, XCircle, ExternalLink, Globe } from 'lucide-react-native';
+
+export default function EventDetailScreen() {
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const user = useAuthStore((state) => state.user);
+  const { theme } = useTheme();
+
+  const { data: event, isLoading } = useEventDetail(id || '');
+  const { data: userRsvps = {} } = useUserRsvps(user.uid);
+  const rsvpMutation = useRsvpMutation();
+
+  if (isLoading || !event) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ThemedText variant="body" muted>
+          Loading event details...
+        </ThemedText>
+      </View>
+    );
+  }
+
+  const userRsvpStatus = userRsvps[event.id];
+
+  const handleOpenMaps = async () => {
+    const url = event.googleMapsUrl || `https://maps.google.com/?q=${encodeURIComponent(event.venue)}`;
+    try {
+      await Linking.openURL(url);
+    } catch (e) {
+      console.warn('[Linking] Failed to open maps URL:', e);
+    }
+  };
+
+  const handleRsvp = (status: 'ATTENDING' | 'DECLINED') => {
+    rsvpMutation.mutate({ eventId: event.id, userId: user.uid, status });
+  };
+
+  return (
+    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+      {/* Hero Image View */}
+      <EventImage uri={event.inviteCardUrl} height={220} borderRadius={20} />
+
+      {/* Category & Status Row */}
+      <View style={styles.badgeRow}>
+        <View
+          style={[
+            styles.categoryBadge,
+            { backgroundColor: theme.isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.08)' },
+          ]}
+        >
+          <ThemedText variant="caption" bold style={styles.categoryText}>
+            {event.category === 'MARRIAGE' ? '💍 MARRIAGE' : event.category === 'CULTURAL' ? '🎉 CULTURAL' : '📋 MEETING'}
+          </ThemedText>
+        </View>
+        <View style={{ flex: 1 }} />
+        {event.status === 'APPROVED' ? (
+          <View style={styles.approvedBadge}>
+            <CheckCircle2 size={13} color={theme.colors.roleUser} style={{ marginRight: 4 }} />
+            <ThemedText variant="caption" bold style={{ color: theme.colors.roleUser }}>
+              Verified Community Event
+            </ThemedText>
+          </View>
+        ) : (
+          <View style={styles.pendingBadge}>
+            <ThemedText variant="caption" bold style={{ color: theme.colors.accentGold }}>
+              {event.status}
+            </ThemedText>
+          </View>
+        )}
+      </View>
+
+      {/* Event Main Title */}
+      <ThemedText variant="h1" style={styles.eventTitle}>
+        {event.title}
+      </ThemedText>
+
+      {/* Date, Time & Venue Card */}
+      <LiquidGlassCard style={styles.metaCard}>
+        <View style={styles.metaItem}>
+          <Calendar size={18} color={theme.colors.accentTeal} style={styles.metaIcon} />
+          <View>
+            <ThemedText variant="caption" muted style={{ textTransform: 'uppercase' }}>
+              Date
+            </ThemedText>
+            <ThemedText variant="bodyBold" style={{ marginTop: 2 }}>
+              {event.date}
+            </ThemedText>
+          </View>
+        </View>
+
+        <View style={[styles.metaDivider, { backgroundColor: theme.colors.borderCard }]} />
+
+        <View style={styles.metaItem}>
+          <Clock size={18} color={theme.colors.accentTeal} style={styles.metaIcon} />
+          <View>
+            <ThemedText variant="caption" muted style={{ textTransform: 'uppercase' }}>
+              Time
+            </ThemedText>
+            <ThemedText variant="bodyBold" style={{ marginTop: 2 }}>
+              {event.time}
+            </ThemedText>
+          </View>
+        </View>
+      </LiquidGlassCard>
+
+      {/* Venue Location & Maps Launcher */}
+      <LiquidGlassCard style={styles.metaCard} onPress={handleOpenMaps}>
+        <View style={styles.metaItem}>
+          <MapPin size={18} color={theme.colors.accentPink} style={styles.metaIcon} />
+          <View style={{ flex: 1 }}>
+            <ThemedText variant="caption" muted style={{ textTransform: 'uppercase' }}>
+              Venue Location
+            </ThemedText>
+            <ThemedText variant="bodyBold" style={{ marginTop: 2 }}>
+              {event.venue}
+            </ThemedText>
+          </View>
+          <ExternalLink size={16} color={theme.colors.accentPink} />
+        </View>
+      </LiquidGlassCard>
+
+      {/* Specific Template Details */}
+      {event.category === 'MARRIAGE' && (event.groomName || event.brideName) && (
+        <LiquidGlassCard style={styles.templateCard} glowColor="rgba(255, 184, 0, 0.4)">
+          <ThemedText variant="subtitle" bold style={{ marginBottom: 6 }}>
+            💍 Wedding Couple Details
+          </ThemedText>
+          <ThemedText variant="body" secondary>
+            Groom: {event.groomName || 'N/A'}
+          </ThemedText>
+          <ThemedText variant="body" secondary>
+            Bride: {event.brideName || 'N/A'}
+          </ThemedText>
+        </LiquidGlassCard>
+      )}
+
+      {event.category === 'MEETING' && event.agenda && (
+        <LiquidGlassCard style={styles.templateCard} glowColor="rgba(127, 0, 255, 0.4)">
+          <ThemedText variant="subtitle" bold style={{ marginBottom: 6 }}>
+            📋 Meeting Agenda
+          </ThemedText>
+          <ThemedText variant="body" secondary>
+            {event.agenda}
+          </ThemedText>
+        </LiquidGlassCard>
+      )}
+
+      {/* Description Section */}
+      <ThemedText variant="subtitle" bold style={styles.sectionHeader}>
+        Event Details
+      </ThemedText>
+      <LiquidGlassCard style={styles.detailsCard}>
+        <ThemedText variant="body" secondary style={{ lineHeight: 22 }}>
+          {event.details}
+        </ThemedText>
+      </LiquidGlassCard>
+
+      {/* RSVP Action Bar */}
+      <ThemedText variant="subtitle" bold style={styles.sectionHeader}>
+        Your Response
+      </ThemedText>
+      <View style={styles.rsvpRow}>
+        <Pressable
+          onPress={() => handleRsvp('ATTENDING')}
+          style={({ pressed }) => [
+            styles.rsvpActionBtn,
+            userRsvpStatus === 'ATTENDING'
+              ? { backgroundColor: 'rgba(0, 230, 118, 0.22)', borderColor: theme.colors.roleUser }
+              : { backgroundColor: theme.colors.bgInput, borderColor: theme.colors.borderInput },
+            pressed && { opacity: 0.8 },
+          ]}
+        >
+          <CheckCircle2
+            size={18}
+            color={userRsvpStatus === 'ATTENDING' ? theme.colors.roleUser : theme.colors.textMuted}
+          />
+          <ThemedText
+            variant="button"
+            style={{ color: userRsvpStatus === 'ATTENDING' ? theme.colors.roleUser : theme.colors.textPrimary }}
+          >
+            Attending ({event.attendingCount})
+          </ThemedText>
+        </Pressable>
+
+        <Pressable
+          onPress={() => handleRsvp('DECLINED')}
+          style={({ pressed }) => [
+            styles.rsvpActionBtn,
+            userRsvpStatus === 'DECLINED'
+              ? { backgroundColor: 'rgba(255, 42, 109, 0.22)', borderColor: theme.colors.accentPink }
+              : { backgroundColor: theme.colors.bgInput, borderColor: theme.colors.borderInput },
+            pressed && { opacity: 0.8 },
+          ]}
+        >
+          <XCircle
+            size={18}
+            color={userRsvpStatus === 'DECLINED' ? theme.colors.accentPink : theme.colors.textMuted}
+          />
+          <ThemedText
+            variant="button"
+            style={{ color: userRsvpStatus === 'DECLINED' ? theme.colors.accentPink : theme.colors.textPrimary }}
+          >
+            Declined
+          </ThemedText>
+        </Pressable>
+      </View>
+
+      {/* Primary WhatsApp Deep Link Share Button */}
+      <Pressable
+        onPress={() => whatsappService.shareEventToWhatsApp(event)}
+        style={({ pressed }) => [styles.whatsappBtn, pressed && { opacity: 0.88 }]}
+      >
+        <Share2 size={20} color="#FFF" style={{ marginRight: 8 }} />
+        <ThemedText variant="button" style={{ color: '#FFF' }}>
+          Forward via WhatsApp Client
+        </ThemedText>
+      </Pressable>
+
+      {/* Open Graph Social Card Inspector */}
+      <LiquidGlassCard style={styles.ogCard}>
+        <View style={styles.ogHeader}>
+          <Globe size={16} color={theme.colors.accentTeal} style={{ marginRight: 6 }} />
+          <ThemedText variant="caption" bold style={{ color: theme.colors.accentTeal }}>
+            Open Graph Web Preview Inspector
+          </ThemedText>
+        </View>
+        <ThemedText variant="caption" muted style={styles.ogCode}>
+          {`<meta property="og:title" content="${event.title}" />\n<meta property="og:description" content="${event.details.slice(0, 80)}..." />\n<meta property="og:image" content="${event.inviteCardUrl || ''}" />\n<meta property="og:url" content="https://community.yourdomain.com/e/${event.id}" />`}
+        </ThemedText>
+      </LiquidGlassCard>
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: 16,
+  },
+  contentContainer: {
+    paddingTop: 12,
+    paddingBottom: 80,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 40,
+  },
+  badgeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  categoryBadge: {
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 999,
+  },
+  categoryText: {
+    letterSpacing: 0.5,
+  },
+  approvedBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 230, 118, 0.18)',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 999,
+  },
+  pendingBadge: {
+    backgroundColor: 'rgba(255, 184, 0, 0.22)',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 999,
+  },
+  eventTitle: {
+    marginBottom: 14,
+  },
+  metaCard: {
+    marginBottom: 10,
+  },
+  metaItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  metaIcon: {
+    marginRight: 12,
+  },
+  metaDivider: {
+    height: 1,
+    marginVertical: 10,
+  },
+  templateCard: {
+    marginBottom: 12,
+  },
+  sectionHeader: {
+    marginTop: 14,
+    marginBottom: 8,
+  },
+  detailsCard: {
+    marginBottom: 14,
+  },
+  rsvpRow: {
+    flexDirection: 'row',
+    gap: 10,
+    marginBottom: 16,
+  },
+  rsvpActionBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    borderRadius: 20,
+    borderWidth: 1,
+    gap: 6,
+  },
+  whatsappBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#25D366',
+    paddingVertical: 14,
+    borderRadius: 20,
+    marginBottom: 16,
+    shadowColor: '#25D366',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 12,
+    elevation: 6,
+  },
+  ogCard: {
+    marginTop: 10,
+  },
+  ogHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  ogCode: {
+    fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
+    fontSize: 11,
+    lineHeight: 16,
+  },
+});
