@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>12/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">76.92% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/13</span>
+                <span class='fraction'>10/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>12/12</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -143,7 +143,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -154,22 +154,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -184,7 +182,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -209,10 +209,10 @@ export interface ThemedTextProps extends TextProps {
   bold?: boolean;
 }
 &nbsp;
-export const ThemedText: React.FC&lt;ThemedTextProps&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+export const ThemedText: React.FC&lt;ThemedTextProps&gt; = ({
   children,
   style,
-  variant = <span class="branch-0 cbranch-no" title="branch not covered" >'body',</span>
+  variant = 'body',
   color,
   secondary,
   muted,
@@ -220,27 +220,27 @@ export const ThemedText: React.FC&lt;ThemedTextProps&gt; = <span class="cstat-no
   bold,
   ...rest
 }) =&gt; {
-  const { theme } = <span class="cstat-no" title="statement not covered" >useTheme();</span>
+  const { theme } = useTheme();
 &nbsp;
-  let textColor = <span class="cstat-no" title="statement not covered" >theme.colors.textPrimary;</span>
-<span class="cstat-no" title="statement not covered" >  if (color) {</span>
-<span class="cstat-no" title="statement not covered" >    textColor = color;</span>
-  } else <span class="cstat-no" title="statement not covered" >if (secondary) {</span>
-<span class="cstat-no" title="statement not covered" >    textColor = theme.colors.textSecondary;</span>
-  } else <span class="cstat-no" title="statement not covered" >if (muted) {</span>
-<span class="cstat-no" title="statement not covered" >    textColor = theme.colors.textMuted;</span>
+  let textColor = theme.colors.textPrimary;
+  if (color) {
+    textColor = color;
+  } else if (secondary) {
+    textColor = theme.colors.textSecondary;
+  } else if (muted) {
+    textColor = theme.colors.textMuted;
   }
 &nbsp;
-  const typographyStyle = <span class="cstat-no" title="statement not covered" >theme.typography[variant] || theme.typography.body;</span>
+  const typographyStyle = theme.typography[variant] || <span class="branch-1 cbranch-no" title="branch not covered" >theme.typography.body;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Text
       style={[
         styles.base,
         typographyStyle,
         { color: textColor },
-        center &amp;&amp; styles.center,
-        bold &amp;&amp; styles.bold,
+        center &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >styles.center,</span>
+        bold &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >styles.bold,</span>
         style,
       ]}
       {...rest}
@@ -250,7 +250,7 @@ export const ThemedText: React.FC&lt;ThemedTextProps&gt; = <span class="cstat-no
   );
 };
 &nbsp;
-const styles = <span class="cstat-no" title="statement not covered" >StyleSheet.create({</span>
+const styles = StyleSheet.create({
   base: {
     fontFamily: undefined, // Uses native system font (San Francisco on iOS)
   },
@@ -268,7 +268,7 @@ const styles = <span class="cstat-no" title="statement not covered" >StyleSheet.
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-08-09T10:27:25.706Z
+                at 2026-08-09T10:27:48.549Z
             </div>
         <script src="../prettify.js"></script>
         <script>

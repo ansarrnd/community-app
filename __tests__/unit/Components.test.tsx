@@ -11,13 +11,21 @@ jest.mock('../../application/hooks/useNetworkGuard', () => ({
   useNetworkGuard: jest.fn(),
 }));
 
-jest.mock('expo-image', () => ({
-  Image: (props: any) => React.createElement('ExpoImage', props),
-}));
+jest.mock('expo-image', () => {
+  const React = require('react');
+  const { View } = require('react-native');
+  return {
+    Image: (props: any) => React.createElement(View, props),
+  };
+});
 
-jest.mock('expo-blur', () => ({
-  BlurView: (props: any) => React.createElement('BlurView', props),
-}));
+jest.mock('expo-blur', () => {
+  const React = require('react');
+  const { View } = require('react-native');
+  return {
+    BlurView: (props: any) => React.createElement(View, props),
+  };
+});
 
 describe('UI Component Unit Tests', () => {
   describe('RoleBadge', () => {
@@ -99,13 +107,13 @@ describe('UI Component Unit Tests', () => {
 
   describe('EventImage', () => {
     it('renders EventImage container component with default fallback URI', () => {
-      const { container } = render(<EventImage />);
-      expect(container).toBeTruthy();
+      const { UNSAFE_root } = render(<EventImage />);
+      expect(UNSAFE_root).toBeTruthy();
     });
 
     it('renders EventImage with custom image URI', () => {
-      const { container } = render(<EventImage uri="https://example.com/custom.jpg" height={200} />);
-      expect(container).toBeTruthy();
+      const { UNSAFE_root } = render(<EventImage uri="https://example.com/custom.jpg" height={200} />);
+      expect(UNSAFE_root).toBeTruthy();
     });
   });
 });
