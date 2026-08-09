@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
       - run: npm ci
       - run: npm run test:unit
@@ -53,12 +53,21 @@ jobs:
     needs: security-and-quality
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+      - run: npm ci
+      - name: Generate Android Native Project via Expo Prebuild
+        run: npx expo prebuild --platform android --no-install
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: gradle
+          cache-dependency-path: android/gradle/wrapper/gradle-wrapper.properties
       - name: Run Lint & Unit Tests
+        working-directory: ./android
         run: ./gradlew lint testDebugUnitTest
 
   # =======================================================

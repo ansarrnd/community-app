@@ -11,6 +11,8 @@
     "emulators": "firebase emulators:start",
     "seed": "npx ts-node scripts/seed.ts",
     "test": "jest",
+    "test:unit": "jest",
+    "test:coverage": "jest --coverage",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
