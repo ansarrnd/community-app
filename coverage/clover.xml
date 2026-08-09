@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1786270772365" clover="3.2.0">
+  <project timestamp="1786270772365" name="All files">
+    <metrics statements="341" coveredstatements="191" conditionals="221" coveredconditionals="90" methods="111" coveredmethods="56" elements="673" coveredelements="337" complexity="0" loc="341" ncloc="341" packages="12" files="27" classes="27"/>
+    <package name="application.hooks">
+      <metrics statements="67" coveredstatements="22" conditionals="9" coveredconditionals="0" methods="31" coveredmethods="9"/>
+      <file name="useEventsQuery.ts" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/application/hooks/useEventsQuery.ts">
+        <metrics statements="41" coveredstatements="17" conditionals="3" coveredconditionals="0" methods="20" coveredmethods="6"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="2" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="31" count="2" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="38" count="1" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="46" count="1" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="48" count="0" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="52" count="0" type="stmt"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="60" count="0" type="stmt"/>
+        <line num="71" count="0" type="stmt"/>
+        <line num="73" count="0" type="stmt"/>
+        <line num="74" count="0" type="stmt"/>
+        <line num="79" count="1" type="stmt"/>
+        <line num="80" count="0" type="stmt"/>
+        <line num="81" count="0" type="stmt"/>
+        <line num="90" count="0" type="stmt"/>
+        <line num="92" count="0" type="stmt"/>
+        <line num="93" count="0" type="stmt"/>
+        <line num="94" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="98" count="0" type="stmt"/>
+        <line num="101" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="102" count="0" type="stmt"/>
+        <line num="106" count="0" type="stmt"/>
+        <line num="107" count="0" type="stmt"/>
+        <line num="108" count="0" type="stmt"/>
+      </file>
+      <file name="useNetworkGuard.ts" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/application/hooks/useNetworkGuard.ts">
+        <metrics statements="21" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="8" coveredmethods="0"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="28" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+      </file>
+      <file name="useRoleGuard.ts" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/application/hooks/useRoleGuard.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="8" count="12" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
+      </file>
+    </package>
+    <package name="application.stores">
+      <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="7"/>
+      <file name="useAuthStore.ts" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/application/stores/useAuthStore.ts">
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="21" count="5" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+      </file>
+      <file name="useFilterStore.ts" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/application/stores/useFilterStore.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="components">
+      <metrics statements="82" coveredstatements="33" conditionals="98" coveredconditionals="17" methods="20" coveredmethods="3"/>
+      <file name="EventImage.tsx" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/components/EventImage.tsx">
+        <metrics statements="5" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="19" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+      </file>
+      <file name="EventList.tsx" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/components/EventList.tsx">
+        <metrics statements="26" coveredstatements="0" conditionals="48" coveredconditionals="0" methods="13" coveredmethods="0"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="119" count="0" type="stmt"/>
+        <line num="124" count="0" type="stmt"/>
+        <line num="125" count="0" type="stmt"/>
+        <line num="138" count="0" type="stmt"/>
+        <line num="146" count="0" type="stmt"/>
+        <line num="147" count="0" type="stmt"/>
+        <line num="160" count="0" type="stmt"/>
+        <line num="168" count="0" type="stmt"/>
+        <line num="169" count="0" type="stmt"/>
+        <line num="187" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="189" count="0" type="stmt"/>
+        <line num="190" count="0" type="stmt"/>
+        <line num="198" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="200" count="0" type="stmt"/>
+        <line num="201" count="0" type="stmt"/>
+        <line num="215" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="216" count="0" type="stmt"/>
+        <line num="228" count="0" type="stmt"/>
+        <line num="243" count="0" type="stmt"/>
+      </file>
+      <file name="FluidAuroraBackground.tsx" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/components/FluidAuroraBackground.tsx">
+        <metrics statements="5" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="76" count="0" type="stmt"/>
+      </file>
+      <file name="LiquidGlassCard.tsx" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/components/LiquidGlassCard.tsx">
+        <metrics statements="10" coveredstatements="0" conditionals="16" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="53" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="54" count="0" type="stmt"/>
+        <line num="57" count="0" type="stmt"/>
+        <line num="67" count="0" type="stmt"/>
+        <line num="70" count="0" type="stmt"/>
+      </file>
+      <file name="OfflineBanner.tsx" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/components/OfflineBanner.tsx">
+        <metrics statements="6" coveredstatements="6" conditionals="4" coveredconditionals="3" methods="1" coveredmethods="1"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="10" count="2" type="stmt"/>
+        <line num="12" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+      </file>
+      <file name="RoleBadge.tsx" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/components/RoleBadge.tsx">
+        <metrics statements="18" coveredstatements="18" conditionals="7" coveredconditionals="7" methods="1" coveredmethods="1"/>
+        <line num="13" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="14" count="3" type="stmt"/>
+        <line num="16" count="3" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="18" count="3" type="stmt"/>
+        <line num="19" count="3" type="stmt"/>
+        <line num="21" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="33" count="3" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+      </file>
+      <file name="ThemedText.tsx" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/components/ThemedText.tsx">
+        <metrics statements="12" coveredstatements="9" conditionals="13" coveredconditionals="7" methods="1" coveredmethods="1"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="26" count="6" type="stmt"/>
+        <line num="28" count="6" type="stmt"/>
+        <line num="29" count="6" type="cond" truecount="1" falsecount="1"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="31" count="6" type="cond" truecount="1" falsecount="1"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="33" count="6" type="cond" truecount="1" falsecount="1"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="37" count="6" type="cond" truecount="1" falsecount="1"/>
+        <line num="39" count="6" type="stmt"/>
+        <line num="56" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="context">
+      <metrics statements="20" coveredstatements="8" conditionals="8" coveredconditionals="1" methods="5" coveredmethods="1"/>
+      <file name="ThemeContext.tsx" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/context/ThemeContext.tsx">
+        <metrics statements="20" coveredstatements="8" conditionals="8" coveredconditionals="1" methods="5" coveredmethods="1"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="cond" truecount="0" falsecount="6"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="42" count="11" type="stmt"/>
+        <line num="43" count="11" type="cond" truecount="1" falsecount="1"/>
+        <line num="45" count="11" type="stmt"/>
+        <line num="46" count="11" type="stmt"/>
+        <line num="52" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="domain.models">
+      <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="Event.ts" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/domain/models/Event.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="6" count="3" type="stmt"/>
+        <line num="25" count="3" type="stmt"/>
+      </file>
+      <file name="User.ts" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/domain/models/User.ts">
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="5" count="5" type="stmt"/>
+        <line num="15" count="5" type="stmt"/>
+        <line num="16" count="26" type="stmt"/>
+        <line num="21" count="26" type="stmt"/>
+      </file>
+    </package>
+    <package name="domain.repositories">
+      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="IAuthRepository.ts" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/domain/repositories/IAuthRepository.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+      <file name="IEventRepository.ts" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/domain/repositories/IEventRepository.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+      <file name="IUserRepository.ts" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/domain/repositories/IUserRepository.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+    <package name="domain.usecases">
+      <metrics statements="13" coveredstatements="13" conditionals="8" coveredconditionals="8" methods="6" coveredmethods="6"/>
+      <file name="CreateEventUseCase.ts" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/domain/usecases/CreateEventUseCase.ts">
+        <metrics statements="7" coveredstatements="7" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="14" count="2" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="19" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
+      </file>
+      <file name="ModerateEventUseCase.ts" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/domain/usecases/ModerateEventUseCase.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <line num="10" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="14" count="2" type="stmt"/>
+      </file>
+      <file name="RsvpEventUseCase.ts" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/domain/usecases/RsvpEventUseCase.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
+        <line num="8" count="6" type="cond" truecount="4" falsecount="0"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="infrastructure.factory">
+      <metrics statements="8" coveredstatements="7" conditionals="6" coveredconditionals="5" methods="1" coveredmethods="1"/>
+      <file name="RepositoryFactory.ts" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/infrastructure/factory/RepositoryFactory.ts">
+        <metrics statements="8" coveredstatements="7" conditionals="6" coveredconditionals="5" methods="1" coveredmethods="1"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="9" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="10" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="11" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="14" count="2" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="21" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="infrastructure.repositories">
+      <metrics statements="78" coveredstatements="39" conditionals="43" coveredconditionals="26" methods="27" coveredmethods="15"/>
+      <file name="FirebaseEventRepository.ts" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/infrastructure/repositories/FirebaseEventRepository.ts">
+        <metrics statements="37" coveredstatements="0" conditionals="12" coveredconditionals="0" methods="12" coveredmethods="0"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="27" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="30" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="33" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="38" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="45" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="51" count="0" type="stmt"/>
+        <line num="52" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="57" count="0" type="stmt"/>
+        <line num="67" count="0" type="stmt"/>
+        <line num="68" count="0" type="stmt"/>
+        <line num="72" count="0" type="stmt"/>
+        <line num="73" count="0" type="stmt"/>
+        <line num="81" count="0" type="stmt"/>
+        <line num="87" count="0" type="stmt"/>
+        <line num="88" count="0" type="stmt"/>
+        <line num="98" count="0" type="stmt"/>
+        <line num="99" count="0" type="stmt"/>
+        <line num="100" count="0" type="stmt"/>
+        <line num="101" count="0" type="stmt"/>
+        <line num="102" count="0" type="stmt"/>
+        <line num="103" count="0" type="stmt"/>
+        <line num="105" count="0" type="stmt"/>
+      </file>
+      <file name="MockEventRepository.ts" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/infrastructure/repositories/MockEventRepository.ts">
+        <metrics statements="41" coveredstatements="39" conditionals="31" coveredconditionals="26" methods="15" coveredmethods="15"/>
+        <line num="4" count="6" type="stmt"/>
+        <line num="87" count="92" type="stmt"/>
+        <line num="88" count="23" type="stmt"/>
+        <line num="91" count="8" type="stmt"/>
+        <line num="92" count="8" type="stmt"/>
+        <line num="93" count="32" type="cond" truecount="2" falsecount="0"/>
+        <line num="94" count="24" type="cond" truecount="5" falsecount="0"/>
+        <line num="95" count="18" type="cond" truecount="4" falsecount="0"/>
+        <line num="96" count="9" type="stmt"/>
+        <line num="97" count="9" type="cond" truecount="2" falsecount="0"/>
+        <line num="99" count="9" type="stmt"/>
+        <line num="104" count="2" type="stmt"/>
+        <line num="105" count="8" type="stmt"/>
+        <line num="109" count="35" type="stmt"/>
+        <line num="110" count="14" type="cond" truecount="2" falsecount="0"/>
+        <line num="114" count="3" type="stmt"/>
+        <line num="125" count="3" type="stmt"/>
+        <line num="126" count="3" type="stmt"/>
+        <line num="130" count="13" type="stmt"/>
+        <line num="131" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="132" count="4" type="stmt"/>
+        <line num="133" count="4" type="stmt"/>
+        <line num="134" count="4" type="stmt"/>
+        <line num="139" count="7" type="stmt"/>
+        <line num="140" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="141" count="5" type="stmt"/>
+        <line num="144" count="7" type="stmt"/>
+        <line num="145" count="7" type="stmt"/>
+        <line num="147" count="7" type="cond" truecount="1" falsecount="1"/>
+        <line num="148" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="149" count="5" type="stmt"/>
+        <line num="150" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="151" count="1" type="stmt"/>
+        <line num="152" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="153" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="154" count="0" type="stmt"/>
+        <line num="155" count="0" type="stmt"/>
+        <line num="157" count="2" type="stmt"/>
+        <line num="158" count="2" type="stmt"/>
+        <line num="163" count="7" type="stmt"/>
+        <line num="173" count="3" type="cond" truecount="1" falsecount="1"/>
+      </file>
+    </package>
+    <package name="infrastructure.services">
+      <metrics statements="26" coveredstatements="26" conditionals="12" coveredconditionals="10" methods="4" coveredmethods="4"/>
+      <file name="whatsappService.ts" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/infrastructure/services/whatsappService.ts">
+        <metrics statements="26" coveredstatements="26" conditionals="12" coveredconditionals="10" methods="4" coveredmethods="4"/>
+        <line num="6" count="6" type="stmt"/>
+        <line num="7" count="6" type="stmt"/>
+        <line num="9" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="10" count="4" type="cond" truecount="2" falsecount="2"/>
+        <line num="11" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="17" count="6" type="stmt"/>
+        <line num="33" count="3" type="stmt"/>
+        <line num="34" count="3" type="stmt"/>
+        <line num="35" count="3" type="stmt"/>
+        <line num="36" count="3" type="stmt"/>
+        <line num="38" count="3" type="stmt"/>
+        <line num="39" count="3" type="stmt"/>
+        <line num="40" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
+        <line num="45" count="1" type="stmt"/>
+        <line num="48" count="1" type="stmt"/>
+        <line num="49" count="1" type="stmt"/>
+        <line num="50" count="1" type="stmt"/>
+        <line num="56" count="1" type="stmt"/>
+        <line num="57" count="1" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="62" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="infrastructure.storage">
+      <metrics statements="16" coveredstatements="13" conditionals="19" coveredconditionals="8" methods="6" coveredmethods="6"/>
+      <file name="mmkvStorage.ts" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/infrastructure/storage/mmkvStorage.ts">
+        <metrics statements="16" coveredstatements="13" conditionals="19" coveredconditionals="8" methods="6" coveredmethods="6"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="7" count="6" type="cond" truecount="2" falsecount="3"/>
+        <line num="8" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="10" count="6" type="stmt"/>
+        <line num="14" count="4" type="cond" truecount="2" falsecount="3"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="21" count="14" type="cond" truecount="2" falsecount="3"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="24" count="14" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="30" count="2" type="stmt"/>
+        <line num="32" count="2" type="stmt"/>
+        <line num="35" count="3" type="stmt"/>
+        <line num="36" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="39" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="utils">
+      <metrics statements="18" coveredstatements="17" conditionals="18" coveredconditionals="15" methods="3" coveredmethods="3"/>
+      <file name="securityStorage.ts" path="/Users/mohamedansardeen/.gemini/antigravity-ide/scratch/community-app/utils/securityStorage.ts">
+        <metrics statements="18" coveredstatements="17" conditionals="18" coveredconditionals="15" methods="3" coveredmethods="3"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="6" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="16" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="25" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="26" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>
