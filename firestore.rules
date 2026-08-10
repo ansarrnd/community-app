@@ -29,5 +29,19 @@ service cloud.firestore {
       allow read: if isAuth();
       allow write: if hasRole('ADMIN');
     }
+
+    // Kinship Network Collections (Cleanly Separated from /events)
+    match /persons/{personId} {
+      allow read, write: if isAuth();
+    }
+
+    match /relationships/{relationshipId} {
+      allow read, write: if isAuth();
+    }
+
+    match /villages/{villageId} {
+      allow read, write: if isAuth();
+    }
   }
 }
+

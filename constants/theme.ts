@@ -39,68 +39,71 @@ export interface ThemeColors {
 }
 
 export const darkThemeColors: ThemeColors = {
-  bgCanvas: '#0B081F',
-  bgCard: 'rgba(255, 255, 255, 0.08)',
-  bgCardSolid: '#161233',
-  borderCard: 'rgba(255, 255, 255, 0.18)',
-  bgHeader: 'rgba(15, 11, 30, 0.88)',
-  bgInput: 'rgba(255, 255, 255, 0.08)',
-  borderInput: 'rgba(255, 255, 255, 0.22)',
+  bgCanvas: '#0B0D13', // Midnight Soil (Dark & Immersive)
+  bgCard: 'rgba(22, 25, 34, 0.95)', // Charcoal Clay (#161922)
+  bgCardSolid: '#161922',
+  borderCard: '#21262D',
+  bgHeader: 'rgba(11, 13, 19, 0.94)',
+  bgInput: 'rgba(255, 255, 255, 0.06)',
+  borderInput: '#21262D',
 
-  accentTeal: '#00F2FE',
-  accentCyan: '#4FACFE',
-  accentPink: '#FF2A6D',
-  accentPurple: '#9B51E0',
-  accentGold: '#FFB800',
-  accentGreen: '#00E676',
+  accentGold: '#FBBF24',  // Nilavilakku Gold (Glowing CTAs)
+  accentTeal: '#FBBF24',  // Primary Gold
+  accentCyan: '#E07A5F',  // Burnished Terracotta
+  accentPink: '#FDE047',  // Turmeric & Kumkum
+  accentPurple: '#A78BFA',
+  accentGreen: '#34D399', // Emerald Fields
 
-  roleUser: '#00E676',
-  roleMod: '#FFB800',
-  roleAdmin: '#FF2A6D',
+  roleUser: '#34D399',
+  roleMod: '#E07A5F',
+  roleAdmin: '#FBBF24',
 
-  textPrimary: '#FFFFFF',
-  textSecondary: '#D6DCF5',
-  textMuted: '#9BA6D0',
-  textInverse: '#0B081F',
+  textPrimary: '#F9F8F6', // Cream Silk
+  textSecondary: '#E5E7EB',
+  textMuted: '#9CA3AF',    // Granite Ash
+  textInverse: '#0B0D13',
 
-  tabBarBg: 'rgba(11, 8, 31, 0.92)',
-  tabBarBorder: 'rgba(255, 255, 255, 0.14)',
-  overlayBg: 'rgba(0, 0, 0, 0.7)',
-  buttonPrimaryBg: '#00F2FE',
-  buttonPrimaryText: '#0B081F',
+  tabBarBg: 'rgba(11, 13, 19, 0.96)',
+  tabBarBorder: '#21262D',
+  overlayBg: 'rgba(0, 0, 0, 0.78)',
+  buttonPrimaryBg: '#FBBF24',
+  buttonPrimaryText: '#0B0D13',
 };
+
+
 
 export const lightThemeColors: ThemeColors = {
-  bgCanvas: '#F3F5FA',
-  bgCard: 'rgba(255, 255, 255, 0.88)',
+  bgCanvas: '#F9F6F0',
+  bgCard: '#FFFFFF',
   bgCardSolid: '#FFFFFF',
-  borderCard: 'rgba(0, 0, 0, 0.12)',
-  bgHeader: 'rgba(255, 255, 255, 0.92)',
-  bgInput: 'rgba(0, 0, 0, 0.05)',
-  borderInput: 'rgba(0, 0, 0, 0.16)',
+  borderCard: '#E6E1DA',
+  bgHeader: 'rgba(249, 246, 240, 0.95)',
+  bgInput: '#FFFFFF',
+  borderInput: '#E6E1DA',
 
-  accentTeal: '#007AFF',
-  accentCyan: '#0091FF',
-  accentPink: '#E53935',
+  accentTeal: '#C85A32', // Deep Terracotta
+  accentCyan: '#E28743',  // Earthy Clay
+  accentPink: '#BE185D',  // Affinal Rose
   accentPurple: '#7C3AED',
   accentGold: '#D97706',
-  accentGreen: '#059669',
+  accentGreen: '#2D6A4F', // Forest Green
 
-  roleUser: '#059669',
-  roleMod: '#D97706',
-  roleAdmin: '#DC2626',
+  roleUser: '#2D6A4F',
+  roleMod: '#E28743',
+  roleAdmin: '#C85A32',
 
-  textPrimary: '#111827',
+  textPrimary: '#1E1E1E',
   textSecondary: '#374151',
-  textMuted: '#6B7280',
+  textMuted: '#706C61',
   textInverse: '#FFFFFF',
 
-  tabBarBg: 'rgba(255, 255, 255, 0.94)',
-  tabBarBorder: 'rgba(0, 0, 0, 0.1)',
+  tabBarBg: 'rgba(249, 246, 240, 0.96)',
+  tabBarBorder: '#E6E1DA',
   overlayBg: 'rgba(0, 0, 0, 0.4)',
-  buttonPrimaryBg: '#007AFF',
+  buttonPrimaryBg: '#C85A32',
   buttonPrimaryText: '#FFFFFF',
 };
+
 
 export const themeTypography = {
   h1: {

@@ -9,7 +9,9 @@ import { EventImage } from '../../components/EventImage';
 import { ThemedText } from '../../components/ThemedText';
 import { useTheme } from '../../context/ThemeContext';
 import { whatsappService } from '../../infrastructure/services/whatsappService';
-import { MapPin, Calendar, Clock, Share2, CheckCircle2, XCircle, ExternalLink, Globe } from 'lucide-react-native';
+import { MapPin, Calendar, Clock, Share2, CheckCircle2, XCircle, ExternalLink, Globe, Users } from 'lucide-react-native';
+import { TAMIL_RELATIONSHIPS } from '../../modules/kinship';
+
 
 export default function EventDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -154,6 +156,72 @@ export default function EventDetailScreen() {
           </ThemedText>
         </LiquidGlassCard>
       )}
+
+      {/* Attached Family & Kinship Members */}
+      {event.attachedMembers && event.attachedMembers.length > 0 && (
+        <LiquidGlassCard style={styles.templateCard} glowColor="rgba(0, 242, 254, 0.3)">
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
+            <Users size={18} color={theme.colors.accentTeal} style={{ marginRight: 6 }} />
+            <ThemedText variant="subtitle" bold style={{ color: theme.colors.accentTeal }}>
+              Attached Family & Kinship Members
+            </ThemedText>
+          </View>
+          {event.attachedMembers.map((member, idx) => {
+            const relInfo = member.relationshipTypeToOrganizer
+              ? TAMIL_RELATIONSHIPS[member.relationshipTypeToOrganizer]
+              : undefined;
+            return (
+              <View
+                key={idx}
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  paddingVertical: 6,
+                  borderBottomWidth: idx < (event.attachedMembers?.length || 0) - 1 ? 1 : 0,
+                  borderBottomColor: theme.colors.borderCard,
+                }}
+              >
+                <View>
+                  <ThemedText variant="bodyBold">
+                    {member.fullName} {member.roleInEvent ? `(${member.roleInEvent})` : ''}
+                  </ThemedText>
+                  {relInfo && (
+                    <ThemedText variant="caption" secondary>
+                      {relInfo.label}
+                    </ThemedText>
+                  )}
+                </View>
+                {member.contextTag && (
+                  <View
+                    style={{
+                      paddingHorizontal: 8,
+                      paddingVertical: 3,
+                      borderRadius: 6,
+                      backgroundColor:
+                        member.contextTag === 'In-Village'
+                          ? 'rgba(52, 199, 89, 0.2)'
+                          : 'rgba(96, 165, 250, 0.2)',
+                    }}
+                  >
+                    <ThemedText
+                      variant="caption"
+                      bold
+                      style={{
+                        fontSize: 11,
+                        color: member.contextTag === 'In-Village' ? '#34C759' : '#60A5FA',
+                      }}
+                    >
+                      {member.contextTag}
+                    </ThemedText>
+                  </View>
+                )}
+              </View>
+            );
+          })}
+        </LiquidGlassCard>
+      )}
+
 
       {/* Description Section */}
       <ThemedText variant="subtitle" bold style={styles.sectionHeader}>
