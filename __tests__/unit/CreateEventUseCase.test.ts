@@ -1,6 +1,7 @@
 import { CreateEventUseCase } from '../../domain/usecases/CreateEventUseCase';
 import { MockEventRepository } from '../../infrastructure/repositories/MockEventRepository';
 import { CreateEventInput } from '../../domain/models/Event';
+import { RelationshipRepository } from '../../modules/kinship';
 
 describe('CreateEventUseCase Domain Unit Tests', () => {
   let mockRepo: MockEventRepository;
@@ -10,6 +11,7 @@ describe('CreateEventUseCase Domain Unit Tests', () => {
     mockRepo = new MockEventRepository();
     useCase = new CreateEventUseCase(mockRepo);
   });
+
 
   it('submits events as PENDING for standard USER role', async () => {
     const input: CreateEventInput = {
@@ -58,4 +60,61 @@ describe('CreateEventUseCase Domain Unit Tests', () => {
 
     await expect(useCase.execute(invalidInput, 'USER')).rejects.toThrow();
   });
+
+  it('maps and inserts attached members and kinship relationships into KinshipRepository upon event creation', async () => {
+    const kinshipRepo = new RelationshipRepository();
+    const useCaseWithKinship = new CreateEventUseCase(mockRepo, kinshipRepo);
+
+
+    const eventInput: CreateEventInput = {
+      title: 'Village Wedding Function',
+      category: 'MARRIAGE',
+      date: '2026-10-15',
+      time: '07:00 AM',
+      venue: 'Kalyana Mandapam',
+      details: 'Traditional wedding ceremony with village family and relatives.',
+      organizerId: 'ego-organizer',
+      organizerName: 'Muthu',
+      attachedMembers: [
+        {
+          fullName: 'Kandasamy',
+          gender: 'M',
+          roleInEvent: 'MAMA_RITUAL',
+          relationshipTypeToOrganizer: 'MAMA',
+          contextTag: 'In-Village',
+        },
+        {
+          fullName: 'Valliammai',
+          gender: 'F',
+          roleInEvent: 'ATHAI',
+          relationshipTypeToOrganizer: 'ATHAI',
+          contextTag: 'Out-Village',
+        },
+      ],
+      attachedRelationships: [
+        {
+          sourcePersonName: 'Kandasamy',
+          targetPersonName: 'Valliammai',
+          relationshipType: 'SAGALAI',
+          contextTag: 'In-Village',
+        },
+      ],
+    };
+
+    const created = await useCaseWithKinship.execute(eventInput, 'MOD');
+    expect(created.status).toBe('APPROVED');
+
+    // Verify kinship repository received the relations
+    const organizerRels = await kinshipRepo.getRelationshipsForPerson('ego-organizer');
+    expect(organizerRels.length).toBe(2);
+
+    const mamaRel = organizerRels.find((r) => r.relationshipType === 'MAMA');
+    expect(mamaRel).toBeDefined();
+    expect(mamaRel?.contextTag).toBe('In-Village');
+
+    const athaiRel = organizerRels.find((r) => r.relationshipType === 'ATHAI');
+    expect(athaiRel).toBeDefined();
+    expect(athaiRel?.contextTag).toBe('Out-Village');
+  });
 });
+

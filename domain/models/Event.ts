@@ -18,7 +18,34 @@ export const CreateEventInputSchema = z.object({
   groomName: z.string().optional(),
   brideName: z.string().optional(),
   agenda: z.string().optional(),
+  // Kinship network event member attachment options
+  attachedMembers: z
+    .array(
+      z.object({
+        personId: z.string().optional(),
+        fullName: z.string().min(1, 'Member name is required'),
+        gender: z.enum(['M', 'F']).optional(),
+        roleInEvent: z.string().optional(),
+        relationshipTypeToOrganizer: z.string().optional(),
+        contextTag: z.enum(['In-Village', 'Out-Village']).optional(),
+        phone: z.string().optional(),
+      })
+    )
+    .optional(),
+  attachedRelationships: z
+    .array(
+      z.object({
+        sourcePersonId: z.string().optional(),
+        sourcePersonName: z.string().optional(),
+        targetPersonId: z.string().optional(),
+        targetPersonName: z.string().optional(),
+        relationshipType: z.string(),
+        contextTag: z.enum(['In-Village', 'Out-Village']).optional(),
+      })
+    )
+    .optional(),
 });
+
 
 export type CreateEventInput = z.infer<typeof CreateEventInputSchema>;
 

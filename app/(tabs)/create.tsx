@@ -17,14 +17,30 @@ import { EventCategory } from '../../domain/models/Event';
 import { LiquidGlassCard } from '../../components/LiquidGlassCard';
 import { EventImage } from '../../components/EventImage';
 import { ThemedText } from '../../components/ThemedText';
-import { useTheme } from '../../context/ThemeContext';
-import { Image as ImageIcon, Send, Sparkles } from 'lucide-react-native';
+import { Image as ImageIcon, Send, Sparkles, UserPlus, Users, Trash2 } from 'lucide-react-native';
+import { TAMIL_RELATIONSHIPS } from '../../modules/kinship';
 
 const CATEGORY_OPTIONS: { id: EventCategory; label: string }[] = [
   { id: 'MARRIAGE', label: '💍 Marriage' },
   { id: 'CULTURAL', label: '🎉 Cultural' },
   { id: 'MEETING', label: '📋 Meeting' },
 ];
+
+const KINSHIP_OPTIONS = [
+  { id: 'MAMA', label: 'Mama / Mother Brother (மாமா)' },
+  { id: 'ATHAI', label: 'Athai / Father Sister (அத்தை)' },
+  { id: 'PERIYAPPA', label: 'Periyappa / Father Elder Brother (பெரியப்பா)' },
+  { id: 'CHITHAPPA', label: 'Chithappa / Father Younger Brother (சித்தப்பா)' },
+  { id: 'SAGALAI', label: 'Sagalai / Wife Sister Husband (சகலை)' },
+  { id: 'MACHAI_MACHAN', label: 'Machan / Cross Cousin (மச்சான்)' },
+  { id: 'FATHER', label: 'Father (அப்பா)' },
+  { id: 'MOTHER', label: 'Mother (அம்மா)' },
+  { id: 'ELDER_BROTHER', label: 'Elder Brother (அண்ணன்)' },
+  { id: 'YOUNGER_BROTHER', label: 'Younger Brother (தம்பி)' },
+  { id: 'ELDER_SISTER', label: 'Elder Sister (அக்கா)' },
+  { id: 'YOUNGER_SISTER', label: 'Younger Sister (தங்கச்சி)' },
+];
+
 
 export default function CreateEventScreen() {
   const router = useRouter();
@@ -46,6 +62,42 @@ export default function CreateEventScreen() {
   const [groomName, setGroomName] = useState('Rahul Kapoor');
   const [brideName, setBrideName] = useState('Priya Sharma');
   const [agenda, setAgenda] = useState('1. Project Plan\n2. Q&A Session');
+
+  // Family & Kinship Attached Members state
+  const [attachedMembers, setAttachedMembers] = useState<
+    {
+      fullName: string;
+      gender: 'M' | 'F';
+      roleInEvent: string;
+      relationshipTypeToOrganizer: string;
+      contextTag: 'In-Village' | 'Out-Village';
+    }[]
+  >([]);
+
+  const handleAddMember = () => {
+    setAttachedMembers((prev) => [
+      ...prev,
+      {
+        fullName: '',
+        gender: 'M',
+        roleInEvent: 'GUEST',
+        relationshipTypeToOrganizer: 'MAMA',
+        contextTag: 'In-Village',
+      },
+    ]);
+  };
+
+  const handleRemoveMember = (index: number) => {
+    setAttachedMembers((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleUpdateMember = (index: number, key: string, value: any) => {
+    setAttachedMembers((prev) => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], [key]: value };
+      return updated;
+    });
+  };
 
   const handlePickImage = async () => {
     try {
@@ -72,6 +124,9 @@ export default function CreateEventScreen() {
       return;
     }
 
+    // Filter valid attached members
+    const validMembers = attachedMembers.filter((m) => m.fullName.trim().length > 0);
+
     createMutation.mutate(
       {
         input: {
@@ -88,6 +143,7 @@ export default function CreateEventScreen() {
           groomName: category === 'MARRIAGE' ? groomName : undefined,
           brideName: category === 'MARRIAGE' ? brideName : undefined,
           agenda: category === 'MEETING' ? agenda : undefined,
+          attachedMembers: validMembers.length > 0 ? validMembers : undefined,
         },
         userRole: user.role,
       },
@@ -95,7 +151,7 @@ export default function CreateEventScreen() {
         onSuccess: (createdEvent) => {
           const statusNotice =
             createdEvent.status === 'APPROVED'
-              ? 'Event auto-approved and published!'
+              ? 'Event auto-approved and published with family network members!'
               : 'Event submitted! Pending Moderator review.';
           if (Platform.OS === 'web') alert(statusNotice);
           else Alert.alert('Success', statusNotice);
@@ -108,6 +164,7 @@ export default function CreateEventScreen() {
       }
     );
   };
+
 
   const inputStyle = [
     styles.input,
@@ -282,6 +339,132 @@ export default function CreateEventScreen() {
         value={details}
         onChangeText={setDetails}
       />
+
+      {/* Family & Kinship Network Members Section */}
+      <View style={{ marginTop: 16, marginBottom: 12 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Users size={18} color={theme.colors.accentTeal} style={{ marginRight: 6 }} />
+            <ThemedText variant="subtitle" bold style={{ color: theme.colors.accentTeal }}>
+              Family & Village Members (Kinship Mapping)
+            </ThemedText>
+          </View>
+          <Pressable
+            onPress={handleAddMember}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: theme.colors.accentTeal + '22',
+              paddingHorizontal: 10,
+              paddingVertical: 6,
+              borderRadius: 12,
+            }}
+          >
+            <UserPlus size={14} color={theme.colors.accentTeal} style={{ marginRight: 4 }} />
+            <ThemedText variant="caption" bold style={{ color: theme.colors.accentTeal }}>
+              Add Member
+            </ThemedText>
+          </Pressable>
+        </View>
+
+        {attachedMembers.length === 0 ? (
+          <ThemedText variant="caption" secondary style={{ marginTop: 6, fontStyle: 'italic' }}>
+            No kinship members attached yet. Tap "+ Add Member" to link family & ritual relations (e.g. Mama, Athai, Periyappa).
+          </ThemedText>
+        ) : (
+          attachedMembers.map((member, index) => (
+            <View
+              key={index}
+              style={{
+                marginTop: 10,
+                padding: 12,
+                borderRadius: 14,
+                borderWidth: 1,
+                borderColor: theme.colors.borderInput,
+                backgroundColor: theme.colors.bgInput,
+              }}
+            >
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                <ThemedText variant="caption" bold style={{ color: theme.colors.accentTeal }}>
+                  Member #{index + 1}
+                </ThemedText>
+                <Pressable onPress={() => handleRemoveMember(index)}>
+                  <Trash2 size={16} color="#FF3B30" />
+                </Pressable>
+              </View>
+
+              <ThemedText variant="caption" bold style={{ marginTop: 6, marginBottom: 2 }}>
+                Full Name
+              </ThemedText>
+              <TextInput
+                style={[inputStyle, { backgroundColor: theme.colors.bgCard, marginBottom: 6 }]}
+                placeholder="e.g. Kandasamy / Valliammai"
+                placeholderTextColor={theme.colors.textMuted}
+                value={member.fullName}
+                onChangeText={(val) => handleUpdateMember(index, 'fullName', val)}
+              />
+
+              <View style={{ flexDirection: 'row', marginTop: 4 }}>
+                <View style={{ flex: 1, marginRight: 6 }}>
+                  <ThemedText variant="caption" bold style={{ marginBottom: 2 }}>
+                    Kinship Relation
+                  </ThemedText>
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flexDirection: 'row' }}>
+                    {KINSHIP_OPTIONS.map((opt) => {
+                      const isSel = member.relationshipTypeToOrganizer === opt.id;
+                      return (
+                        <Pressable
+                          key={opt.id}
+                          onPress={() => handleUpdateMember(index, 'relationshipTypeToOrganizer', opt.id)}
+                          style={{
+                            paddingHorizontal: 8,
+                            paddingVertical: 4,
+                            borderRadius: 8,
+                            borderWidth: 1,
+                            borderColor: isSel ? theme.colors.accentTeal : theme.colors.borderInput,
+                            backgroundColor: isSel ? theme.colors.accentTeal + '22' : 'transparent',
+                            marginRight: 4,
+                          }}
+                        >
+                          <ThemedText variant="caption" style={{ color: isSel ? theme.colors.accentTeal : theme.colors.textSecondary, fontSize: 11 }}>
+                            {opt.label}
+                          </ThemedText>
+                        </Pressable>
+                      );
+                    })}
+                  </ScrollView>
+                </View>
+              </View>
+
+              <View style={{ flexDirection: 'row', marginTop: 8, alignItems: 'center', justifyContent: 'space-between' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <ThemedText variant="caption" style={{ marginRight: 6 }}>Context:</ThemedText>
+                  <Pressable
+                    onPress={() =>
+                      handleUpdateMember(
+                        index,
+                        'contextTag',
+                        member.contextTag === 'In-Village' ? 'Out-Village' : 'In-Village'
+                      )
+                    }
+                    style={{
+                      paddingHorizontal: 8,
+                      paddingVertical: 4,
+                      borderRadius: 8,
+                      backgroundColor: member.contextTag === 'In-Village' ? 'rgba(52, 199, 89, 0.2)' : 'rgba(255, 149, 0, 0.2)',
+                    }}
+                  >
+                    <ThemedText variant="caption" bold style={{ color: member.contextTag === 'In-Village' ? '#34C759' : '#FF9500', fontSize: 11 }}>
+                      {member.contextTag}
+                    </ThemedText>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          ))
+        )}
+      </View>
+
 
       {/* Image Picker Button */}
       <ThemedText variant="caption" bold style={styles.label}>
