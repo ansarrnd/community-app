@@ -39,4 +39,23 @@ describe('Theme Resolution Unit Tests', () => {
     expect(lightTheme.auroraMesh.length).toBe(3);
     expect(lightTheme.auroraMesh[0].color).not.toEqual(darkTheme.auroraMesh[0].color);
   });
+
+  it('defines segment pill tokens distinct from input tokens in both palettes', () => {
+    expect(darkThemeColors.segmentBg).not.toBe(darkThemeColors.bgInput);
+    expect(darkThemeColors.segmentBorder).not.toBe(darkThemeColors.borderInput);
+    expect(darkThemeColors.segmentText).toBe(darkThemeColors.textPrimary);
+    expect(darkThemeColors.segmentTextActive).toBe(darkThemeColors.accentTeal);
+
+    expect(lightThemeColors.segmentBg).not.toBe(lightThemeColors.bgInput);
+    expect(lightThemeColors.segmentBorder).not.toBe(lightThemeColors.borderInput);
+    expect(lightThemeColors.segmentText).toBe(lightThemeColors.textPrimary);
+    expect(lightThemeColors.segmentTextActive).toBe(lightThemeColors.accentTeal);
+  });
+
+  it('uses accent-tinted active segment backgrounds aligned with accentTeal', () => {
+    expect(darkThemeColors.segmentBgActive).toContain('251');
+    expect(lightThemeColors.segmentBgActive).toContain('200');
+    expect(darkThemeColors.segmentBorderActive).toBe(darkThemeColors.accentTeal);
+    expect(lightThemeColors.segmentBorderActive).toBe(lightThemeColors.accentTeal);
+  });
 });

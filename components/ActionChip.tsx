@@ -21,7 +21,6 @@ function getVariantColors(colors: ThemeColors, variant: ActionChipVariant, selec
       backgroundColor: colors.segmentBg,
       borderColor: colors.segmentBorder,
       textColor: colors.segmentText,
-      iconColor: colors.textMuted,
     };
   }
 
@@ -31,21 +30,18 @@ function getVariantColors(colors: ThemeColors, variant: ActionChipVariant, selec
         backgroundColor: 'rgba(52, 211, 153, 0.22)',
         borderColor: colors.roleUser,
         textColor: colors.roleUser,
-        iconColor: colors.roleUser,
       };
     case 'danger':
       return {
         backgroundColor: 'rgba(255, 42, 109, 0.22)',
         borderColor: colors.accentPink,
         textColor: colors.accentPink,
-        iconColor: colors.accentPink,
       };
     case 'accent':
       return {
         backgroundColor: colors.segmentBgActive,
         borderColor: colors.segmentBorderActive,
         textColor: colors.segmentTextActive,
-        iconColor: colors.segmentTextActive,
       };
   }
 }
