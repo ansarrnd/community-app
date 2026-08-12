@@ -19,9 +19,12 @@ jest.mock('../../application/hooks/useLayoutInsets', () => ({
 }));
 
 jest.mock('../../application/hooks/useEventsQuery', () => ({
-  useApprovedEvents: jest.fn(() => ({
-    data: [],
+  useApprovedEventsInfinite: jest.fn(() => ({
+    data: { pages: [{ items: [], nextCursor: null }] },
     isLoading: false,
+    fetchNextPage: jest.fn(),
+    hasNextPage: false,
+    isFetchingNextPage: false,
     refetch: jest.fn(),
     isRefetching: false,
   })),

@@ -6,11 +6,24 @@ import { renderWithProviders } from '../helpers/renderWithProviders';
 
 jest.mock('@shopify/flash-list', () => {
   const React = require('react');
-  const { View } = require('react-native');
+  const { View, Pressable, Text } = require('react-native');
   return {
-    FlashList: ({ data, renderItem }: { data: CommunityEvent[]; renderItem: (info: { item: CommunityEvent }) => React.ReactNode }) => (
+    FlashList: ({
+      data,
+      renderItem,
+      onEndReached,
+    }: {
+      data: CommunityEvent[];
+      renderItem: (info: { item: CommunityEvent }) => React.ReactNode;
+      onEndReached?: () => void;
+    }) => (
       <View>
         {data.map((item) => renderItem({ item }))}
+        {onEndReached ? (
+          <Pressable testID="flash-list-end" onPress={onEndReached}>
+            <Text>end</Text>
+          </Pressable>
+        ) : null}
       </View>
     ),
   };
@@ -80,5 +93,21 @@ describe('EventList RSVP chips', () => {
     fireEvent.press(getByText('No'));
 
     expect(onRsvp).toHaveBeenCalledWith('evt-1', 'DECLINED');
+  });
+
+  it('calls onEndReached when list end is triggered', () => {
+    const onEndReached = jest.fn();
+
+    const { getByTestId } = renderWithProviders(
+      <EventList
+        events={[mockEvent]}
+        onSelectEvent={jest.fn()}
+        onEndReached={onEndReached}
+      />
+    );
+
+    fireEvent.press(getByTestId('flash-list-end'));
+
+    expect(onEndReached).toHaveBeenCalled();
   });
 });

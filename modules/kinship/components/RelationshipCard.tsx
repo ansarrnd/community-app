@@ -62,7 +62,8 @@ export const RelationshipCard: React.FC<RelationshipCardProps> = ({
         <View style={styles.titleContainer}>
           <View style={[styles.dotIndicator, { backgroundColor: borderColor }]} />
           <Text style={[styles.personName, { color: colors.textPrimary }]}>
-            {relConfig.labelTa || relConfig.label.split(' ')[0]} - {targetPerson?.fullName || 'Family Relative'}
+            {(relConfig as { labelTa?: string }).labelTa || relConfig.label.split(' ')[0]} -{' '}
+            {targetPerson?.fullName || 'Family Relative'}
           </Text>
         </View>
 

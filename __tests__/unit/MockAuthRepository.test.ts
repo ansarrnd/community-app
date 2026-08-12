@@ -31,4 +31,15 @@ describe('MockAuthRepository', () => {
     const current = await authRepo.getCurrentUser();
     expect(current).toBeNull();
   });
+
+  it('notifies subscribeAuthState listeners on sign-in and sign-out', async () => {
+    const listener = jest.fn();
+    authRepo.subscribeAuthState(listener);
+
+    await authRepo.signInDemoUser('ADMIN');
+    expect(listener).toHaveBeenLastCalledWith(expect.objectContaining({ role: 'ADMIN' }));
+
+    await authRepo.signOut();
+    expect(listener).toHaveBeenLastCalledWith(null);
+  });
 });

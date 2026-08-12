@@ -1,9 +1,10 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { RepositoryFactory } from '../../infrastructure/factory/RepositoryFactory';
 import { CreateEventUseCase } from '../../domain/usecases/CreateEventUseCase';
 import { ModerateEventUseCase } from '../../domain/usecases/ModerateEventUseCase';
 import { RsvpEventUseCase } from '../../domain/usecases/RsvpEventUseCase';
 import { CreateEventInput, EventStatus } from '../../domain/models/Event';
+import { DEFAULT_PAGE_SIZE } from '../../domain/models/Pagination';
 import { UserRole } from '../../domain/models/User';
 
 const eventRepo = RepositoryFactory.getEventRepository();
@@ -20,6 +21,21 @@ export const useApprovedEvents = (categoryFilter?: string, searchQuery?: string)
     },
     staleTime: 1000 * 60 * 5,
     placeholderData: (previous) => previous,
+  });
+};
+
+export const useApprovedEventsInfinite = (categoryFilter?: string, searchQuery?: string) => {
+  return useInfiniteQuery({
+    queryKey: ['approvedEvents', 'infinite', categoryFilter, searchQuery],
+    queryFn: async ({ pageParam }) => {
+      return eventRepo.getApprovedEvents(categoryFilter, searchQuery, {
+        cursor: pageParam as string | undefined,
+        limit: DEFAULT_PAGE_SIZE,
+      });
+    },
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+    staleTime: 1000 * 60 * 5,
   });
 };
 

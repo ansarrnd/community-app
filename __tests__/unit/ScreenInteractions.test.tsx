@@ -37,6 +37,7 @@ const mockMutate = jest.fn();
 
 jest.mock('../../application/hooks/useEventsQuery', () => ({
   useApprovedEvents: jest.fn(),
+  useApprovedEventsInfinite: jest.fn(),
   usePendingEvents: jest.fn(),
   useEventDetail: jest.fn(),
   useUserRsvps: jest.fn(),
@@ -76,11 +77,11 @@ jest.mock('expo-image', () => {
 });
 
 import {
-  useApprovedEvents,
+  useApprovedEventsInfinite,
   useUserRsvps,
 } from '../../application/hooks/useEventsQuery';
 
-const mockedUseApprovedEvents = useApprovedEvents as jest.Mock;
+const mockedUseApprovedEventsInfinite = useApprovedEventsInfinite as jest.Mock;
 const mockedUseUserRsvps = useUserRsvps as jest.Mock;
 
 describe('Screen interactions', () => {
@@ -89,9 +90,12 @@ describe('Screen interactions', () => {
     useFilterStore.getState().setSearchQuery('');
     useAuthStore.getState().setRole('USER');
 
-    mockedUseApprovedEvents.mockReturnValue({
-      data: snapshotApprovedEvents,
+    mockedUseApprovedEventsInfinite.mockReturnValue({
+      data: { pages: [{ items: snapshotApprovedEvents, nextCursor: null }] },
       isLoading: false,
+      fetchNextPage: jest.fn(),
+      hasNextPage: false,
+      isFetchingNextPage: false,
       refetch: jest.fn(),
       isRefetching: false,
     });

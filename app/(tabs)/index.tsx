@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useApprovedEvents, useRsvpMutation, useUserRsvps } from '../../application/hooks/useEventsQuery';
+import { useApprovedEventsInfinite, useRsvpMutation, useUserRsvps } from '../../application/hooks/useEventsQuery';
 import { useFilterStore } from '../../application/stores/useFilterStore';
 import { useAuthStore } from '../../application/stores/useAuthStore';
 import { EventList } from '../../components/EventList';
@@ -26,7 +26,16 @@ export default function ExploreEventsScreen() {
   const debouncedSearch = useDebouncedValue(searchQuery, 300);
   const { theme } = useTheme();
 
-  const { data: events = [], isLoading, refetch, isRefetching } = useApprovedEvents(category, debouncedSearch);
+  const {
+    data,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    refetch,
+    isRefetching,
+  } = useApprovedEventsInfinite(category, debouncedSearch);
+  const events = data?.pages.flatMap((page) => page.items) ?? [];
   const { data: userRsvps = {} } = useUserRsvps(user.uid);
   const rsvpMutation = useRsvpMutation();
 
@@ -80,6 +89,12 @@ export default function ExploreEventsScreen() {
           events={events}
           refreshing={isRefetching}
           onRefresh={refetch}
+          onEndReached={() => {
+            if (hasNextPage && !isFetchingNextPage) {
+              fetchNextPage();
+            }
+          }}
+          isLoadingMore={isFetchingNextPage}
           onSelectEvent={handleSelectEvent}
           userRsvps={userRsvps}
           onRsvp={handleRsvp}

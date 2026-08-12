@@ -4,8 +4,10 @@
  * Usage:
  *   npm run seed                    # mock repo validation
  *   FIRESTORE_EMULATOR_HOST=localhost:8080 npm run seed   # emulator seed
+ *   FIRESTORE_EMULATOR_HOST=localhost:8080 FIREBASE_AUTH_EMULATOR_HOST=localhost:9099 npm run seed
  */
 import { MockEventRepository } from '../infrastructure/repositories/MockEventRepository';
+import { DEMO_AUTH_CREDENTIALS } from '../infrastructure/config/demoAuthCredentials';
 
 async function seedMock() {
   const repo = new MockEventRepository();
@@ -68,11 +70,53 @@ async function seedEmulators() {
   console.log(`[Seed] Firestore emulator seeded with ${demoEvents.length} events`);
 }
 
+async function seedAuthEmulatorUsers() {
+  const admin = await import('firebase-admin');
+  const auth = admin.auth();
+  const db = admin.firestore();
+
+  for (const cred of DEMO_AUTH_CREDENTIALS) {
+    try {
+      await auth.createUser({
+        uid: cred.uid,
+        email: cred.email,
+        password: cred.password,
+        displayName: cred.displayName,
+      });
+      console.log(`[Seed] Created Auth user ${cred.email}`);
+    } catch (err: unknown) {
+      const code = (err as { code?: string }).code;
+      if (code !== 'auth/uid-already-exists' && code !== 'auth/email-already-exists') {
+        throw err;
+      }
+      console.log(`[Seed] Auth user ${cred.email} already exists — updating claims/profile`);
+    }
+
+    await auth.setCustomUserClaims(cred.uid, { role: cred.role });
+    await db.collection('users').doc(cred.uid).set(
+      {
+        phoneNumber: cred.phoneNumber,
+        displayName: cred.displayName,
+        role: cred.role,
+        createdAt: new Date().toISOString(),
+      },
+      { merge: true }
+    );
+  }
+
+  console.log(`[Seed] Auth emulator seeded with ${DEMO_AUTH_CREDENTIALS.length} users + custom claims`);
+}
+
 async function main() {
   console.log('[Seed] Community Connect seed starting...');
 
   if (process.env.FIRESTORE_EMULATOR_HOST) {
     await seedEmulators();
+    if (process.env.FIREBASE_AUTH_EMULATOR_HOST) {
+      await seedAuthEmulatorUsers();
+    } else {
+      console.log('[Seed] Tip: set FIREBASE_AUTH_EMULATOR_HOST=localhost:9099 to seed Auth users + claims');
+    }
   } else {
     await seedMock();
     console.log('[Seed] Tip: set FIRESTORE_EMULATOR_HOST=localhost:8080 to seed emulators');

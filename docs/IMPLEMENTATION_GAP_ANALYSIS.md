@@ -16,12 +16,12 @@ Update status as work lands: ⬜ open · 🔄 in progress · ✅ done · ➖ def
 | ✅ | `IUserRepository` implementation | `MockUserRepository` + factory |
 | ✅ | `ManageRoleUseCase` | `domain/usecases/ManageRoleUseCase.ts` |
 | ✅ | Auth bootstrap (repo → Zustand) | `application/providers/AuthBootstrap.tsx` |
-| ⬜ | Firebase Auth sign-in (phone / emulator) | `FirebaseAuthRepository` |
-| ⬜ | Custom claims on Auth tokens | Requires deployed `grantRole` + real Auth |
+| ✅ | Firebase Auth sign-in (phone / emulator) | `FirebaseAuthRepository` + seed Auth emulator |
+| ✅ | Custom claims on Auth tokens | `grantRole` + `seed.ts` `setCustomUserClaims` |
 | ✅ | `grantRole` Cloud Function (skeleton) | `functions/src/index.ts` |
 | ✅ | App Check initialization stub | `config/firebase.ts` |
-| ⬜ | App Check enforced in production | Needs `EXPO_PUBLIC_RECAPTCHA_SITE_KEY` |
-| 🔄 | Demo role switch via `signInDemoUser` | Profile uses auth repo (production path pending) |
+| ✅ | App Check enforced in production | `EXPO_PUBLIC_RECAPTCHA_SITE_KEY` or debug token in dev |
+| ✅ | Demo role switch via `signInDemoUser` | Profile + `FirebaseAuthRepository` / mock |
 
 ---
 
@@ -30,10 +30,10 @@ Update status as work lands: ⬜ open · 🔄 in progress · ✅ done · ➖ def
 | Status | Item | Notes / path |
 |--------|------|----------------|
 | ✅ | Cursor pagination on approved events | `PaginatedResult` + mock/Firebase `startAfter` |
-| ⬜ | Infinite scroll UI (`useInfiniteQuery`) | After pagination API stable |
-| ⬜ | Firestore `count()` / transaction RSVP counts | Firebase repo still append-only RSVPs |
+| ✅ | Infinite scroll UI (`useInfiniteQuery`) | `useApprovedEventsInfinite` + Explore `onEndReached` |
+| ✅ | Firestore `count()` / transaction RSVP counts | `FirebaseEventRepository.rsvpToEvent` transaction |
 | ✅ | MMKV-backed query persister | `mmkvStorage.ts` uses MMKV on native, fallback on web/Jest |
-| ✅ | Emulator seed (events batch) | `scripts/seed.ts` + `FIRESTORE_EMULATOR_HOST` |
+| ✅ | Emulator seed (events + auth users) | `scripts/seed.ts` + emulator env vars |
 
 ---
 
@@ -97,4 +97,4 @@ npm run build:web
 
 | PR / branch | Scope |
 |-------------|-------|
-| `cursor/tab-legibility-fix-729a` | UI, testing, Phase 2–4, gap P0 start |
+| `cursor/tab-legibility-fix-729a` | UI, testing, Phase 2–4, gap P0/P1 complete |

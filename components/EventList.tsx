@@ -11,6 +11,8 @@ interface EventListProps {
   events: CommunityEvent[];
   refreshing?: boolean;
   onRefresh?: () => void;
+  onEndReached?: () => void;
+  isLoadingMore?: boolean;
   onSelectEvent: (event: CommunityEvent) => void;
   userRsvps?: Record<string, 'ATTENDING' | 'DECLINED'>;
   onRsvp?: (eventId: string, status: 'ATTENDING' | 'DECLINED') => void;
@@ -25,6 +27,8 @@ export const EventList: React.FC<EventListProps> = ({
   events,
   refreshing = false,
   onRefresh,
+  onEndReached,
+  isLoadingMore = false,
   onSelectEvent,
   userRsvps = {},
   onRsvp,
@@ -51,6 +55,17 @@ export const EventList: React.FC<EventListProps> = ({
 
   const keyExtractor = useCallback((item: CommunityEvent) => item.id, []);
 
+  const listFooter = useCallback(() => {
+    if (!isLoadingMore) return null;
+    return (
+      <View style={styles.footerLoader}>
+        <ThemedText variant="body" muted center>
+          Loading more events...
+        </ThemedText>
+      </View>
+    );
+  }, [isLoadingMore]);
+
   if (events.length === 0) {
     return (
       <View style={styles.emptyContainer}>
@@ -73,6 +88,9 @@ export const EventList: React.FC<EventListProps> = ({
       drawDistance={FLASH_LIST_DRAW_DISTANCE}
       estimatedListSize={{ height: 800, width: 390 }}
       removeClippedSubviews
+      onEndReached={onEndReached}
+      onEndReachedThreshold={0.4}
+      ListFooterComponent={listFooter}
       refreshControl={
         onRefresh ? (
           <RefreshControl
@@ -92,6 +110,10 @@ export const EventList: React.FC<EventListProps> = ({
 const styles = StyleSheet.create({
   emptyContainer: {
     padding: 30,
+    alignItems: 'center',
+  },
+  footerLoader: {
+    paddingVertical: 16,
     alignItems: 'center',
   },
 });

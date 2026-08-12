@@ -9,7 +9,17 @@ export function AuthBootstrap({ children }: { children: React.ReactNode }) {
   const setUser = useAuthStore((state) => state.setUser);
 
   useEffect(() => {
-    RepositoryFactory.getAuthRepository()
+    const authRepo = RepositoryFactory.getAuthRepository();
+
+    if (authRepo.subscribeAuthState) {
+      return authRepo.subscribeAuthState((user) => {
+        if (user) {
+          setUser(user);
+        }
+      });
+    }
+
+    authRepo
       .getCurrentUser()
       .then((user) => {
         if (user) {

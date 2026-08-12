@@ -41,6 +41,7 @@ jest.mock('../../application/hooks/useNetworkGuard', () => ({
 
 jest.mock('../../application/hooks/useEventsQuery', () => ({
   useApprovedEvents: jest.fn(),
+  useApprovedEventsInfinite: jest.fn(),
   usePendingEvents: jest.fn(),
   useEventDetail: jest.fn(),
   useUserRsvps: jest.fn(),
@@ -87,21 +88,24 @@ jest.mock('../../infrastructure/services/whatsappService', () => ({
 }));
 
 import {
-  useApprovedEvents,
+  useApprovedEventsInfinite,
   usePendingEvents,
   useEventDetail,
   useUserRsvps,
 } from '../../application/hooks/useEventsQuery';
 
-const mockedUseApprovedEvents = useApprovedEvents as jest.Mock;
+const mockedUseApprovedEventsInfinite = useApprovedEventsInfinite as jest.Mock;
 const mockedUsePendingEvents = usePendingEvents as jest.Mock;
 const mockedUseEventDetail = useEventDetail as jest.Mock;
 const mockedUseUserRsvps = useUserRsvps as jest.Mock;
 
 function setupDefaultQueryMocks() {
-  mockedUseApprovedEvents.mockReturnValue({
-    data: snapshotApprovedEvents,
+  mockedUseApprovedEventsInfinite.mockReturnValue({
+    data: { pages: [{ items: snapshotApprovedEvents, nextCursor: null }] },
     isLoading: false,
+    fetchNextPage: jest.fn(),
+    hasNextPage: false,
+    isFetchingNextPage: false,
     refetch: jest.fn(),
     isRefetching: false,
   });
@@ -200,9 +204,12 @@ describe('Screen snapshots (loading and empty states)', () => {
   });
 
   it('matches Explore screen loading state', () => {
-    mockedUseApprovedEvents.mockReturnValue({
+    mockedUseApprovedEventsInfinite.mockReturnValue({
       data: undefined,
       isLoading: true,
+      fetchNextPage: jest.fn(),
+      hasNextPage: false,
+      isFetchingNextPage: false,
       refetch: jest.fn(),
       isRefetching: false,
     });
@@ -215,9 +222,12 @@ describe('Screen snapshots (loading and empty states)', () => {
   });
 
   it('matches Explore screen empty feed', () => {
-    mockedUseApprovedEvents.mockReturnValue({
-      data: [],
+    mockedUseApprovedEventsInfinite.mockReturnValue({
+      data: { pages: [{ items: [], nextCursor: null }] },
       isLoading: false,
+      fetchNextPage: jest.fn(),
+      hasNextPage: false,
+      isFetchingNextPage: false,
       refetch: jest.fn(),
       isRefetching: false,
     });

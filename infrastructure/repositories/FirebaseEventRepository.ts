@@ -11,8 +11,10 @@ import {
   serverTimestamp,
   limit,
   startAfter,
+  runTransaction,
   QueryConstraint,
   DocumentSnapshot,
+  Timestamp,
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import { CommunityEvent, CreateEventInput, EventStatus, RSVP } from '../../domain/models/Event';
@@ -115,20 +117,70 @@ export class FirebaseEventRepository implements IEventRepository {
   }
 
   async rsvpToEvent(eventId: string, userId: string, status: 'ATTENDING' | 'DECLINED'): Promise<RSVP> {
-    const rsvpData = {
-      eventId,
-      userId,
-      status,
-      timestamp: serverTimestamp(),
-    };
-    const docRef = await addDoc(this.rsvpsCollection, rsvpData);
-    return {
-      id: docRef.id,
-      eventId,
-      userId,
-      status,
-      timestamp: new Date().toISOString(),
-    };
+    const eventRef = doc(db, 'events', eventId);
+    const rsvpRef = doc(db, 'rsvps', `${eventId}_${userId}`);
+
+    return runTransaction(db, async (transaction) => {
+      const eventSnap = await transaction.get(eventRef);
+      if (!eventSnap.exists()) {
+        throw new Error(`Event ${eventId} not found`);
+      }
+
+      const rsvpSnap = await transaction.get(rsvpRef);
+      const previousStatus = rsvpSnap.exists()
+        ? (rsvpSnap.data().status as 'ATTENDING' | 'DECLINED')
+        : undefined;
+
+      const eventData = eventSnap.data();
+      let rsvpCount = Number(eventData.rsvpCount ?? 0);
+      let attendingCount = Number(eventData.attendingCount ?? 0);
+      let declinedCount = Number(eventData.declinedCount ?? 0);
+
+      if (!previousStatus) {
+        rsvpCount += 1;
+        if (status === 'ATTENDING') attendingCount += 1;
+        else declinedCount += 1;
+      } else if (previousStatus !== status) {
+        if (status === 'ATTENDING') {
+          attendingCount += 1;
+          declinedCount = Math.max(0, declinedCount - 1);
+        } else {
+          declinedCount += 1;
+          attendingCount = Math.max(0, attendingCount - 1);
+        }
+      }
+
+      transaction.update(eventRef, {
+        rsvpCount,
+        attendingCount,
+        declinedCount,
+        updatedAt: serverTimestamp(),
+      });
+
+      transaction.set(rsvpRef, {
+        eventId,
+        userId,
+        status,
+        timestamp: serverTimestamp(),
+      });
+
+      const existingTimestamp = rsvpSnap.exists() ? rsvpSnap.data().timestamp : undefined;
+      const timestamp =
+        existingTimestamp &&
+        typeof existingTimestamp === 'object' &&
+        'toDate' in existingTimestamp &&
+        typeof (existingTimestamp as Timestamp).toDate === 'function'
+          ? (existingTimestamp as Timestamp).toDate().toISOString()
+          : new Date().toISOString();
+
+      return {
+        id: rsvpRef.id,
+        eventId,
+        userId,
+        status,
+        timestamp,
+      };
+    });
   }
 
   async getUserRsvps(userId: string): Promise<Record<string, 'ATTENDING' | 'DECLINED'>> {
