@@ -1,0 +1,19 @@
+# Kotlin/Java (Android native) stack defaults
+name: kotlin-java
+description: Native Android with Kotlin or Java
+
+platforms:
+  - android
+
+test:
+  unit: ./gradlew test
+  instrumented: ./gradlew connectedAndroidTest
+
+quality:
+  ktlint: ./gradlew ktlintCheck
+  detekt: ./gradlew detekt
+  lint: ./gradlew lint
+
+build:
+  apk: ./gradlew assembleRelease
+  aab: ./gradlew bundleRelease

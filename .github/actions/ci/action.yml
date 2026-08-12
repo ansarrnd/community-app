@@ -1,0 +1,29 @@
+name: Portable CI Runner
+description: Run portable CI/CD stages (security, quality, test, build, e2e, deploy)
+
+inputs:
+  stages:
+    description: Space-separated stages to run
+    required: false
+    default: security quality test
+  mode:
+    description: Execution mode (local, cloud, hybrid)
+    required: false
+    default: cloud
+  stack:
+    description: Technology stack override
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Run portable CI
+      shell: bash
+      run: |
+        chmod +x ci/run.sh ci/lib/runner.sh
+        ARGS="--mode ${{ inputs.mode }}"
+        if [[ -n "${{ inputs.stack }}" ]]; then
+          ARGS="$ARGS --stack ${{ inputs.stack }}"
+        fi
+        ./ci/run.sh $ARGS ${{ inputs.stages }}

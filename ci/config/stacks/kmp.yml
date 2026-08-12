@@ -1,0 +1,24 @@
+# Kotlin Multiplatform (KMP) stack defaults
+name: kmp
+description: Kotlin Multiplatform — shared logic, native UI per platform
+
+platforms:
+  - android
+  - ios
+  - desktop
+
+test:
+  shared: ./gradlew :shared:testDebugUnitTest
+  android: ./gradlew :androidApp:testDebugUnitTest
+  ios: ./gradlew :iosApp:iosSimulatorArm64Test
+  desktop: ./gradlew :desktopApp:test
+
+quality:
+  ktlint: ./gradlew ktlintCheck
+  detekt: ./gradlew detekt
+  coverage: ./gradlew koverVerify
+
+build:
+  shared: ./gradlew :shared:assembleRelease
+  android: ./gradlew :androidApp:assembleRelease bundleRelease
+  ios: ./gradlew :iosApp:assembleRelease

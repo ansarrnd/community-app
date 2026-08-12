@@ -1,0 +1,27 @@
+# Compose Multiplatform (CMP) stack defaults
+name: cmp
+description: Compose Multiplatform — shared UI across Android, iOS, Desktop, Web
+
+platforms:
+  - android
+  - ios
+  - desktop
+  - web
+
+test:
+  shared: ./gradlew :shared:testDebugUnitTest
+  android: ./gradlew :androidApp:testDebugUnitTest
+  ios: ./gradlew :iosApp:iosSimulatorArm64Test
+  desktop: ./gradlew :desktopApp:test
+  web: ./gradlew :webApp:jsBrowserTest
+
+quality:
+  ktlint: ./gradlew ktlintCheck
+  detekt: ./gradlew detekt
+  coverage: ./gradlew koverVerify
+
+build:
+  android: ./gradlew :androidApp:assembleRelease bundleRelease
+  ios: ./gradlew :iosApp:assembleRelease
+  desktop: ./gradlew :desktopApp:packageReleaseDistribution
+  web: ./gradlew :webApp:jsBrowserDistribution

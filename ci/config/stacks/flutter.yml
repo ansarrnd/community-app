@@ -1,0 +1,25 @@
+# Flutter stack defaults
+name: flutter
+description: Flutter cross-platform (Dart)
+
+platforms:
+  - android
+  - ios
+  - web
+  - desktop
+
+test:
+  unit: flutter test --coverage
+  integration: flutter test integration_test/
+
+quality:
+  analyze: flutter analyze --fatal-infos
+  format: dart format --set-exit-if-changed lib/ test/
+
+build:
+  android: flutter build appbundle --release
+  ios: flutter build ios --release --no-codesign
+  web: flutter build web --release
+
+e2e:
+  integration: flutter test integration_test/

@@ -1,0 +1,34 @@
+# Semgrep rules for mobile / cross-platform projects
+rules:
+  - id: hardcoded-secret
+    patterns:
+      - pattern-either:
+          - pattern: $VAR = "..."
+          - pattern: password = "..."
+          - pattern: api_key = "..."
+    metavariable-regex:
+      metavariable: $VAR
+      regex: (password|secret|api_key|apikey|token|credential)
+    message: Potential hardcoded secret detected
+    severity: ERROR
+    languages: [javascript, typescript, kotlin, java, swift, dart]
+
+  - id: insecure-http-url
+    pattern: "http://..."
+    message: Insecure HTTP URL — use HTTPS in production
+    severity: WARNING
+    languages: [javascript, typescript, kotlin, java, swift, dart]
+
+  - id: eval-usage
+    pattern: eval(...)
+    message: Avoid eval() — security risk
+    severity: ERROR
+    languages: [javascript, typescript]
+
+  - id: disable-certificate-validation
+    pattern-either:
+      - pattern: NSAllowsArbitraryLoads = true
+      - pattern: allowsInvalidSSLCertificate = true
+    message: SSL certificate validation disabled
+    severity: ERROR
+    languages: [swift, javascript, typescript]

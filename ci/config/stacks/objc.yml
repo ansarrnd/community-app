@@ -1,0 +1,20 @@
+# Objective-C (iOS legacy) stack defaults
+name: objc
+description: Native iOS with Objective-C (legacy projects)
+
+platforms:
+  - ios
+
+test:
+  unit: xcodebuild test
+
+quality:
+  swiftlint: swiftlint lint --strict
+  oclint: oclint-json-compilation-database
+
+build:
+  archive: xcodebuild archive
+
+deploy:
+  beta: fastlane ios beta
+  release: fastlane ios release

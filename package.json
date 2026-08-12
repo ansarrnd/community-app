@@ -13,7 +13,14 @@
     "test": "jest",
     "test:unit": "jest",
     "test:coverage": "jest --coverage",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "ci": "./ci/run.sh",
+    "ci:security": "./ci/run.sh security",
+    "ci:quality": "./ci/run.sh quality",
+    "ci:test": "./ci/run.sh test",
+    "ci:build": "./ci/run.sh build",
+    "ci:local": "CI_EXECUTION_MODE=local ./ci/run.sh",
+    "ci:cloud": "CI_EXECUTION_MODE=cloud ./ci/run.sh"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

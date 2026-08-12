@@ -1,0 +1,22 @@
+# Swift (iOS native) stack defaults
+name: swift
+description: Native iOS with Swift
+
+platforms:
+  - ios
+
+test:
+  unit: xcodebuild test
+  ui: xcodebuild test -only-testing:UITests
+
+quality:
+  swiftlint: swiftlint lint --strict
+  swiftformat: swiftformat --lint .
+
+build:
+  archive: xcodebuild archive
+  ipa: xcodebuild -exportArchive
+
+deploy:
+  beta: fastlane ios beta
+  release: fastlane ios release

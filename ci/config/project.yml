@@ -1,0 +1,39 @@
+# Project CI/CD configuration
+# Portable across GitHub Actions, Linux, and macOS
+
+# Active technology stack (see ci/config/stacks/ for defaults)
+stack: react-native
+
+# Execution mode: local | cloud | hybrid
+# - local:  runs only on developer machine / self-hosted
+# - cloud:  runs only on cloud runners (ubuntu)
+# - hybrid: security/quality/test on cloud; iOS/e2e on macOS self-hosted
+execution_mode: hybrid
+
+# Default pipeline stages (override per-run: ./ci/run.sh security test)
+stages:
+  - security
+  - quality
+  - test
+
+# Quality gates
+min_coverage: 70
+
+# iOS Xcode scheme (auto-detected from project name if empty)
+ios_scheme: CommunityConnect
+
+# Android package name
+android_package: com.community.connect
+
+# Node.js version for JS-based stacks
+node_version: "22"
+
+# Java version for Android/Kotlin stacks
+java_version: "17"
+
+# Deploy configuration
+deploy:
+  web: vercel          # vercel | firebase | none
+  mobile: eas          # eas | fastlane | none
+  staging_branch: develop
+  production_branch: main

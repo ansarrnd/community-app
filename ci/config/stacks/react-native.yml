@@ -1,0 +1,33 @@
+# React Native / Expo stack defaults
+name: react-native
+description: React Native with Expo, TypeScript, Jest
+
+platforms:
+  - web
+  - android
+  - ios
+
+prebuild:
+  command: npx expo prebuild --no-install
+  platforms:
+    - android
+    - ios
+
+test:
+  js: npm run test:unit
+  android: ./android/gradlew testDebugUnitTest
+  ios: xcodebuild test
+
+quality:
+  typecheck: npm run type-check
+  lint: npm run lint
+  coverage: npm run test:coverage
+
+build:
+  web: npm run build:web
+  android: ./android/gradlew assembleRelease bundleRelease
+  ios: xcodebuild archive
+
+e2e:
+  web: npx playwright test
+  mobile: maestro test .maestro/

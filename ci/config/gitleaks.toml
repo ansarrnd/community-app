@@ -1,0 +1,24 @@
+title = "Community App CI/CD Gitleaks Config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allowlisted paths and patterns"
+paths = [
+  '''coverage/''',
+  '''.expo/''',
+  '''node_modules/''',
+  '''package-lock.json''',
+  '''ios/Podfile.lock''',
+  '''android/.gradle/''',
+  '''.ci-cache/''',
+]
+
+[allowlist.regexes]
+description = "Test fixtures and example keys"
+regexes = [
+  '''EXAMPLE_KEY''',
+  '''test-api-key''',
+  '''localhost''',
+]
