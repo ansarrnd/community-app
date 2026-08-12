@@ -39,4 +39,47 @@ describe('Theme Resolution Unit Tests', () => {
     expect(lightTheme.auroraMesh.length).toBe(3);
     expect(lightTheme.auroraMesh[0].color).not.toEqual(darkTheme.auroraMesh[0].color);
   });
+
+  it('defines segment pill tokens distinct from input tokens in both palettes', () => {
+    expect(darkThemeColors.segmentBg).not.toBe(darkThemeColors.bgInput);
+    expect(darkThemeColors.segmentBorder).not.toBe(darkThemeColors.borderInput);
+    expect(darkThemeColors.segmentText).toBe(darkThemeColors.textPrimary);
+    expect(darkThemeColors.segmentTextActive).toBe(darkThemeColors.accentTeal);
+
+    expect(lightThemeColors.segmentBg).not.toBe(lightThemeColors.bgInput);
+    expect(lightThemeColors.segmentBorder).not.toBe(lightThemeColors.borderInput);
+    expect(lightThemeColors.segmentText).toBe(lightThemeColors.textPrimary);
+    expect(lightThemeColors.segmentTextActive).toBe(lightThemeColors.accentTeal);
+  });
+
+  it('uses accent-tinted active segment backgrounds aligned with accentTeal', () => {
+    expect(darkThemeColors.segmentBgActive).toContain('251');
+    expect(lightThemeColors.segmentBgActive).toContain('200');
+    expect(darkThemeColors.segmentBorderActive).toBe(darkThemeColors.accentTeal);
+    expect(lightThemeColors.segmentBorderActive).toBe(lightThemeColors.accentTeal);
+  });
+
+  it('defines action chip tokens for success and danger variants', () => {
+    expect(darkThemeColors.chipSuccessText).toBe(darkThemeColors.chipSuccessBorder);
+    expect(darkThemeColors.chipDangerText).toBe(darkThemeColors.chipDangerBorder);
+    expect(darkThemeColors.chipSuccessBg).toContain('211');
+    expect(lightThemeColors.chipDangerBg).toContain('190');
+  });
+
+  it('defines glow tokens aligned with accent palette instead of legacy cyan', () => {
+    expect(darkThemeColors.glowAccent).toContain('251');
+    expect(lightThemeColors.glowAccent).toContain('200');
+    expect(darkThemeColors.auroraPrimary).not.toContain('242');
+    expect(lightThemeColors.auroraPrimary).not.toContain('122');
+  });
+
+  it('defines kinship lineage and context tag tokens for both palettes', () => {
+    const darkTheme = getAppTheme('dark', 'dark');
+    const lightTheme = getAppTheme('light', 'light');
+
+    expect(darkTheme.kinship.lineageBorders.MATERNAL).toBe('#60A5FA');
+    expect(darkTheme.kinship.tags.affinalText).toBe('#FDE047');
+    expect(lightTheme.kinship.lineageBorders.AFFINAL).toBe('#BE185D');
+    expect(lightTheme.kinship.tags.outVillageBg).toBe('#E2EAFC');
+  });
 });

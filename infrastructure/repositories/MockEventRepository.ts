@@ -1,4 +1,5 @@
 import { CommunityEvent, CreateEventInput, EventStatus, RSVP } from '../../domain/models/Event';
+import { DEFAULT_PAGE_SIZE } from '../../domain/models/Pagination';
 import { IEventRepository } from '../../domain/repositories/IEventRepository';
 
 const INITIAL_MOCK_EVENTS: CommunityEvent[] = [
@@ -87,21 +88,43 @@ export class MockEventRepository implements IEventRepository {
   private events: CommunityEvent[] = INITIAL_MOCK_EVENTS.map((e) => ({ ...e }));
   private rsvps: Record<string, Record<string, 'ATTENDING' | 'DECLINED'>> = {};
 
-  async getApprovedEvents(categoryFilter?: string, searchQuery?: string): Promise<CommunityEvent[]> {
-    await new Promise((resolve) => setTimeout(resolve, 200)); // Simulate realistic JSI latency
-    return this.events.filter((evt) => {
-      if (evt.status !== 'APPROVED') return false;
-      if (categoryFilter && categoryFilter !== 'ALL' && evt.category !== categoryFilter) return false;
-      if (searchQuery && searchQuery.trim() !== '') {
-        const query = searchQuery.toLowerCase();
-        return evt.title.toLowerCase().includes(query) || evt.venue.toLowerCase().includes(query);
-      }
-      return true;
-    });
+  async getApprovedEvents(
+    categoryFilter?: string,
+    searchQuery?: string,
+    pagination?: { cursor?: string; limit?: number }
+  ) {
+    const filtered = this.events
+      .filter((evt) => {
+        if (evt.status !== 'APPROVED') return false;
+        if (categoryFilter && categoryFilter !== 'ALL' && evt.category !== categoryFilter) return false;
+        if (searchQuery && searchQuery.trim() !== '') {
+          const queryText = searchQuery.toLowerCase();
+          return evt.title.toLowerCase().includes(queryText) || evt.venue.toLowerCase().includes(queryText);
+        }
+        return true;
+      })
+      .sort((a, b) => {
+        const aTime = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+        const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+        return bTime - aTime;
+      });
+
+    const limit = pagination?.limit ?? DEFAULT_PAGE_SIZE;
+    let startIndex = 0;
+
+    if (pagination?.cursor) {
+      const cursorIndex = filtered.findIndex((evt) => evt.id === pagination.cursor);
+      startIndex = cursorIndex >= 0 ? cursorIndex + 1 : 0;
+    }
+
+    const items = filtered.slice(startIndex, startIndex + limit);
+    const hasMore = startIndex + limit < filtered.length;
+    const nextCursor = hasMore && items.length > 0 ? items[items.length - 1].id : null;
+
+    return { items, nextCursor };
   }
 
   async getPendingEvents(): Promise<CommunityEvent[]> {
-    await new Promise((resolve) => setTimeout(resolve, 150));
     return this.events.filter((evt) => evt.status === 'PENDING');
   }
 

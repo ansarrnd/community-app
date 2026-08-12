@@ -2,8 +2,9 @@ import React from 'react';
 import { View, ScrollView, TextInput, Pressable, StyleSheet } from 'react-native';
 import { Users, UserPlus, Trash2 } from 'lucide-react-native';
 import { EventMemberInput } from '../domain/types';
-import { TAMIL_RELATIONSHIPS } from '../taxonomy/tamilTaxonomy';
-import { getVillageTheme } from '../theme/villageTheme';
+import { SegmentPill, ActionChip } from '@/components/ui';
+import { ThemedText } from '@/components/ThemedText';
+import { useTheme } from '@/context/ThemeContext';
 
 export const KINSHIP_OPTIONS = [
   { id: 'MAMA', label: 'Mama / Mother Brother (மாமா)' },
@@ -23,23 +24,12 @@ export const KINSHIP_OPTIONS = [
 export interface KinshipMemberPickerProps {
   members: EventMemberInput[];
   onChange: (members: EventMemberInput[]) => void;
-  isDark?: boolean;
-  inputBgColor?: string;
-  borderColor?: string;
-  textColor?: string;
-  mutedTextColor?: string;
 }
 
-export const KinshipMemberPicker: React.FC<KinshipMemberPickerProps> = ({
-  members,
-  onChange,
-  isDark = false,
-  inputBgColor = '#FFFFFF',
-  borderColor = '#E6E1DA',
-  textColor = '#1E1E1E',
-  mutedTextColor = '#706C61',
-}) => {
-  const theme = getVillageTheme(isDark);
+export const KinshipMemberPicker: React.FC<KinshipMemberPickerProps> = ({ members, onChange }) => {
+  const { theme } = useTheme();
+  const colors = theme.colors;
+  const accentColor = colors.accentTeal;
 
   const handleAddMember = () => {
     onChange([
@@ -58,7 +48,7 @@ export const KinshipMemberPicker: React.FC<KinshipMemberPickerProps> = ({
     onChange(members.filter((_, i) => i !== index));
   };
 
-  const handleUpdateMember = (index: number, key: keyof EventMemberInput, value: any) => {
+  const handleUpdateMember = (index: number, key: keyof EventMemberInput, value: EventMemberInput[keyof EventMemberInput]) => {
     const updated = [...members];
     updated[index] = { ...updated[index], [key]: value };
     onChange(updated);
@@ -68,33 +58,24 @@ export const KinshipMemberPicker: React.FC<KinshipMemberPickerProps> = ({
     <View style={styles.container}>
       <View style={styles.headerRow}>
         <View style={styles.titleRow}>
-          <Users size={18} color={theme.colors.primary} style={{ marginRight: 6 }} />
-          <Pressable style={styles.titleText}>
-            <View>
-              <TextInput
-                editable={false}
-                value="Family & Village Members (Kinship Mapping)"
-                style={{ fontWeight: '700', fontSize: 15, color: theme.colors.primary }}
-              />
-            </View>
-          </Pressable>
+          <Users size={18} color={accentColor} style={{ marginRight: 6 }} />
+          <ThemedText variant="bodyBold" style={{ color: accentColor }}>
+            Family & Village Members (Kinship Mapping)
+          </ThemedText>
         </View>
-        <Pressable onPress={handleAddMember} style={[styles.addBtn, { backgroundColor: theme.colors.primary + '22' }]}>
-          <UserPlus size={14} color={theme.colors.primary} style={{ marginRight: 4 }} />
-          <TextInput
-            editable={false}
-            value="Add Member"
-            style={{ fontSize: 12, fontWeight: '700', color: theme.colors.primary }}
-          />
+        <Pressable onPress={handleAddMember} style={[styles.addBtn, { backgroundColor: accentColor + '22' }]}>
+          <UserPlus size={14} color={accentColor} style={{ marginRight: 4 }} />
+          <ThemedText variant="caption" bold style={{ color: accentColor }}>
+            Add Member
+          </ThemedText>
         </Pressable>
       </View>
 
       {members.length === 0 ? (
-        <TextInput
-          editable={false}
-          value='No kinship members attached yet. Tap "+ Add Member" to link family & ritual relations (e.g. Mama, Athai, Periyappa).'
-          style={{ fontSize: 12, fontStyle: 'italic', color: mutedTextColor, marginTop: 6 }}
-        />
+        <ThemedText variant="caption" muted style={styles.emptyHint}>
+          No kinship members attached yet. Tap &quot;+ Add Member&quot; to link family & ritual relations (e.g. Mama,
+          Athai, Periyappa).
+        </ThemedText>
       ) : (
         members.map((member, index) => (
           <View
@@ -102,106 +83,72 @@ export const KinshipMemberPicker: React.FC<KinshipMemberPickerProps> = ({
             style={[
               styles.card,
               {
-                borderColor,
-                backgroundColor: inputBgColor,
+                borderColor: colors.borderInput,
+                backgroundColor: colors.bgInput,
               },
             ]}
           >
             <View style={styles.cardHeader}>
-              <TextInput
-                editable={false}
-                value={`Member #${index + 1}`}
-                style={{ fontSize: 12, fontWeight: '700', color: theme.colors.primary }}
-              />
-              <Pressable onPress={() => handleRemoveMember(index)}>
+              <ThemedText variant="caption" bold style={{ color: accentColor }}>
+                Member #{index + 1}
+              </ThemedText>
+              <Pressable onPress={() => handleRemoveMember(index)} accessibilityLabel="Remove member">
                 <Trash2 size={16} color="#FF3B30" />
               </Pressable>
             </View>
 
+            <ThemedText variant="caption" bold style={styles.fieldLabel}>
+              Full Name
+            </ThemedText>
             <TextInput
-              editable={false}
-              value="Full Name"
-              style={{ fontSize: 12, fontWeight: '700', marginTop: 6, marginBottom: 2, color: textColor }}
-            />
-            <TextInput
-              style={[styles.input, { backgroundColor: inputBgColor, borderColor, color: textColor }]}
+              style={[
+                styles.input,
+                {
+                  backgroundColor: colors.bgInput,
+                  borderColor: colors.borderInput,
+                  color: colors.textPrimary,
+                },
+              ]}
               placeholder="e.g. Kandasamy / Valliammai"
-              placeholderTextColor={mutedTextColor}
+              placeholderTextColor={colors.textMuted}
               value={member.fullName}
               onChangeText={(val) => handleUpdateMember(index, 'fullName', val)}
             />
 
-            <View style={{ marginTop: 6 }}>
-              <TextInput
-                editable={false}
-                value="Kinship Relation"
-                style={{ fontSize: 12, fontWeight: '700', marginBottom: 4, color: textColor }}
-              />
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flexDirection: 'row' }}>
-                {KINSHIP_OPTIONS.map((opt) => {
-                  const isSel = member.relationshipTypeToOrganizer === opt.id;
-                  return (
-                    <Pressable
-                      key={opt.id}
-                      onPress={() => handleUpdateMember(index, 'relationshipTypeToOrganizer', opt.id)}
-                      style={[
-                        styles.chip,
-                        {
-                          borderColor: isSel ? theme.colors.primary : borderColor,
-                          backgroundColor: isSel ? theme.colors.primary + '22' : 'transparent',
-                        },
-                      ]}
-                    >
-                      <TextInput
-                        editable={false}
-                        value={opt.label}
-                        style={{
-                          fontSize: 11,
-                          color: isSel ? theme.colors.primary : mutedTextColor,
-                          fontWeight: isSel ? '700' : '400',
-                        }}
-                      />
-                    </Pressable>
-                  );
-                })}
+            <View style={styles.relationSection}>
+              <ThemedText variant="caption" bold style={styles.fieldLabel}>
+                Kinship Relation
+              </ThemedText>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {KINSHIP_OPTIONS.map((opt) => (
+                  <SegmentPill
+                    key={opt.id}
+                    label={opt.label}
+                    compact
+                    selected={member.relationshipTypeToOrganizer === opt.id}
+                    onPress={() => handleUpdateMember(index, 'relationshipTypeToOrganizer', opt.id)}
+                  />
+                ))}
               </ScrollView>
             </View>
 
             <View style={styles.contextRow}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <TextInput editable={false} value="Context:" style={{ fontSize: 12, color: textColor, marginRight: 6 }} />
-                <Pressable
-                  onPress={() =>
-                    handleUpdateMember(
-                      index,
-                      'contextTag',
-                      member.contextTag === 'In-Village' ? 'Out-Village' : 'In-Village'
-                    )
-                  }
-                  style={[
-                    styles.tagBadge,
-                    {
-                      backgroundColor:
-                        member.contextTag === 'In-Village'
-                          ? theme.colors.tags.inVillageBg
-                          : theme.colors.tags.outVillageBg,
-                    },
-                  ]}
-                >
-                  <TextInput
-                    editable={false}
-                    value={member.contextTag || 'In-Village'}
-                    style={{
-                      fontSize: 12,
-                      fontWeight: '700',
-                      color:
-                        member.contextTag === 'In-Village'
-                          ? theme.colors.tags.inVillageText
-                          : theme.colors.tags.outVillageText,
-                    }}
-                  />
-                </Pressable>
-              </View>
+              <ThemedText variant="caption" style={{ marginRight: 6 }}>
+                Context:
+              </ThemedText>
+              <ActionChip
+                label={member.contextTag || 'In-Village'}
+                variant={member.contextTag === 'In-Village' ? 'success' : 'accent'}
+                selected
+                compact
+                onPress={() =>
+                  handleUpdateMember(
+                    index,
+                    'contextTag',
+                    member.contextTag === 'In-Village' ? 'Out-Village' : 'In-Village'
+                  )
+                }
+              />
             </View>
           </View>
         ))
@@ -223,9 +170,7 @@ const styles = StyleSheet.create({
   titleRow: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  titleText: {
-    flexDirection: 'row',
+    flex: 1,
   },
   addBtn: {
     flexDirection: 'row',
@@ -233,6 +178,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 12,
+  },
+  emptyHint: {
+    marginTop: 6,
+    fontStyle: 'italic',
   },
   card: {
     marginTop: 10,
@@ -245,6 +194,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  fieldLabel: {
+    marginTop: 6,
+    marginBottom: 2,
+  },
   input: {
     borderWidth: 1,
     borderRadius: 10,
@@ -252,22 +205,12 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     fontSize: 13,
   },
-  chip: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
-    borderWidth: 1,
-    marginRight: 4,
+  relationSection: {
+    marginTop: 6,
   },
   contextRow: {
     flexDirection: 'row',
     marginTop: 8,
     alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  tagBadge: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 8,
   },
 });

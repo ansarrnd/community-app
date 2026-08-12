@@ -1,1 +1,6 @@
 node_modules
+dist
+.expo
+test-results
+playwright-report
+docs/screenshots/.ci-candidate

@@ -6,6 +6,7 @@ import { OfflineBanner } from '../../components/OfflineBanner';
 import { LiquidGlassCard } from '../../components/LiquidGlassCard';
 import { EventImage } from '../../components/EventImage';
 import { useNetworkGuard } from '../../application/hooks/useNetworkGuard';
+import { renderWithProviders } from '../helpers/renderWithProviders';
 
 jest.mock('../../application/hooks/useNetworkGuard', () => ({
   useNetworkGuard: jest.fn(),
@@ -71,13 +72,13 @@ describe('UI Component Unit Tests', () => {
   describe('OfflineBanner', () => {
     it('returns null when network is connected', () => {
       (useNetworkGuard as jest.Mock).mockReturnValue({ isConnected: true, isInternetReachable: true });
-      const { queryByText } = render(<OfflineBanner />);
+      const { queryByText } = renderWithProviders(<OfflineBanner />);
       expect(queryByText(/Offline Mode/i)).toBeNull();
     });
 
     it('renders offline warning message when network is disconnected', () => {
       (useNetworkGuard as jest.Mock).mockReturnValue({ isConnected: false, isInternetReachable: false });
-      const { getByText } = render(<OfflineBanner />);
+      const { getByText } = renderWithProviders(<OfflineBanner />);
       expect(getByText(/Offline Mode: Showing cached events. Writes are queued./i)).toBeTruthy();
     });
   });

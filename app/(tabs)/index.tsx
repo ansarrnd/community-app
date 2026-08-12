@@ -1,12 +1,14 @@
 import React from 'react';
-import { View, StyleSheet, TextInput, Pressable, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useApprovedEvents, useRsvpMutation, useUserRsvps } from '../../application/hooks/useEventsQuery';
+import { useApprovedEventsInfinite, useRsvpMutation, useUserRsvps } from '../../application/hooks/useEventsQuery';
 import { useFilterStore } from '../../application/stores/useFilterStore';
 import { useAuthStore } from '../../application/stores/useAuthStore';
 import { EventList } from '../../components/EventList';
 import { ThemedText } from '../../components/ThemedText';
+import { SegmentPill, SearchField } from '../../components/ui';
 import { useTheme } from '../../context/ThemeContext';
+import { useDebouncedValue } from '../../application/hooks/useDebouncedValue';
 import { Search, Sparkles } from 'lucide-react-native';
 import { CommunityEvent } from '../../domain/models/Event';
 
@@ -21,9 +23,19 @@ export default function ExploreEventsScreen() {
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
   const { category, searchQuery, setCategory, setSearchQuery } = useFilterStore();
+  const debouncedSearch = useDebouncedValue(searchQuery, 300);
   const { theme } = useTheme();
 
-  const { data: events = [], isLoading, refetch, isRefetching } = useApprovedEvents(category, searchQuery);
+  const {
+    data,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    refetch,
+    isRefetching,
+  } = useApprovedEventsInfinite(category, debouncedSearch);
+  const events = data?.pages.flatMap((page) => page.items) ?? [];
   const { data: userRsvps = {} } = useUserRsvps(user.uid);
   const rsvpMutation = useRsvpMutation();
 
@@ -37,64 +49,28 @@ export default function ExploreEventsScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Search Input Bar */}
-      <View
-        style={[
-          styles.searchBarContainer,
-          {
-            backgroundColor: theme.colors.bgInput,
-            borderColor: theme.colors.borderInput,
-          },
-        ]}
-      >
-        <Search size={18} color={theme.colors.textMuted} style={styles.searchIcon} />
-        <TextInput
-          style={[styles.searchInput, { color: theme.colors.textPrimary }]}
-          placeholder="Search events, venues, topics..."
-          placeholderTextColor={theme.colors.textMuted}
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-        />
-      </View>
+      <SearchField
+        containerStyle={styles.searchBarContainer}
+        leadingIcon={<Search size={18} color={theme.colors.textMuted} style={styles.searchIcon} />}
+        placeholder="Search events, venues, topics..."
+        accessibilityLabel="Search events, venues, and topics"
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+      />
 
-      {/* Category Pills Slider */}
       <View style={styles.categoriesWrapper}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.categoriesContainer}>
-          {CATEGORIES.map((cat) => {
-            const isActive = category === cat.id;
-            return (
-              <Pressable
-                key={cat.id}
-                onPress={() => setCategory(cat.id)}
-                style={[
-                  styles.categoryPill,
-                  isActive
-                    ? {
-                        backgroundColor: theme.isDark ? 'rgba(0, 242, 254, 0.22)' : 'rgba(0, 122, 255, 0.16)',
-                        borderColor: theme.colors.accentTeal,
-                      }
-                    : {
-                        backgroundColor: theme.colors.bgInput,
-                        borderColor: theme.colors.borderInput,
-                      },
-                ]}
-              >
-                <ThemedText
-                  variant="caption"
-                  bold={isActive}
-                  style={{
-                    color: isActive ? theme.colors.accentTeal : theme.colors.textSecondary,
-                  }}
-                >
-                  {cat.label}
-                </ThemedText>
-              </Pressable>
-            );
-          })}
+          {CATEGORIES.map((cat) => (
+            <SegmentPill
+              key={cat.id}
+              label={cat.label}
+              selected={category === cat.id}
+              onPress={() => setCategory(cat.id)}
+            />
+          ))}
         </ScrollView>
       </View>
 
-      {/* Events Feed Section */}
       <View style={styles.feedHeader}>
         <Sparkles size={16} color={theme.colors.accentTeal} style={{ marginRight: 6 }} />
         <ThemedText variant="subtitle" bold>
@@ -113,6 +89,12 @@ export default function ExploreEventsScreen() {
           events={events}
           refreshing={isRefetching}
           onRefresh={refetch}
+          onEndReached={() => {
+            if (hasNextPage && !isFetchingNextPage) {
+              fetchNextPage();
+            }
+          }}
+          isLoadingMore={isFetchingNextPage}
           onSelectEvent={handleSelectEvent}
           userRsvps={userRsvps}
           onRsvp={handleRsvp}
@@ -129,34 +111,16 @@ const styles = StyleSheet.create({
     paddingTop: 12,
   },
   searchBarContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderRadius: 999,
-    paddingHorizontal: 14,
-    height: 46,
     marginBottom: 12,
   },
   searchIcon: {
     marginRight: 8,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 14,
-    fontFamily: undefined,
   },
   categoriesWrapper: {
     marginBottom: 14,
   },
   categoriesContainer: {
     paddingRight: 16,
-  },
-  categoryPill: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 999,
-    marginRight: 8,
-    borderWidth: 1,
   },
   feedHeader: {
     flexDirection: 'row',

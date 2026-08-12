@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Relationship, Person, LineageCategory } from '../domain/types';
 import { RelationshipCard } from './RelationshipCard';
-import { VillageTheme } from '../theme/villageTheme';
+import { useTheme } from '@/context/ThemeContext';
 
 export interface GroupedKinshipSectionProps {
   title: string;
@@ -19,13 +19,25 @@ export const GroupedKinshipSection: React.FC<GroupedKinshipSectionProps> = ({
   personMap,
   onSelectRelationship,
 }) => {
+  const { theme } = useTheme();
   const filteredRels = relationships.filter((r) => r.lineageCategory === category);
 
   if (filteredRels.length === 0) return null;
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.sectionTitle}>{title}</Text>
+    <View style={[styles.container, { marginBottom: theme.spacing.lg }]}>
+      <Text
+        style={[
+          styles.sectionTitle,
+          {
+            color: theme.colors.accentTeal,
+            marginBottom: theme.spacing.xs,
+            borderBottomColor: theme.colors.borderCard,
+          },
+        ]}
+      >
+        {title}
+      </Text>
       {filteredRels.map((rel) => (
         <RelationshipCard
           key={rel.id}
@@ -39,16 +51,12 @@ export const GroupedKinshipSection: React.FC<GroupedKinshipSectionProps> = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    marginBottom: VillageTheme.spacing.lg,
-  },
+  container: {},
   sectionTitle: {
-    ...VillageTheme.typography.screenTitle,
     fontSize: 18,
-    color: VillageTheme.colors.primary,
-    marginBottom: VillageTheme.spacing.xs,
+    fontWeight: '700',
+    lineHeight: 24,
     borderBottomWidth: 2,
-    borderBottomColor: VillageTheme.colors.border,
     paddingBottom: 4,
   },
 });

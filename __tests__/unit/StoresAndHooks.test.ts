@@ -7,8 +7,8 @@ describe('Application Stores & Custom Hooks Unit Tests', () => {
   describe('useAuthStore', () => {
     it('initializes with default demo admin user', () => {
       const state = useAuthStore.getState();
-      expect(state.user.uid).toBe('demo-user-123');
-      expect(state.user.displayName).toBe('Alex Mercer');
+      expect(state.user.uid).toBe('demo-user-admin');
+      expect(state.user.displayName).toBe('Arun Administrator');
       expect(state.user.role).toBe('ADMIN');
     });
 

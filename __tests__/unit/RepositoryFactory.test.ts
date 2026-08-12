@@ -20,6 +20,13 @@ describe('RepositoryFactory Unit Tests', () => {
     expect(repo).toBeInstanceOf(MockEventRepository);
   });
 
+  it('exposes auth and user repositories', () => {
+    const userRepo = RepositoryFactory.getUserRepository();
+    const authRepo = RepositoryFactory.getAuthRepository();
+    expect(userRepo).toBeDefined();
+    expect(authRepo).toBeDefined();
+  });
+
   it('returns the singleton repository instance on subsequent calls', () => {
     const instance1 = RepositoryFactory.getEventRepository();
     const instance2 = RepositoryFactory.getEventRepository();

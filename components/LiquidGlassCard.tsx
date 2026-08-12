@@ -10,6 +10,8 @@ interface LiquidGlassCardProps {
   onPress?: () => void;
   glowColor?: string;
   intensity?: number;
+  /** Disable BlurView in lists — solid card bg is much cheaper on Android/iOS */
+  blurEnabled?: boolean;
 }
 
 export const LiquidGlassCard: React.FC<LiquidGlassCardProps> = ({
@@ -18,6 +20,7 @@ export const LiquidGlassCard: React.FC<LiquidGlassCardProps> = ({
   onPress,
   glowColor,
   intensity,
+  blurEnabled = true,
 }) => {
   const { theme } = useTheme();
   const isWeb = Platform.OS === 'web';
@@ -40,7 +43,7 @@ export const LiquidGlassCard: React.FC<LiquidGlassCardProps> = ({
             } as any),
         ]}
       >
-        {Platform.OS !== 'web' ? (
+        {blurEnabled && Platform.OS !== 'web' ? (
           <BlurView
             intensity={blurIntensity}
             tint={theme.isDark ? 'dark' : 'light'}
