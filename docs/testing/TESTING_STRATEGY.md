@@ -163,7 +163,7 @@ Self-hosted runners, SaaS visual CI, or large refactors.
 
 | ID | Item | Effort | Notes |
 |----|------|--------|-------|
-| P4-1 | Maestro native E2E in CI (self-hosted Mac) | L | ✅ `maestro-native.yml` + `docs/CI_CD_PLAN.md` |
+| P4-1 | Maestro native E2E in CI (self-hosted Mac) | L | ⛔ Workflow disabled — local only (`CI_CD_PLAN.md`) |
 | P4-2 | Chromatic or Percy on web export | L | ➖ Deferred — pixelmatch covers PR visual gate |
 | P4-3 | Detox evaluation if Maestro insufficient | L | ✅ `docs/testing/DETOX_EVALUATION.md` — defer adoption |
 | P4-4 | Fastlane iOS screenshot lane | L | ➖ Deferred — EAS Build/Submit replaces Fastlane |
@@ -193,7 +193,7 @@ Single list of all outstanding work (testing, performance, architecture, CI). **
 | ✅ | Integration — RSVP → count updates | 2 |
 | ✅ | Loading / empty state snapshot matrix | 2 |
 | ✅ | Playwright — category pill + search | 2 |
-| ✅ | Maestro native flows in CI | 4 |
+| ⛔ | Maestro native flows in CI (disabled) | 4 |
 | ➖ | Chromatic/Percy visual regression | 4 |
 | ✅ | Detox evaluation (deferred; see DETOX_EVALUATION.md) | 4 |
 | ✅ | PNG `pixelmatch` diff in CI | 3 |
@@ -236,10 +236,10 @@ Single list of all outstanding work (testing, performance, architecture, CI). **
 | ✅ | Maestro YAML stubs (local) | 1 |
 | ✅ | `ui-screenshots.yml` + `web-e2e.yml` workflows | 1 |
 | ✅ | Screenshot diff on PR (pixelmatch) | 3 |
-| ✅ | Maestro on self-hosted Mac runner | 4 |
+| ⛔ | Maestro on self-hosted Mac runner (disabled) | 4 |
 | ➖ | Fastlane iOS screenshot lane | 4 |
-| ✅ | CI/CD plan (Expo 55 + EAS) | — | `docs/CI_CD_PLAN.md` |
-| ✅ | Quality gate + release workflows | — | `quality.yml`, `release.yml` |
+| ✅ | CI/CD plan (GitHub Actions only) | — | `docs/CI_CD_PLAN.md` |
+| ✅ | Sole active workflow `ci.yml` | — | quality + web-e2e + screenshots |
 
 ---
 
