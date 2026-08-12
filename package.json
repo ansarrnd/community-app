@@ -26,7 +26,10 @@
     "screenshots:native:android": "maestro test .maestro/android/screenshots.yaml",
     "screenshots:candidate": "node scripts/capture-screenshots.mjs --candidate",
     "screenshots:compare": "node scripts/compare-screenshots.mjs",
-    "bundle:check": "node scripts/check-bundle-size.mjs"
+    "bundle:check": "node scripts/check-bundle-size.mjs",
+    "ci": "bash scripts/ci-local.sh",
+    "ci:fast": "bash scripts/ci-local.sh --fast",
+    "ci:install": "bash scripts/ci-local.sh --no-install"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
