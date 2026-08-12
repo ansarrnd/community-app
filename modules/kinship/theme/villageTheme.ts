@@ -1,3 +1,28 @@
+import { darkThemeColors, lightThemeColors, ThemeColors } from '../../../constants/theme';
+
+type VillageCoreColors = {
+  primary: string;
+  secondary: string;
+  background: string;
+  surface: string;
+  textPrimary: string;
+  textMuted: string;
+  border: string;
+};
+
+function syncCoreColorsFromAppTheme(isDark: boolean): VillageCoreColors {
+  const app: ThemeColors = isDark ? darkThemeColors : lightThemeColors;
+  return {
+    primary: app.accentTeal,
+    secondary: app.accentCyan,
+    background: app.bgCanvas,
+    surface: app.bgCardSolid,
+    textPrimary: app.textPrimary,
+    textMuted: app.textMuted,
+    border: app.borderCard,
+  };
+}
+
 export const VillageThemeLight = {
   colors: {
     primary: '#C85A32',
@@ -202,13 +227,27 @@ export function getVillageTheme(
   isDark: boolean = false,
   preset: keyof typeof DarkThemes = 'NILAVILAKKU_KANCHEEPURAM_MIDNIGHT'
 ) {
+  const appSynced = syncCoreColorsFromAppTheme(isDark);
+
   if (!isDark) {
-    return VillageThemeLight;
+    return {
+      ...VillageThemeLight,
+      colors: {
+        ...VillageThemeLight.colors,
+        ...appSynced,
+      },
+    };
   }
+
   const darkConfig = DarkThemes[preset] || DarkThemes.NILAVILAKKU_KANCHEEPURAM_MIDNIGHT;
+  const useAppSync = preset === 'NILAVILAKKU_KANCHEEPURAM_MIDNIGHT';
+
   return {
     ...VillageThemeLight,
-    colors: darkConfig.colors,
+    colors: {
+      ...darkConfig.colors,
+      ...(useAppSync ? appSynced : {}),
+    },
     shadows: {
       card: {
         shadowColor: '#000',

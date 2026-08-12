@@ -2,9 +2,9 @@ import React from 'react';
 import { View, ScrollView, TextInput, Pressable, StyleSheet } from 'react-native';
 import { Users, UserPlus, Trash2 } from 'lucide-react-native';
 import { EventMemberInput } from '../domain/types';
-import { SegmentPill } from '../../../components/ui';
-import { ThemedText } from '../../../components/ThemedText';
-import { useTheme } from '../../../context/ThemeContext';
+import { SegmentPill } from '@/components/ui';
+import { ThemedText } from '@/components/ThemedText';
+import { useTheme } from '@/context/ThemeContext';
 
 export const KINSHIP_OPTIONS = [
   { id: 'MAMA', label: 'Mama / Mother Brother (மாமா)' },

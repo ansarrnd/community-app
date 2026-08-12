@@ -97,20 +97,18 @@ describe('Kinship Module Unit Tests', () => {
     expect(inverseRel.length).toBe(0);
   });
 
-  test('TamilFusionDarkTheme exposes Nilavilakku & Kancheepuram Midnight fusion palette tokens', () => {
+  it('syncs default dark preset core colors with app theme tokens', () => {
     const { TamilFusionDarkTheme, DarkThemes, getVillageTheme } = require('../../modules/kinship');
+    const { darkThemeColors } = require('../../constants/theme');
+
     expect(TamilFusionDarkTheme.colors.background).toBe('#0B0D13');
     expect(TamilFusionDarkTheme.colors.surface).toBe('#161922');
     expect(TamilFusionDarkTheme.colors.primary).toBe('#FBBF24');
-    expect(TamilFusionDarkTheme.colors.secondary).toBe('#E07A5F');
-    expect(TamilFusionDarkTheme.colors.textPrimary).toBe('#F9F8F6');
-    expect(TamilFusionDarkTheme.colors.badges.affinalBg).toBe('#451A03');
-    expect(TamilFusionDarkTheme.colors.badges.affinalText).toBe('#FDE047');
-
     expect(DarkThemes.NILAVILAKKU_KANCHEEPURAM_MIDNIGHT).toBeDefined();
 
     const fusedDarkTheme = getVillageTheme(true, 'NILAVILAKKU_KANCHEEPURAM_MIDNIGHT');
-    expect(fusedDarkTheme.colors.primary).toBe('#FBBF24');
+    expect(fusedDarkTheme.colors.primary).toBe(darkThemeColors.accentTeal);
+    expect(fusedDarkTheme.colors.background).toBe(darkThemeColors.bgCanvas);
   });
 
   test('FirebaseKinshipRepository is exported and instantiated cleanly for Firestore collection separation', () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import { Image as ExpoImage } from 'expo-image';
-import { glassTheme } from '../constants/glassTheme';
+import { themeRadius } from '../constants/theme';
 
 interface EventImageProps {
   uri?: string;
@@ -14,7 +14,7 @@ const DEFAULT_EVENT_IMAGE = 'https://images.unsplash.com/photo-1511795409834-ef0
 export const EventImage: React.FC<EventImageProps> = ({
   uri,
   height = 180,
-  borderRadius = glassTheme.borderRadius.md,
+  borderRadius = themeRadius.md,
 }) => {
   const imageSource = uri || DEFAULT_EVENT_IMAGE;
 

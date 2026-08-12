@@ -12,6 +12,7 @@ module.exports = {
     'domain/**/*.{ts,tsx}',
     'infrastructure/**/*.{ts,tsx}',
     'application/**/*.{ts,tsx}',
+    'app/**/*.{ts,tsx}',
     'utils/**/*.{ts,tsx}',
     'context/**/*.{ts,tsx}',
     'components/**/*.{ts,tsx}',
