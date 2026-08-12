@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Pressable, Alert, Platform, ScrollView } from 'react-native';
+import { View, StyleSheet, Alert, Platform, ScrollView } from 'react-native';
 import { usePendingEvents, useModerateEventMutation } from '../../application/hooks/useEventsQuery';
 import { useAuthStore } from '../../application/stores/useAuthStore';
 import { useRoleGuard } from '../../application/hooks/useRoleGuard';
 import { LiquidGlassCard } from '../../components/LiquidGlassCard';
 import { RoleBadge } from '../../components/RoleBadge';
 import { ThemedText } from '../../components/ThemedText';
+import { ActionChip } from '../../components/ActionChip';
 import { useTheme } from '../../context/ThemeContext';
 import { useLayoutInsets } from '../../application/hooks/useLayoutInsets';
 import { ShieldAlert, Send, CheckCircle, XCircle } from 'lucide-react-native';
@@ -118,37 +119,28 @@ export default function AdminModerationScreen() {
               </ThemedText>
 
               <View style={styles.actionRow}>
-                <Pressable
+                <ActionChip
+                  variant="success"
+                  label="Approve & Publish"
+                  icon={<CheckCircle size={15} color={theme.colors.roleUser} style={{ marginRight: 0 }} />}
                   onPress={() => handleModerate(item.id, 'APPROVED')}
-                  style={({ pressed }) => [styles.approveBtn, pressed && { opacity: 0.8 }]}
-                >
-                  <CheckCircle size={15} color={theme.colors.roleUser} style={{ marginRight: 4 }} />
-                  <ThemedText variant="caption" bold style={{ color: theme.colors.roleUser }}>
-                    Approve & Publish
-                  </ThemedText>
-                </Pressable>
+                />
 
-                <Pressable
+                <ActionChip
+                  variant="danger"
+                  label="Reject"
+                  icon={<XCircle size={15} color={theme.colors.accentPink} style={{ marginRight: 0 }} />}
                   onPress={() => handleModerate(item.id, 'REJECTED')}
-                  style={({ pressed }) => [styles.rejectBtn, pressed && { opacity: 0.8 }]}
-                >
-                  <XCircle size={15} color={theme.colors.accentPink} style={{ marginRight: 4 }} />
-                  <ThemedText variant="caption" bold style={{ color: theme.colors.accentPink }}>
-                    Reject
-                  </ThemedText>
-                </Pressable>
+                />
 
                 {isAdmin && (
-                  <Pressable
-                    onPress={() => handleBroadcast(item)}
+                  <ActionChip
+                    variant="accent"
+                    label={broadcastingId === item.id ? 'Sending...' : 'WA Broadcast'}
                     disabled={broadcastingId === item.id}
-                    style={({ pressed }) => [styles.broadcastBtn, pressed && { opacity: 0.8 }]}
-                  >
-                    <Send size={14} color={theme.colors.accentTeal} style={{ marginRight: 4 }} />
-                    <ThemedText variant="caption" bold style={{ color: theme.colors.accentTeal }}>
-                      {broadcastingId === item.id ? 'Sending...' : 'WA Broadcast'}
-                    </ThemedText>
-                  </Pressable>
+                    icon={<Send size={14} color={theme.colors.segmentTextActive} style={{ marginRight: 0 }} />}
+                    onPress={() => handleBroadcast(item)}
+                  />
                 )}
               </View>
             </LiquidGlassCard>
@@ -194,35 +186,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-  },
-  approveBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 230, 118, 0.18)',
-    borderColor: '#00E676',
-    borderWidth: 1,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 8,
-  },
-  rejectBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 42, 109, 0.18)',
-    borderColor: '#FF2A6D',
-    borderWidth: 1,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 8,
-  },
-  broadcastBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 242, 254, 0.18)',
-    borderColor: '#00F2FE',
-    borderWidth: 1,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 8,
   },
 });

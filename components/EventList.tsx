@@ -5,6 +5,7 @@ import { CommunityEvent } from '../domain/models/Event';
 import { LiquidGlassCard } from './LiquidGlassCard';
 import { EventImage } from './EventImage';
 import { ThemedText } from './ThemedText';
+import { ActionChip } from './ActionChip';
 import { useTheme } from '../context/ThemeContext';
 import { useLayoutInsets } from '../application/hooks/useLayoutInsets';
 import { MapPin, Calendar, Clock, Share2, CheckCircle2, XCircle } from 'lucide-react-native';
@@ -136,77 +137,67 @@ export const EventList: React.FC<EventListProps> = ({
           {/* RSVP Status / Buttons */}
           {isApproved && onRsvp && (
             <View style={styles.rsvpContainer}>
-              <Pressable
-                style={({ pressed }) => [
-                  styles.rsvpChip,
-                  userRsvpStatus === 'ATTENDING'
-                    ? { backgroundColor: 'rgba(0, 230, 118, 0.25)', borderColor: theme.colors.roleUser }
-                    : { backgroundColor: theme.colors.bgInput, borderColor: theme.colors.borderInput },
-                  pressed && { opacity: 0.8 },
-                ]}
+              <ActionChip
+                variant="success"
+                selected={userRsvpStatus === 'ATTENDING'}
+                compact
+                style={styles.rsvpChipSpacing}
+                icon={
+                  <CheckCircle2
+                    size={14}
+                    color={
+                      userRsvpStatus === 'ATTENDING' ? theme.colors.roleUser : theme.colors.textMuted
+                    }
+                  />
+                }
+                label={`Going (${item.attendingCount})`}
                 onPress={(e) => {
                   e.stopPropagation();
                   onRsvp(item.id, 'ATTENDING');
                 }}
-              >
-                <CheckCircle2
-                  size={14}
-                  color={userRsvpStatus === 'ATTENDING' ? theme.colors.roleUser : theme.colors.textMuted}
-                />
-                <ThemedText variant="caption" bold style={{ marginLeft: 4 }}>
-                  Going ({item.attendingCount})
-                </ThemedText>
-              </Pressable>
+              />
 
-              <Pressable
-                style={({ pressed }) => [
-                  styles.rsvpChip,
-                  userRsvpStatus === 'DECLINED'
-                    ? { backgroundColor: 'rgba(255, 42, 109, 0.25)', borderColor: theme.colors.accentPink }
-                    : { backgroundColor: theme.colors.bgInput, borderColor: theme.colors.borderInput },
-                  pressed && { opacity: 0.8 },
-                ]}
+              <ActionChip
+                variant="danger"
+                selected={userRsvpStatus === 'DECLINED'}
+                compact
+                style={styles.rsvpChipSpacing}
+                icon={
+                  <XCircle
+                    size={14}
+                    color={
+                      userRsvpStatus === 'DECLINED' ? theme.colors.accentPink : theme.colors.textMuted
+                    }
+                  />
+                }
+                label="No"
                 onPress={(e) => {
                   e.stopPropagation();
                   onRsvp(item.id, 'DECLINED');
                 }}
-              >
-                <XCircle
-                  size={14}
-                  color={userRsvpStatus === 'DECLINED' ? theme.colors.accentPink : theme.colors.textMuted}
-                />
-                <ThemedText variant="caption" bold style={{ marginLeft: 4 }}>
-                  No
-                </ThemedText>
-              </Pressable>
+              />
             </View>
           )}
 
-          {/* Moderation Controls (MOD / ADMIN only) */}
           {showModerationControls && onModerate && item.status === 'PENDING' && (
             <View style={styles.moderationContainer}>
-              <Pressable
-                style={({ pressed }) => [styles.approveBtn, pressed && { opacity: 0.8 }]}
+              <ActionChip
+                variant="success"
+                label="Approve"
+                style={styles.moderationChipSpacing}
                 onPress={(e) => {
                   e.stopPropagation();
                   onModerate(item.id, 'APPROVED');
                 }}
-              >
-                <ThemedText variant="caption" bold style={{ color: theme.colors.roleUser }}>
-                  Approve
-                </ThemedText>
-              </Pressable>
-              <Pressable
-                style={({ pressed }) => [styles.rejectBtn, pressed && { opacity: 0.8 }]}
+              />
+              <ActionChip
+                variant="danger"
+                label="Reject"
                 onPress={(e) => {
                   e.stopPropagation();
                   onModerate(item.id, 'REJECTED');
                 }}
-              >
-                <ThemedText variant="caption" bold style={{ color: theme.colors.accentPink }}>
-                  Reject
-                </ThemedText>
-              </Pressable>
+              />
             </View>
           )}
         </View>
@@ -308,35 +299,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  rsvpChip: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 999,
-    borderWidth: 1,
+  rsvpChipSpacing: {
     marginLeft: 6,
   },
   moderationContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  approveBtn: {
-    backgroundColor: 'rgba(0, 230, 118, 0.22)',
-    borderColor: '#00E676',
-    borderWidth: 1,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
+  moderationChipSpacing: {
     marginRight: 6,
-  },
-  rejectBtn: {
-    backgroundColor: 'rgba(255, 42, 109, 0.22)',
-    borderColor: '#FF2A6D',
-    borderWidth: 1,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
   },
   emptyContainer: {
     padding: 30,

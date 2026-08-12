@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, ScrollView, TextInput, Pressable, StyleSheet } from 'react-native';
+import { View, ScrollView, TextInput, Pressable, StyleSheet, Text } from 'react-native';
 import { Users, UserPlus, Trash2 } from 'lucide-react-native';
 import { EventMemberInput } from '../domain/types';
-import { TAMIL_RELATIONSHIPS } from '../taxonomy/tamilTaxonomy';
-import { getVillageTheme } from '../theme/villageTheme';
+import { SegmentPill } from '../../../components/SegmentPill';
+import { useTheme } from '../../../context/ThemeContext';
 
 export const KINSHIP_OPTIONS = [
   { id: 'MAMA', label: 'Mama / Mother Brother (மாமா)' },
@@ -23,7 +23,6 @@ export const KINSHIP_OPTIONS = [
 export interface KinshipMemberPickerProps {
   members: EventMemberInput[];
   onChange: (members: EventMemberInput[]) => void;
-  isDark?: boolean;
   inputBgColor?: string;
   borderColor?: string;
   textColor?: string;
@@ -33,13 +32,13 @@ export interface KinshipMemberPickerProps {
 export const KinshipMemberPicker: React.FC<KinshipMemberPickerProps> = ({
   members,
   onChange,
-  isDark = false,
   inputBgColor = '#FFFFFF',
   borderColor = '#E6E1DA',
   textColor = '#1E1E1E',
   mutedTextColor = '#706C61',
 }) => {
-  const theme = getVillageTheme(isDark);
+  const { theme } = useTheme();
+  const accentColor = theme.colors.accentTeal;
 
   const handleAddMember = () => {
     onChange([
@@ -68,24 +67,22 @@ export const KinshipMemberPicker: React.FC<KinshipMemberPickerProps> = ({
     <View style={styles.container}>
       <View style={styles.headerRow}>
         <View style={styles.titleRow}>
-          <Users size={18} color={theme.colors.primary} style={{ marginRight: 6 }} />
+          <Users size={18} color={accentColor} style={{ marginRight: 6 }} />
           <Pressable style={styles.titleText}>
             <View>
               <TextInput
                 editable={false}
                 value="Family & Village Members (Kinship Mapping)"
-                style={{ fontWeight: '700', fontSize: 15, color: theme.colors.primary }}
+                style={{ fontWeight: '700', fontSize: 15, color: accentColor }}
               />
             </View>
           </Pressable>
         </View>
-        <Pressable onPress={handleAddMember} style={[styles.addBtn, { backgroundColor: theme.colors.primary + '22' }]}>
-          <UserPlus size={14} color={theme.colors.primary} style={{ marginRight: 4 }} />
-          <TextInput
-            editable={false}
-            value="Add Member"
-            style={{ fontSize: 12, fontWeight: '700', color: theme.colors.primary }}
-          />
+        <Pressable onPress={handleAddMember} style={[styles.addBtn, { backgroundColor: accentColor + '22' }]}>
+          <UserPlus size={14} color={accentColor} style={{ marginRight: 4 }} />
+          <Text style={{ fontSize: 12, fontWeight: '700', color: accentColor }}>
+            Add Member
+          </Text>
         </Pressable>
       </View>
 
@@ -111,7 +108,7 @@ export const KinshipMemberPicker: React.FC<KinshipMemberPickerProps> = ({
               <TextInput
                 editable={false}
                 value={`Member #${index + 1}`}
-                style={{ fontSize: 12, fontWeight: '700', color: theme.colors.primary }}
+                style={{ fontSize: 12, fontWeight: '700', color: accentColor }}
               />
               <Pressable onPress={() => handleRemoveMember(index)}>
                 <Trash2 size={16} color="#FF3B30" />
@@ -138,32 +135,15 @@ export const KinshipMemberPicker: React.FC<KinshipMemberPickerProps> = ({
                 style={{ fontSize: 12, fontWeight: '700', marginBottom: 4, color: textColor }}
               />
               <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flexDirection: 'row' }}>
-                {KINSHIP_OPTIONS.map((opt) => {
-                  const isSel = member.relationshipTypeToOrganizer === opt.id;
-                  return (
-                    <Pressable
-                      key={opt.id}
-                      onPress={() => handleUpdateMember(index, 'relationshipTypeToOrganizer', opt.id)}
-                      style={[
-                        styles.chip,
-                        {
-                          borderColor: isSel ? theme.colors.primary : borderColor,
-                          backgroundColor: isSel ? theme.colors.primary + '22' : 'transparent',
-                        },
-                      ]}
-                    >
-                      <TextInput
-                        editable={false}
-                        value={opt.label}
-                        style={{
-                          fontSize: 11,
-                          color: isSel ? theme.colors.primary : mutedTextColor,
-                          fontWeight: isSel ? '700' : '400',
-                        }}
-                      />
-                    </Pressable>
-                  );
-                })}
+                {KINSHIP_OPTIONS.map((opt) => (
+                  <SegmentPill
+                    key={opt.id}
+                    label={opt.label}
+                    compact
+                    selected={member.relationshipTypeToOrganizer === opt.id}
+                    onPress={() => handleUpdateMember(index, 'relationshipTypeToOrganizer', opt.id)}
+                  />
+                ))}
               </ScrollView>
             </View>
 
@@ -183,8 +163,8 @@ export const KinshipMemberPicker: React.FC<KinshipMemberPickerProps> = ({
                     {
                       backgroundColor:
                         member.contextTag === 'In-Village'
-                          ? theme.colors.tags.inVillageBg
-                          : theme.colors.tags.outVillageBg,
+                          ? theme.colors.accentGreen + '33'
+                          : theme.colors.accentCyan + '33',
                     },
                   ]}
                 >
@@ -196,8 +176,8 @@ export const KinshipMemberPicker: React.FC<KinshipMemberPickerProps> = ({
                       fontWeight: '700',
                       color:
                         member.contextTag === 'In-Village'
-                          ? theme.colors.tags.inVillageText
-                          : theme.colors.tags.outVillageText,
+                          ? theme.colors.accentGreen
+                          : theme.colors.accentCyan,
                     }}
                   />
                 </Pressable>
@@ -251,13 +231,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 6,
     fontSize: 13,
-  },
-  chip: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
-    borderWidth: 1,
-    marginRight: 4,
   },
   contextRow: {
     flexDirection: 'row',

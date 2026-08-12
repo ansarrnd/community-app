@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, Pressable, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { useAuthStore } from '../../application/stores/useAuthStore';
 import { useUserRsvps } from '../../application/hooks/useEventsQuery';
 import { LiquidGlassCard } from '../../components/LiquidGlassCard';
 import { RoleBadge } from '../../components/RoleBadge';
 import { ThemedText } from '../../components/ThemedText';
+import { SegmentPill } from '../../components/SegmentPill';
+import { SelectableCard } from '../../components/SelectableCard';
 import { useTheme } from '../../context/ThemeContext';
 import { useLayoutInsets } from '../../application/hooks/useLayoutInsets';
 import { ThemeMode } from '../../constants/theme';
@@ -77,36 +79,19 @@ export default function ProfileScreen() {
           const isSelected = themeMode === opt.id;
           const IconComponent = opt.icon;
           return (
-            <Pressable
+            <SegmentPill
               key={opt.id}
+              label={opt.label}
+              selected={isSelected}
+              flex
+              icon={
+                <IconComponent
+                  size={16}
+                  color={isSelected ? theme.colors.segmentTextActive : theme.colors.segmentText}
+                />
+              }
               onPress={() => setThemeMode(opt.id)}
-              style={({ pressed }) => [
-                styles.themeOptionBtn,
-                isSelected
-                  ? {
-                      backgroundColor: theme.colors.segmentBgActive,
-                      borderColor: theme.colors.segmentBorderActive,
-                    }
-                  : {
-                      backgroundColor: theme.colors.segmentBg,
-                      borderColor: theme.colors.segmentBorder,
-                    },
-                pressed && { opacity: 0.85 },
-              ]}
-            >
-              <IconComponent
-                size={16}
-                color={isSelected ? theme.colors.segmentTextActive : theme.colors.segmentText}
-                style={{ marginRight: 6 }}
-              />
-              <ThemedText
-                variant="caption"
-                bold={isSelected}
-                style={{ color: isSelected ? theme.colors.segmentTextActive : theme.colors.segmentText }}
-              >
-                {opt.label}
-              </ThemedText>
-            </Pressable>
+            />
           );
         })}
       </View>
@@ -120,41 +105,16 @@ export default function ProfileScreen() {
       </ThemedText>
 
       <View style={styles.roleList}>
-        {ROLES.map((r) => {
-          const isSelected = user.role === r.id;
-          return (
-            <Pressable
-              key={r.id}
-              onPress={() => setRole(r.id)}
-              style={[
-                styles.roleCard,
-                isSelected
-                  ? {
-                      backgroundColor: theme.colors.segmentBgActive,
-                      borderColor: theme.colors.segmentBorderActive,
-                    }
-                  : {
-                      backgroundColor: theme.colors.segmentBg,
-                      borderColor: theme.colors.segmentBorder,
-                    },
-              ]}
-            >
-              <View style={styles.roleCardHeader}>
-                <ThemedText
-                  variant="subtitle"
-                  bold={isSelected}
-                  style={{ color: isSelected ? theme.colors.accentTeal : theme.colors.textPrimary }}
-                >
-                  {r.title}
-                </ThemedText>
-                {isSelected && <CheckCircle2 size={16} color={theme.colors.accentTeal} />}
-              </View>
-              <ThemedText variant="caption" muted style={{ marginTop: 2 }}>
-                {r.desc}
-              </ThemedText>
-            </Pressable>
-          );
-        })}
+        {ROLES.map((r) => (
+          <SelectableCard
+            key={r.id}
+            title={r.title}
+            description={r.desc}
+            selected={user.role === r.id}
+            trailingIcon={<CheckCircle2 size={16} color={theme.colors.segmentTextActive} />}
+            onPress={() => setRole(r.id)}
+          />
+        ))}
       </View>
 
       {/* RSVPs & Activity Summary */}
@@ -233,29 +193,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     gap: 8,
   },
-  themeOptionBtn: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    borderRadius: 14,
-    borderWidth: 1,
-  },
   roleList: {
     marginBottom: 24,
-  },
-  roleCard: {
-    padding: 14,
-    borderRadius: 14,
-    borderWidth: 1,
-    marginBottom: 10,
-  },
-  roleCardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
   emptyRsvpCard: {
     padding: 20,

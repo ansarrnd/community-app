@@ -334,7 +334,6 @@ export default function CreateEventScreen() {
       <KinshipMemberPicker
         members={attachedMembers}
         onChange={setAttachedMembers}
-        isDark={theme.isDark}
         inputBgColor={theme.colors.bgInput}
         borderColor={theme.colors.borderInput}
         textColor={theme.colors.textPrimary}
