@@ -17,7 +17,7 @@ import { EventCategory } from '../../domain/models/Event';
 import { LiquidGlassCard } from '../../components/LiquidGlassCard';
 import { EventImage } from '../../components/EventImage';
 import { ThemedText } from '../../components/ThemedText';
-import { SegmentPill } from '../../components/SegmentPill';
+import { SegmentPill } from '../../components/ui';
 import { useTheme } from '../../context/ThemeContext';
 import { useLayoutInsets } from '../../application/hooks/useLayoutInsets';
 import { platformShadow } from '../../constants/theme';
@@ -331,14 +331,7 @@ export default function CreateEventScreen() {
       />
 
       {/* Modular Kinship Network Member Picker Component */}
-      <KinshipMemberPicker
-        members={attachedMembers}
-        onChange={setAttachedMembers}
-        inputBgColor={theme.colors.bgInput}
-        borderColor={theme.colors.borderInput}
-        textColor={theme.colors.textPrimary}
-        mutedTextColor={theme.colors.textMuted}
-      />
+      <KinshipMemberPicker members={attachedMembers} onChange={setAttachedMembers} />
 
 
 
@@ -351,7 +344,7 @@ export default function CreateEventScreen() {
         style={[
           styles.imagePickerBtn,
           {
-            backgroundColor: theme.isDark ? 'rgba(0, 242, 254, 0.12)' : 'rgba(0, 122, 255, 0.08)',
+            backgroundColor: theme.colors.glowAccentSubtle,
             borderColor: theme.colors.accentTeal,
           },
         ]}

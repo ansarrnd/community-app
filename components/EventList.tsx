@@ -5,7 +5,7 @@ import { CommunityEvent } from '../domain/models/Event';
 import { LiquidGlassCard } from './LiquidGlassCard';
 import { EventImage } from './EventImage';
 import { ThemedText } from './ThemedText';
-import { ActionChip } from './ActionChip';
+import { ActionChip, getActionChipColors } from './ui/ActionChip';
 import { useTheme } from '../context/ThemeContext';
 import { useLayoutInsets } from '../application/hooks/useLayoutInsets';
 import { MapPin, Calendar, Clock, Share2, CheckCircle2, XCircle } from 'lucide-react-native';
@@ -44,10 +44,10 @@ export const EventList: React.FC<EventListProps> = ({
         onPress={() => onSelectEvent(item)}
         glowColor={
           item.category === 'MARRIAGE'
-            ? 'rgba(255, 184, 0, 0.4)'
+            ? theme.colors.glowCategoryMarriage
             : item.category === 'CULTURAL'
-            ? 'rgba(0, 242, 254, 0.4)'
-            : 'rgba(127, 0, 255, 0.4)'
+            ? theme.colors.glowCategoryCultural
+            : theme.colors.glowCategoryMeeting
         }
       >
         {/* Card Header & Badges */}
@@ -123,8 +123,7 @@ export const EventList: React.FC<EventListProps> = ({
               styles.shareBtn,
               pressed && { opacity: 0.75 },
             ]}
-            onPress={(e) => {
-              e.stopPropagation();
+            onPress={() => {
               whatsappService.shareEventToWhatsApp(item);
             }}
           >
@@ -146,13 +145,12 @@ export const EventList: React.FC<EventListProps> = ({
                   <CheckCircle2
                     size={14}
                     color={
-                      userRsvpStatus === 'ATTENDING' ? theme.colors.roleUser : theme.colors.textMuted
+                      getActionChipColors(theme.colors, 'success', userRsvpStatus === 'ATTENDING').iconColor
                     }
                   />
                 }
                 label={`Going (${item.attendingCount})`}
-                onPress={(e) => {
-                  e.stopPropagation();
+                onPress={() => {
                   onRsvp(item.id, 'ATTENDING');
                 }}
               />
@@ -166,13 +164,12 @@ export const EventList: React.FC<EventListProps> = ({
                   <XCircle
                     size={14}
                     color={
-                      userRsvpStatus === 'DECLINED' ? theme.colors.accentPink : theme.colors.textMuted
+                      getActionChipColors(theme.colors, 'danger', userRsvpStatus === 'DECLINED').iconColor
                     }
                   />
                 }
                 label="No"
-                onPress={(e) => {
-                  e.stopPropagation();
+                onPress={() => {
                   onRsvp(item.id, 'DECLINED');
                 }}
               />
@@ -185,18 +182,12 @@ export const EventList: React.FC<EventListProps> = ({
                 variant="success"
                 label="Approve"
                 style={styles.moderationChipSpacing}
-                onPress={(e) => {
-                  e.stopPropagation();
-                  onModerate(item.id, 'APPROVED');
-                }}
+                onPress={() => onModerate(item.id, 'APPROVED')}
               />
               <ActionChip
                 variant="danger"
                 label="Reject"
-                onPress={(e) => {
-                  e.stopPropagation();
-                  onModerate(item.id, 'REJECTED');
-                }}
+                onPress={() => onModerate(item.id, 'REJECTED')}
               />
             </View>
           )}

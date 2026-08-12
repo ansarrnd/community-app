@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, ScrollView, TextInput, Pressable, StyleSheet, Text } from 'react-native';
+import { View, ScrollView, TextInput, Pressable, StyleSheet } from 'react-native';
 import { Users, UserPlus, Trash2 } from 'lucide-react-native';
 import { EventMemberInput } from '../domain/types';
-import { SegmentPill } from '../../../components/SegmentPill';
+import { SegmentPill } from '../../../components/ui';
+import { ThemedText } from '../../../components/ThemedText';
 import { useTheme } from '../../../context/ThemeContext';
 
 export const KINSHIP_OPTIONS = [
@@ -23,22 +24,12 @@ export const KINSHIP_OPTIONS = [
 export interface KinshipMemberPickerProps {
   members: EventMemberInput[];
   onChange: (members: EventMemberInput[]) => void;
-  inputBgColor?: string;
-  borderColor?: string;
-  textColor?: string;
-  mutedTextColor?: string;
 }
 
-export const KinshipMemberPicker: React.FC<KinshipMemberPickerProps> = ({
-  members,
-  onChange,
-  inputBgColor = '#FFFFFF',
-  borderColor = '#E6E1DA',
-  textColor = '#1E1E1E',
-  mutedTextColor = '#706C61',
-}) => {
+export const KinshipMemberPicker: React.FC<KinshipMemberPickerProps> = ({ members, onChange }) => {
   const { theme } = useTheme();
-  const accentColor = theme.colors.accentTeal;
+  const colors = theme.colors;
+  const accentColor = colors.accentTeal;
 
   const handleAddMember = () => {
     onChange([
@@ -57,7 +48,7 @@ export const KinshipMemberPicker: React.FC<KinshipMemberPickerProps> = ({
     onChange(members.filter((_, i) => i !== index));
   };
 
-  const handleUpdateMember = (index: number, key: keyof EventMemberInput, value: any) => {
+  const handleUpdateMember = (index: number, key: keyof EventMemberInput, value: EventMemberInput[keyof EventMemberInput]) => {
     const updated = [...members];
     updated[index] = { ...updated[index], [key]: value };
     onChange(updated);
@@ -68,30 +59,23 @@ export const KinshipMemberPicker: React.FC<KinshipMemberPickerProps> = ({
       <View style={styles.headerRow}>
         <View style={styles.titleRow}>
           <Users size={18} color={accentColor} style={{ marginRight: 6 }} />
-          <Pressable style={styles.titleText}>
-            <View>
-              <TextInput
-                editable={false}
-                value="Family & Village Members (Kinship Mapping)"
-                style={{ fontWeight: '700', fontSize: 15, color: accentColor }}
-              />
-            </View>
-          </Pressable>
+          <ThemedText variant="bodyBold" style={{ color: accentColor }}>
+            Family & Village Members (Kinship Mapping)
+          </ThemedText>
         </View>
         <Pressable onPress={handleAddMember} style={[styles.addBtn, { backgroundColor: accentColor + '22' }]}>
           <UserPlus size={14} color={accentColor} style={{ marginRight: 4 }} />
-          <Text style={{ fontSize: 12, fontWeight: '700', color: accentColor }}>
+          <ThemedText variant="caption" bold style={{ color: accentColor }}>
             Add Member
-          </Text>
+          </ThemedText>
         </Pressable>
       </View>
 
       {members.length === 0 ? (
-        <TextInput
-          editable={false}
-          value='No kinship members attached yet. Tap "+ Add Member" to link family & ritual relations (e.g. Mama, Athai, Periyappa).'
-          style={{ fontSize: 12, fontStyle: 'italic', color: mutedTextColor, marginTop: 6 }}
-        />
+        <ThemedText variant="caption" muted style={styles.emptyHint}>
+          No kinship members attached yet. Tap &quot;+ Add Member&quot; to link family & ritual relations (e.g. Mama,
+          Athai, Periyappa).
+        </ThemedText>
       ) : (
         members.map((member, index) => (
           <View
@@ -99,42 +83,43 @@ export const KinshipMemberPicker: React.FC<KinshipMemberPickerProps> = ({
             style={[
               styles.card,
               {
-                borderColor,
-                backgroundColor: inputBgColor,
+                borderColor: colors.borderInput,
+                backgroundColor: colors.bgInput,
               },
             ]}
           >
             <View style={styles.cardHeader}>
-              <TextInput
-                editable={false}
-                value={`Member #${index + 1}`}
-                style={{ fontSize: 12, fontWeight: '700', color: accentColor }}
-              />
-              <Pressable onPress={() => handleRemoveMember(index)}>
+              <ThemedText variant="caption" bold style={{ color: accentColor }}>
+                Member #{index + 1}
+              </ThemedText>
+              <Pressable onPress={() => handleRemoveMember(index)} accessibilityLabel="Remove member">
                 <Trash2 size={16} color="#FF3B30" />
               </Pressable>
             </View>
 
+            <ThemedText variant="caption" bold style={styles.fieldLabel}>
+              Full Name
+            </ThemedText>
             <TextInput
-              editable={false}
-              value="Full Name"
-              style={{ fontSize: 12, fontWeight: '700', marginTop: 6, marginBottom: 2, color: textColor }}
-            />
-            <TextInput
-              style={[styles.input, { backgroundColor: inputBgColor, borderColor, color: textColor }]}
+              style={[
+                styles.input,
+                {
+                  backgroundColor: colors.bgInput,
+                  borderColor: colors.borderInput,
+                  color: colors.textPrimary,
+                },
+              ]}
               placeholder="e.g. Kandasamy / Valliammai"
-              placeholderTextColor={mutedTextColor}
+              placeholderTextColor={colors.textMuted}
               value={member.fullName}
               onChangeText={(val) => handleUpdateMember(index, 'fullName', val)}
             />
 
-            <View style={{ marginTop: 6 }}>
-              <TextInput
-                editable={false}
-                value="Kinship Relation"
-                style={{ fontSize: 12, fontWeight: '700', marginBottom: 4, color: textColor }}
-              />
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flexDirection: 'row' }}>
+            <View style={styles.relationSection}>
+              <ThemedText variant="caption" bold style={styles.fieldLabel}>
+                Kinship Relation
+              </ThemedText>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 {KINSHIP_OPTIONS.map((opt) => (
                   <SegmentPill
                     key={opt.id}
@@ -148,40 +133,37 @@ export const KinshipMemberPicker: React.FC<KinshipMemberPickerProps> = ({
             </View>
 
             <View style={styles.contextRow}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <TextInput editable={false} value="Context:" style={{ fontSize: 12, color: textColor, marginRight: 6 }} />
-                <Pressable
-                  onPress={() =>
-                    handleUpdateMember(
-                      index,
-                      'contextTag',
-                      member.contextTag === 'In-Village' ? 'Out-Village' : 'In-Village'
-                    )
-                  }
-                  style={[
-                    styles.tagBadge,
-                    {
-                      backgroundColor:
-                        member.contextTag === 'In-Village'
-                          ? theme.colors.accentGreen + '33'
-                          : theme.colors.accentCyan + '33',
-                    },
-                  ]}
+              <ThemedText variant="caption" style={{ marginRight: 6 }}>
+                Context:
+              </ThemedText>
+              <Pressable
+                onPress={() =>
+                  handleUpdateMember(
+                    index,
+                    'contextTag',
+                    member.contextTag === 'In-Village' ? 'Out-Village' : 'In-Village'
+                  )
+                }
+                style={[
+                  styles.tagBadge,
+                  {
+                    backgroundColor:
+                      member.contextTag === 'In-Village'
+                        ? colors.accentGreen + '33'
+                        : colors.accentCyan + '33',
+                  },
+                ]}
+              >
+                <ThemedText
+                  variant="caption"
+                  bold
+                  style={{
+                    color: member.contextTag === 'In-Village' ? colors.accentGreen : colors.accentCyan,
+                  }}
                 >
-                  <TextInput
-                    editable={false}
-                    value={member.contextTag || 'In-Village'}
-                    style={{
-                      fontSize: 12,
-                      fontWeight: '700',
-                      color:
-                        member.contextTag === 'In-Village'
-                          ? theme.colors.accentGreen
-                          : theme.colors.accentCyan,
-                    }}
-                  />
-                </Pressable>
-              </View>
+                  {member.contextTag || 'In-Village'}
+                </ThemedText>
+              </Pressable>
             </View>
           </View>
         ))
@@ -203,9 +185,7 @@ const styles = StyleSheet.create({
   titleRow: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  titleText: {
-    flexDirection: 'row',
+    flex: 1,
   },
   addBtn: {
     flexDirection: 'row',
@@ -213,6 +193,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 12,
+  },
+  emptyHint: {
+    marginTop: 6,
+    fontStyle: 'italic',
   },
   card: {
     marginTop: 10,
@@ -225,6 +209,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  fieldLabel: {
+    marginTop: 6,
+    marginBottom: 2,
+  },
   input: {
     borderWidth: 1,
     borderRadius: 10,
@@ -232,11 +220,13 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     fontSize: 13,
   },
+  relationSection: {
+    marginTop: 6,
+  },
   contextRow: {
     flexDirection: 'row',
     marginTop: 8,
     alignItems: 'center',
-    justifyContent: 'space-between',
   },
   tagBadge: {
     paddingHorizontal: 10,

@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, TextInput, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useApprovedEvents, useRsvpMutation, useUserRsvps } from '../../application/hooks/useEventsQuery';
 import { useFilterStore } from '../../application/stores/useFilterStore';
 import { useAuthStore } from '../../application/stores/useAuthStore';
 import { EventList } from '../../components/EventList';
 import { ThemedText } from '../../components/ThemedText';
-import { SegmentPill } from '../../components/SegmentPill';
+import { SegmentPill, SearchField } from '../../components/ui';
 import { useTheme } from '../../context/ThemeContext';
 import { Search, Sparkles } from 'lucide-react-native';
 import { CommunityEvent } from '../../domain/models/Event';
@@ -38,27 +38,14 @@ export default function ExploreEventsScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Search Input Bar */}
-      <View
-        style={[
-          styles.searchBarContainer,
-          {
-            backgroundColor: theme.colors.bgInput,
-            borderColor: theme.colors.borderInput,
-          },
-        ]}
-      >
-        <Search size={18} color={theme.colors.textMuted} style={styles.searchIcon} />
-        <TextInput
-          style={[styles.searchInput, { color: theme.colors.textPrimary }]}
-          placeholder="Search events, venues, topics..."
-          placeholderTextColor={theme.colors.textMuted}
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-        />
-      </View>
+      <SearchField
+        containerStyle={styles.searchBarContainer}
+        leadingIcon={<Search size={18} color={theme.colors.textMuted} style={styles.searchIcon} />}
+        placeholder="Search events, venues, topics..."
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+      />
 
-      {/* Category Pills Slider */}
       <View style={styles.categoriesWrapper}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.categoriesContainer}>
           {CATEGORIES.map((cat) => (
@@ -72,7 +59,6 @@ export default function ExploreEventsScreen() {
         </ScrollView>
       </View>
 
-      {/* Events Feed Section */}
       <View style={styles.feedHeader}>
         <Sparkles size={16} color={theme.colors.accentTeal} style={{ marginRight: 6 }} />
         <ThemedText variant="subtitle" bold>
@@ -107,21 +93,10 @@ const styles = StyleSheet.create({
     paddingTop: 12,
   },
   searchBarContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderRadius: 999,
-    paddingHorizontal: 14,
-    height: 46,
     marginBottom: 12,
   },
   searchIcon: {
     marginRight: 8,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 14,
-    fontFamily: undefined,
   },
   categoriesWrapper: {
     marginBottom: 14,

@@ -7,7 +7,7 @@ import { useAuthStore } from '../../application/stores/useAuthStore';
 import { LiquidGlassCard } from '../../components/LiquidGlassCard';
 import { EventImage } from '../../components/EventImage';
 import { ThemedText } from '../../components/ThemedText';
-import { ActionChip } from '../../components/ActionChip';
+import { ActionChip, getActionChipColors } from '../../components/ui';
 import { useTheme } from '../../context/ThemeContext';
 import { useLayoutInsets } from '../../application/hooks/useLayoutInsets';
 import { platformShadow } from '../../constants/theme';
@@ -166,7 +166,7 @@ export default function EventDetailScreen() {
 
       {/* Attached Family & Kinship Members */}
       {event.attachedMembers && event.attachedMembers.length > 0 && (
-        <LiquidGlassCard style={styles.templateCard} glowColor="rgba(0, 242, 254, 0.3)">
+        <LiquidGlassCard style={styles.templateCard} glowColor={theme.colors.glowAccent}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
             <Users size={18} color={theme.colors.accentTeal} style={{ marginRight: 6 }} />
             <ThemedText variant="subtitle" bold style={{ color: theme.colors.accentTeal }}>
@@ -252,7 +252,7 @@ export default function EventDetailScreen() {
           icon={
             <CheckCircle2
               size={18}
-              color={userRsvpStatus === 'ATTENDING' ? theme.colors.roleUser : theme.colors.textMuted}
+              color={getActionChipColors(theme.colors, 'success', userRsvpStatus === 'ATTENDING').iconColor}
             />
           }
           label={`Attending (${event.attendingCount})`}
@@ -265,7 +265,7 @@ export default function EventDetailScreen() {
           icon={
             <XCircle
               size={18}
-              color={userRsvpStatus === 'DECLINED' ? theme.colors.accentPink : theme.colors.textMuted}
+              color={getActionChipColors(theme.colors, 'danger', userRsvpStatus === 'DECLINED').iconColor}
             />
           }
           label="Declined"

@@ -5,8 +5,7 @@ import { useUserRsvps } from '../../application/hooks/useEventsQuery';
 import { LiquidGlassCard } from '../../components/LiquidGlassCard';
 import { RoleBadge } from '../../components/RoleBadge';
 import { ThemedText } from '../../components/ThemedText';
-import { SegmentPill } from '../../components/SegmentPill';
-import { SelectableCard } from '../../components/SelectableCard';
+import { SegmentPill, SelectableCard } from '../../components/ui';
 import { useTheme } from '../../context/ThemeContext';
 import { useLayoutInsets } from '../../application/hooks/useLayoutInsets';
 import { ThemeMode } from '../../constants/theme';
@@ -38,13 +37,13 @@ export default function ProfileScreen() {
       contentContainerStyle={[styles.contentContainer, { paddingBottom: contentBottomPadding }]}
     >
       {/* Profile Card */}
-      <LiquidGlassCard style={styles.profileCard} glowColor="rgba(0, 242, 254, 0.4)">
+      <LiquidGlassCard style={styles.profileCard} glowColor={theme.colors.glowAccent}>
         <View style={styles.profileHeader}>
           <View
             style={[
               styles.avatarCircle,
               {
-                backgroundColor: theme.isDark ? 'rgba(0, 242, 254, 0.2)' : 'rgba(0, 122, 255, 0.15)',
+                backgroundColor: theme.colors.glowAvatarBg,
                 borderColor: theme.colors.accentTeal,
               },
             ]}

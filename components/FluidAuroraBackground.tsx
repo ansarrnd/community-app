@@ -15,10 +15,7 @@ export const FluidAuroraBackground: React.FC<{ children: React.ReactNode }> = ({
 
       {/* Aurora Mesh Node 1 - Top Left Glow */}
       <LinearGradient
-        colors={[
-          theme.isDark ? 'rgba(0, 242, 254, 0.25)' : 'rgba(0, 122, 255, 0.16)',
-          'transparent',
-        ]}
+        colors={[theme.colors.auroraPrimary, 'transparent']}
         style={[
           styles.auroraOrb,
           {

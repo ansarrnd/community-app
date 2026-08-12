@@ -44,6 +44,23 @@ export interface ThemeColors {
   segmentBorderActive: string;
   segmentText: string;
   segmentTextActive: string;
+
+  // Action chips (RSVP, moderation)
+  chipSuccessBg: string;
+  chipSuccessBorder: string;
+  chipSuccessText: string;
+  chipDangerBg: string;
+  chipDangerBorder: string;
+  chipDangerText: string;
+
+  // Accent glows (cards, avatars, aurora)
+  glowAccent: string;
+  glowAccentSubtle: string;
+  glowAvatarBg: string;
+  glowCategoryMarriage: string;
+  glowCategoryCultural: string;
+  glowCategoryMeeting: string;
+  auroraPrimary: string;
 }
 
 export const darkThemeColors: ThemeColors = {
@@ -83,6 +100,21 @@ export const darkThemeColors: ThemeColors = {
   segmentBorderActive: '#FBBF24',
   segmentText: '#F9F8F6',
   segmentTextActive: '#FBBF24',
+
+  chipSuccessBg: 'rgba(52, 211, 153, 0.22)',
+  chipSuccessBorder: '#34D399',
+  chipSuccessText: '#34D399',
+  chipDangerBg: 'rgba(255, 42, 109, 0.22)',
+  chipDangerBorder: '#FF2A6D',
+  chipDangerText: '#FF2A6D',
+
+  glowAccent: 'rgba(251, 191, 36, 0.4)',
+  glowAccentSubtle: 'rgba(251, 191, 36, 0.12)',
+  glowAvatarBg: 'rgba(251, 191, 36, 0.2)',
+  glowCategoryMarriage: 'rgba(255, 184, 0, 0.4)',
+  glowCategoryCultural: 'rgba(224, 122, 95, 0.4)',
+  glowCategoryMeeting: 'rgba(167, 139, 250, 0.4)',
+  auroraPrimary: 'rgba(251, 191, 36, 0.25)',
 };
 
 
@@ -124,6 +156,21 @@ export const lightThemeColors: ThemeColors = {
   segmentBorderActive: '#C85A32',
   segmentText: '#1E1E1E',
   segmentTextActive: '#C85A32',
+
+  chipSuccessBg: 'rgba(45, 106, 79, 0.18)',
+  chipSuccessBorder: '#2D6A4F',
+  chipSuccessText: '#2D6A4F',
+  chipDangerBg: 'rgba(190, 24, 93, 0.16)',
+  chipDangerBorder: '#BE185D',
+  chipDangerText: '#BE185D',
+
+  glowAccent: 'rgba(200, 90, 50, 0.35)',
+  glowAccentSubtle: 'rgba(200, 90, 50, 0.08)',
+  glowAvatarBg: 'rgba(200, 90, 50, 0.15)',
+  glowCategoryMarriage: 'rgba(217, 119, 6, 0.35)',
+  glowCategoryCultural: 'rgba(226, 135, 67, 0.35)',
+  glowCategoryMeeting: 'rgba(124, 58, 237, 0.25)',
+  auroraPrimary: 'rgba(200, 90, 50, 0.16)',
 };
 
 
@@ -271,12 +318,12 @@ export function getAppTheme(colorScheme: ColorSchemeName, mode: ThemeMode): AppT
     auroraMesh: isDark
       ? [
           { color: 'rgba(127, 0, 255, 0.35)', x: 0.1, y: 0.1, radius: 250 },
-          { color: 'rgba(0, 242, 254, 0.25)', x: 0.8, y: 0.3, radius: 300 },
-          { color: 'rgba(255, 8, 68, 0.25)', x: 0.5, y: 0.8, radius: 280 },
+          { color: darkThemeColors.auroraPrimary, x: 0.8, y: 0.3, radius: 300 },
+          { color: 'rgba(255, 42, 109, 0.25)', x: 0.5, y: 0.8, radius: 280 },
         ]
       : [
           { color: 'rgba(59, 130, 246, 0.18)', x: 0.1, y: 0.1, radius: 250 },
-          { color: 'rgba(147, 51, 234, 0.15)', x: 0.8, y: 0.3, radius: 300 },
+          { color: lightThemeColors.auroraPrimary, x: 0.8, y: 0.3, radius: 300 },
           { color: 'rgba(236, 72, 153, 0.15)', x: 0.5, y: 0.8, radius: 280 },
         ],
   };
@@ -289,7 +336,7 @@ export const glassTheme = {
   borderRadius: themeRadius,
   auroraMesh: [
     { color: 'rgba(127, 0, 255, 0.35)', x: 0.1, y: 0.1, radius: 250 },
-    { color: 'rgba(0, 242, 254, 0.25)', x: 0.8, y: 0.3, radius: 300 },
-    { color: 'rgba(255, 8, 68, 0.25)', x: 0.5, y: 0.8, radius: 280 },
+    { color: darkThemeColors.auroraPrimary, x: 0.8, y: 0.3, radius: 300 },
+    { color: 'rgba(255, 42, 109, 0.25)', x: 0.5, y: 0.8, radius: 280 },
   ],
 };

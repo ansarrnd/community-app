@@ -1,9 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { fireEvent } from '@testing-library/react-native';
-import { SegmentPill } from '../../components/SegmentPill';
-import { ActionChip } from '../../components/ActionChip';
-import { SelectableCard } from '../../components/SelectableCard';
+import { SegmentPill, ActionChip, SelectableCard, SearchField } from '../../components/ui';
 import { renderWithProviders } from '../helpers/renderWithProviders';
 
 describe('SegmentPill', () => {
@@ -111,6 +109,18 @@ describe('ActionChip', () => {
     );
 
     expect(getByText('Going (3)')).toBeTruthy();
+  });
+});
+
+describe('SearchField', () => {
+  it('renders placeholder and forwards text changes', () => {
+    const onChangeText = jest.fn();
+    const { getByPlaceholderText } = renderWithProviders(
+      <SearchField placeholder="Search events..." onChangeText={onChangeText} />
+    );
+
+    fireEvent.changeText(getByPlaceholderText('Search events...'), 'wedding');
+    expect(onChangeText).toHaveBeenCalledWith('wedding');
   });
 });
 

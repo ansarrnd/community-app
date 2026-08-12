@@ -58,4 +58,18 @@ describe('Theme Resolution Unit Tests', () => {
     expect(darkThemeColors.segmentBorderActive).toBe(darkThemeColors.accentTeal);
     expect(lightThemeColors.segmentBorderActive).toBe(lightThemeColors.accentTeal);
   });
+
+  it('defines action chip tokens for success and danger variants', () => {
+    expect(darkThemeColors.chipSuccessText).toBe(darkThemeColors.chipSuccessBorder);
+    expect(darkThemeColors.chipDangerText).toBe(darkThemeColors.chipDangerBorder);
+    expect(darkThemeColors.chipSuccessBg).toContain('211');
+    expect(lightThemeColors.chipDangerBg).toContain('190');
+  });
+
+  it('defines glow tokens aligned with accent palette instead of legacy cyan', () => {
+    expect(darkThemeColors.glowAccent).toContain('251');
+    expect(lightThemeColors.glowAccent).toContain('200');
+    expect(darkThemeColors.auroraPrimary).not.toContain('242');
+    expect(lightThemeColors.auroraPrimary).not.toContain('122');
+  });
 });

@@ -6,7 +6,7 @@ import { useRoleGuard } from '../../application/hooks/useRoleGuard';
 import { LiquidGlassCard } from '../../components/LiquidGlassCard';
 import { RoleBadge } from '../../components/RoleBadge';
 import { ThemedText } from '../../components/ThemedText';
-import { ActionChip } from '../../components/ActionChip';
+import { ActionChip, getActionChipColors } from '../../components/ui';
 import { useTheme } from '../../context/ThemeContext';
 import { useLayoutInsets } from '../../application/hooks/useLayoutInsets';
 import { ShieldAlert, Send, CheckCircle, XCircle } from 'lucide-react-native';
@@ -122,14 +122,24 @@ export default function AdminModerationScreen() {
                 <ActionChip
                   variant="success"
                   label="Approve & Publish"
-                  icon={<CheckCircle size={15} color={theme.colors.roleUser} style={{ marginRight: 0 }} />}
+                  icon={
+                    <CheckCircle
+                      size={15}
+                      color={getActionChipColors(theme.colors, 'success', true).iconColor}
+                    />
+                  }
                   onPress={() => handleModerate(item.id, 'APPROVED')}
                 />
 
                 <ActionChip
                   variant="danger"
                   label="Reject"
-                  icon={<XCircle size={15} color={theme.colors.accentPink} style={{ marginRight: 0 }} />}
+                  icon={
+                    <XCircle
+                      size={15}
+                      color={getActionChipColors(theme.colors, 'danger', true).iconColor}
+                    />
+                  }
                   onPress={() => handleModerate(item.id, 'REJECTED')}
                 />
 
@@ -138,7 +148,12 @@ export default function AdminModerationScreen() {
                     variant="accent"
                     label={broadcastingId === item.id ? 'Sending...' : 'WA Broadcast'}
                     disabled={broadcastingId === item.id}
-                    icon={<Send size={14} color={theme.colors.segmentTextActive} style={{ marginRight: 0 }} />}
+                    icon={
+                      <Send
+                        size={14}
+                        color={getActionChipColors(theme.colors, 'accent', true).iconColor}
+                      />
+                    }
                     onPress={() => handleBroadcast(item)}
                   />
                 )}
