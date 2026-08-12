@@ -84,9 +84,7 @@ export const EventList: React.FC<EventListProps> = ({
       data={events}
       renderItem={renderEventItem}
       keyExtractor={keyExtractor}
-      estimatedItemSize={ESTIMATED_ITEM_SIZE}
       drawDistance={FLASH_LIST_DRAW_DISTANCE}
-      estimatedListSize={{ height: 800, width: 390 }}
       removeClippedSubviews
       onEndReached={onEndReached}
       onEndReachedThreshold={0.4}

@@ -22,7 +22,7 @@ import { useTheme } from '../../context/ThemeContext';
 import { useLayoutInsets } from '../../application/hooks/useLayoutInsets';
 import { platformShadow } from '../../constants/theme';
 import { Image as ImageIcon, Send, Sparkles, UserPlus, Users, Trash2 } from 'lucide-react-native';
-import { KinshipMemberPicker } from '../../modules/kinship';
+import { KinshipMemberPicker, EventMemberInput } from '../../modules/kinship';
 
 
 
@@ -71,15 +71,7 @@ export default function CreateEventScreen() {
   const [agenda, setAgenda] = useState('1. Project Plan\n2. Q&A Session');
 
   // Family & Kinship Attached Members state
-  const [attachedMembers, setAttachedMembers] = useState<
-    {
-      fullName: string;
-      gender: 'M' | 'F';
-      roleInEvent: string;
-      relationshipTypeToOrganizer: string;
-      contextTag: 'In-Village' | 'Out-Village';
-    }[]
-  >([]);
+  const [attachedMembers, setAttachedMembers] = useState<EventMemberInput[]>([]);
 
   const handleAddMember = () => {
     setAttachedMembers((prev) => [
