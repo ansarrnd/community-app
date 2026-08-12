@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, TextInput, Pressable, ScrollView } from 'react-native';
+import { View, StyleSheet, TextInput, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useApprovedEvents, useRsvpMutation, useUserRsvps } from '../../application/hooks/useEventsQuery';
 import { useFilterStore } from '../../application/stores/useFilterStore';
 import { useAuthStore } from '../../application/stores/useAuthStore';
 import { EventList } from '../../components/EventList';
 import { ThemedText } from '../../components/ThemedText';
+import { SegmentPill } from '../../components/SegmentPill';
 import { useTheme } from '../../context/ThemeContext';
 import { Search, Sparkles } from 'lucide-react-native';
 import { CommunityEvent } from '../../domain/models/Event';
@@ -60,37 +61,14 @@ export default function ExploreEventsScreen() {
       {/* Category Pills Slider */}
       <View style={styles.categoriesWrapper}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.categoriesContainer}>
-          {CATEGORIES.map((cat) => {
-            const isActive = category === cat.id;
-            return (
-              <Pressable
-                key={cat.id}
-                onPress={() => setCategory(cat.id)}
-                style={[
-                  styles.categoryPill,
-                  isActive
-                    ? {
-                        backgroundColor: theme.isDark ? 'rgba(0, 242, 254, 0.22)' : 'rgba(0, 122, 255, 0.16)',
-                        borderColor: theme.colors.accentTeal,
-                      }
-                    : {
-                        backgroundColor: theme.colors.bgInput,
-                        borderColor: theme.colors.borderInput,
-                      },
-                ]}
-              >
-                <ThemedText
-                  variant="caption"
-                  bold={isActive}
-                  style={{
-                    color: isActive ? theme.colors.accentTeal : theme.colors.textSecondary,
-                  }}
-                >
-                  {cat.label}
-                </ThemedText>
-              </Pressable>
-            );
-          })}
+          {CATEGORIES.map((cat) => (
+            <SegmentPill
+              key={cat.id}
+              label={cat.label}
+              selected={category === cat.id}
+              onPress={() => setCategory(cat.id)}
+            />
+          ))}
         </ScrollView>
       </View>
 
@@ -150,13 +128,6 @@ const styles = StyleSheet.create({
   },
   categoriesContainer: {
     paddingRight: 16,
-  },
-  categoryPill: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 999,
-    marginRight: 8,
-    borderWidth: 1,
   },
   feedHeader: {
     flexDirection: 'row',

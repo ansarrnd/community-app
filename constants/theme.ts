@@ -36,6 +36,14 @@ export interface ThemeColors {
   overlayBg: string;
   buttonPrimaryBg: string;
   buttonPrimaryText: string;
+
+  // Segment pills (category filters, toggles) — visually distinct from text inputs
+  segmentBg: string;
+  segmentBgActive: string;
+  segmentBorder: string;
+  segmentBorderActive: string;
+  segmentText: string;
+  segmentTextActive: string;
 }
 
 export const darkThemeColors: ThemeColors = {
@@ -68,6 +76,13 @@ export const darkThemeColors: ThemeColors = {
   overlayBg: 'rgba(0, 0, 0, 0.78)',
   buttonPrimaryBg: '#FBBF24',
   buttonPrimaryText: '#0B0D13',
+
+  segmentBg: '#1A1E28',
+  segmentBgActive: 'rgba(251, 191, 36, 0.22)',
+  segmentBorder: '#3D4450',
+  segmentBorderActive: '#FBBF24',
+  segmentText: '#F9F8F6',
+  segmentTextActive: '#FBBF24',
 };
 
 
@@ -102,6 +117,13 @@ export const lightThemeColors: ThemeColors = {
   overlayBg: 'rgba(0, 0, 0, 0.4)',
   buttonPrimaryBg: '#C85A32',
   buttonPrimaryText: '#FFFFFF',
+
+  segmentBg: '#EDE8E0',
+  segmentBgActive: 'rgba(200, 90, 50, 0.18)',
+  segmentBorder: '#C9C2B8',
+  segmentBorderActive: '#C85A32',
+  segmentText: '#1E1E1E',
+  segmentTextActive: '#C85A32',
 };
 
 

@@ -84,25 +84,25 @@ export default function ProfileScreen() {
                 styles.themeOptionBtn,
                 isSelected
                   ? {
-                      backgroundColor: theme.isDark ? 'rgba(0, 242, 254, 0.22)' : 'rgba(0, 122, 255, 0.16)',
-                      borderColor: theme.colors.accentTeal,
+                      backgroundColor: theme.colors.segmentBgActive,
+                      borderColor: theme.colors.segmentBorderActive,
                     }
                   : {
-                      backgroundColor: theme.colors.bgInput,
-                      borderColor: theme.colors.borderInput,
+                      backgroundColor: theme.colors.segmentBg,
+                      borderColor: theme.colors.segmentBorder,
                     },
                 pressed && { opacity: 0.85 },
               ]}
             >
               <IconComponent
                 size={16}
-                color={isSelected ? theme.colors.accentTeal : theme.colors.textMuted}
+                color={isSelected ? theme.colors.segmentTextActive : theme.colors.segmentText}
                 style={{ marginRight: 6 }}
               />
               <ThemedText
                 variant="caption"
                 bold={isSelected}
-                style={{ color: isSelected ? theme.colors.accentTeal : theme.colors.textSecondary }}
+                style={{ color: isSelected ? theme.colors.segmentTextActive : theme.colors.segmentText }}
               >
                 {opt.label}
               </ThemedText>
@@ -130,12 +130,12 @@ export default function ProfileScreen() {
                 styles.roleCard,
                 isSelected
                   ? {
-                      backgroundColor: theme.isDark ? 'rgba(0, 242, 254, 0.18)' : 'rgba(0, 122, 255, 0.12)',
-                      borderColor: theme.colors.accentTeal,
+                      backgroundColor: theme.colors.segmentBgActive,
+                      borderColor: theme.colors.segmentBorderActive,
                     }
                   : {
-                      backgroundColor: theme.colors.bgInput,
-                      borderColor: theme.colors.borderInput,
+                      backgroundColor: theme.colors.segmentBg,
+                      borderColor: theme.colors.segmentBorder,
                     },
               ]}
             >

@@ -17,6 +17,7 @@ import { EventCategory } from '../../domain/models/Event';
 import { LiquidGlassCard } from '../../components/LiquidGlassCard';
 import { EventImage } from '../../components/EventImage';
 import { ThemedText } from '../../components/ThemedText';
+import { SegmentPill } from '../../components/SegmentPill';
 import { useTheme } from '../../context/ThemeContext';
 import { useLayoutInsets } from '../../application/hooks/useLayoutInsets';
 import { platformShadow } from '../../constants/theme';
@@ -198,35 +199,15 @@ export default function CreateEventScreen() {
         Select Event Category
       </ThemedText>
       <View style={styles.categoryRow}>
-        {CATEGORY_OPTIONS.map((cat) => {
-          const isActive = category === cat.id;
-          return (
-            <Pressable
-              key={cat.id}
-              onPress={() => setCategory(cat.id)}
-              style={[
-                styles.catBtn,
-                isActive
-                  ? {
-                      backgroundColor: theme.isDark ? 'rgba(0, 242, 254, 0.22)' : 'rgba(0, 122, 255, 0.16)',
-                      borderColor: theme.colors.accentTeal,
-                    }
-                  : {
-                      backgroundColor: theme.colors.bgInput,
-                      borderColor: theme.colors.borderInput,
-                    },
-              ]}
-            >
-              <ThemedText
-                variant="caption"
-                bold={isActive}
-                style={{ color: isActive ? theme.colors.accentTeal : theme.colors.textSecondary }}
-              >
-                {cat.label}
-              </ThemedText>
-            </Pressable>
-          );
-        })}
+        {CATEGORY_OPTIONS.map((cat) => (
+          <SegmentPill
+            key={cat.id}
+            label={cat.label}
+            selected={category === cat.id}
+            flex
+            onPress={() => setCategory(cat.id)}
+          />
+        ))}
       </View>
 
       {/* Input Fields */}
@@ -447,14 +428,6 @@ const styles = StyleSheet.create({
   categoryRow: {
     flexDirection: 'row',
     marginBottom: 10,
-  },
-  catBtn: {
-    flex: 1,
-    paddingVertical: 10,
-    borderRadius: 14,
-    borderWidth: 1,
-    alignItems: 'center',
-    marginRight: 6,
   },
   input: {
     borderWidth: 1,
