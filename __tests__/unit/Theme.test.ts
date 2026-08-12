@@ -72,4 +72,14 @@ describe('Theme Resolution Unit Tests', () => {
     expect(darkThemeColors.auroraPrimary).not.toContain('242');
     expect(lightThemeColors.auroraPrimary).not.toContain('122');
   });
+
+  it('defines kinship lineage and context tag tokens for both palettes', () => {
+    const darkTheme = getAppTheme('dark', 'dark');
+    const lightTheme = getAppTheme('light', 'light');
+
+    expect(darkTheme.kinship.lineageBorders.MATERNAL).toBe('#60A5FA');
+    expect(darkTheme.kinship.tags.affinalText).toBe('#FDE047');
+    expect(lightTheme.kinship.lineageBorders.AFFINAL).toBe('#BE185D');
+    expect(lightTheme.kinship.tags.outVillageBg).toBe('#E2EAFC');
+  });
 });

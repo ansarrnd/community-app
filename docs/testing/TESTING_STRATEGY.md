@@ -162,11 +162,11 @@ Self-hosted runners, SaaS visual CI, or large refactors.
 |----|------|--------|-------|
 | P4-1 | Maestro native E2E in CI (self-hosted Mac) | L | `screenshots:native:*` flows |
 | P4-2 | Chromatic or Percy on web export | L | Hosted visual diff |
-| P4-3 | Detox evaluation if Maestro insufficient | L | Android/iOS native E2E |
+| P4-3 | Detox evaluation if Maestro insufficient | L | ✅ `docs/testing/DETOX_EVALUATION.md` — defer adoption |
 | P4-4 | Fastlane iOS screenshot lane | L | Store-ready assets |
-| P4-5 | Full `villageTheme` / `glassTheme` removal | L | Theme bridge → app tokens only |
-| P4-6 | React DevTools profiler budget (Explore mount) | M | Dev-only perf gate |
-| P4-7 | FlashList 50-item fixture perf test | M | CI perf regression |
+| P4-5 | Full `villageTheme` / `glassTheme` removal | L | ✅ Kinship tokens on `AppTheme` |
+| P4-6 | React DevTools profiler budget (Explore mount) | M | ✅ `test:perf` + Profiler budget |
+| P4-7 | FlashList 50-item fixture perf test | M | ✅ `RenderBudget.test.tsx` + list tuning |
 | P4-8 | Firebase Auth AsyncStorage persistence in tests | S | Silence auth warnings in Jest |
 
 ---
@@ -192,7 +192,7 @@ Single list of all outstanding work (testing, performance, architecture, CI). **
 | ✅ | Playwright — category pill + search | 2 |
 | ⬜ | Maestro native flows in CI | 4 |
 | ⬜ | Chromatic/Percy visual regression | 4 |
-| ⬜ | Detox evaluation | 4 |
+| ✅ | Detox evaluation (deferred; see DETOX_EVALUATION.md) | 4 |
 | ✅ | PNG `pixelmatch` diff in CI | 3 |
 
 ### Performance
@@ -218,11 +218,11 @@ Single list of all outstanding work (testing, performance, architecture, CI). **
 |--------|------|-------|
 | ✅ | `components/ui` barrel (SegmentPill, ActionChip, etc.) | 1 |
 | ✅ | Segment/chip theme tokens vs input styling | 1 |
-| ✅ | Village theme bridge (`syncCoreColorsFromAppTheme`) | 1 |
 | ✅ | Babel `@/` alias | 1 |
 | ✅ | Kinship context tag → `ActionChip` | 2 |
+| ✅ | Kinship tokens on `AppTheme` (replaces villageTheme bridge) | 4 |
 | ⬜ | Remaining hardcoded glows → theme tokens | 3 |
-| ⬜ | Remove `glassTheme` / `villageTheme` duplicates | 4 |
+| ✅ | Remove `glassTheme` / `villageTheme` duplicates | 4 |
 
 ### CI & screenshots
 

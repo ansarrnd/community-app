@@ -2,24 +2,21 @@ import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Relationship, Person } from '../domain/types';
 import { TAMIL_RELATIONSHIPS } from '../taxonomy/tamilTaxonomy';
-import { getVillageTheme, DarkThemes } from '../theme/villageTheme';
+import { useTheme } from '@/context/ThemeContext';
 
 export interface RelationshipCardProps {
   relationship: Relationship;
   targetPerson?: Person;
-  isDark?: boolean;
-  darkPreset?: keyof typeof DarkThemes;
   onPress?: () => void;
 }
 
 export const RelationshipCard: React.FC<RelationshipCardProps> = ({
   relationship,
   targetPerson,
-  isDark = false,
-  darkPreset = 'MIDNIGHT_TERRACOTTA',
   onPress,
 }) => {
-  const theme = getVillageTheme(isDark, darkPreset);
+  const { theme } = useTheme();
+  const { colors, kinship } = theme;
 
   const relConfig = TAMIL_RELATIONSHIPS[relationship.relationshipType] || {
     label: relationship.relationshipType,
@@ -28,23 +25,23 @@ export const RelationshipCard: React.FC<RelationshipCardProps> = ({
   };
 
   const borderColor =
-    theme.colors.lineageBorders[relationship.lineageCategory] ||
-    theme.colors.lineageBorders.GENERAL;
+    kinship.lineageBorders[relationship.lineageCategory as keyof typeof kinship.lineageBorders] ||
+    kinship.lineageBorders.GENERAL;
 
   const isInVillage = relationship.contextTag === 'In-Village';
   const isAffinal = relationship.lineageCategory === 'AFFINAL';
 
   const badgeBg = isAffinal
-    ? theme.colors.tags.affinalBg
+    ? kinship.tags.affinalBg
     : isInVillage
-    ? theme.colors.tags.inVillageBg
-    : theme.colors.tags.outVillageBg;
+      ? kinship.tags.inVillageBg
+      : kinship.tags.outVillageBg;
 
   const badgeTextColor = isAffinal
-    ? theme.colors.tags.affinalText
+    ? kinship.tags.affinalText
     : isInVillage
-    ? theme.colors.tags.inVillageText
-    : theme.colors.tags.outVillageText;
+      ? kinship.tags.inVillageText
+      : kinship.tags.outVillageText;
 
   const badgeLabel = isAffinal ? 'Affinal / In-Law' : relationship.contextTag;
 
@@ -54,8 +51,8 @@ export const RelationshipCard: React.FC<RelationshipCardProps> = ({
       style={({ pressed }) => [
         styles.card,
         {
-          backgroundColor: theme.colors.surface,
-          borderColor: theme.colors.border,
+          backgroundColor: colors.bgCardSolid,
+          borderColor: colors.borderCard,
           borderLeftColor: borderColor,
         },
         pressed && styles.pressed,
@@ -64,7 +61,7 @@ export const RelationshipCard: React.FC<RelationshipCardProps> = ({
       <View style={styles.headerRow}>
         <View style={styles.titleContainer}>
           <View style={[styles.dotIndicator, { backgroundColor: borderColor }]} />
-          <Text style={[styles.personName, { color: theme.colors.textPrimary }]}>
+          <Text style={[styles.personName, { color: colors.textPrimary }]}>
             {relConfig.labelTa || relConfig.label.split(' ')[0]} - {targetPerson?.fullName || 'Family Relative'}
           </Text>
         </View>
@@ -74,17 +71,17 @@ export const RelationshipCard: React.FC<RelationshipCardProps> = ({
         </View>
       </View>
 
-      <Text style={[styles.descriptionText, { color: theme.colors.textMuted }]}>
+      <Text style={[styles.descriptionText, { color: colors.textMuted }]}>
         └─ {relConfig.description || `${relConfig.label} (${relationship.lineageCategory})`}
       </Text>
 
       {(targetPerson?.phone || targetPerson?.notes) && (
-        <View style={[styles.footerRow, { borderTopColor: theme.colors.border }]}>
+        <View style={[styles.footerRow, { borderTopColor: colors.borderCard }]}>
           {targetPerson?.phone && (
-            <Text style={[styles.footerItem, { color: theme.colors.textMuted }]}>📞 {targetPerson.phone}</Text>
+            <Text style={[styles.footerItem, { color: colors.textMuted }]}>📞 {targetPerson.phone}</Text>
           )}
           {targetPerson?.notes && (
-            <Text style={[styles.footerItem, { color: theme.colors.textMuted }]}>📍 {targetPerson.notes}</Text>
+            <Text style={[styles.footerItem, { color: colors.textMuted }]}>📍 {targetPerson.notes}</Text>
           )}
         </View>
       )}

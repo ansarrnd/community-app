@@ -13,6 +13,7 @@
     "test": "jest",
     "test:unit": "jest",
     "test:integration": "jest __tests__/integration",
+    "test:perf": "jest __tests__/perf",
     "test:snapshots": "jest Snapshots",
     "test:e2e": "playwright test",
     "test:coverage": "jest --coverage",

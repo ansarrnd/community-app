@@ -97,18 +97,15 @@ describe('Kinship Module Unit Tests', () => {
     expect(inverseRel.length).toBe(0);
   });
 
-  it('syncs default dark preset core colors with app theme tokens', () => {
-    const { TamilFusionDarkTheme, DarkThemes, getVillageTheme } = require('../../modules/kinship');
-    const { darkThemeColors } = require('../../constants/theme');
+  it('syncs kinship tokens with app theme palettes', () => {
+    const { getAppTheme } = require('../../constants/theme');
+    const dark = getAppTheme('dark', 'dark');
+    const light = getAppTheme('light', 'light');
 
-    expect(TamilFusionDarkTheme.colors.background).toBe('#0B0D13');
-    expect(TamilFusionDarkTheme.colors.surface).toBe('#161922');
-    expect(TamilFusionDarkTheme.colors.primary).toBe('#FBBF24');
-    expect(DarkThemes.NILAVILAKKU_KANCHEEPURAM_MIDNIGHT).toBeDefined();
-
-    const fusedDarkTheme = getVillageTheme(true, 'NILAVILAKKU_KANCHEEPURAM_MIDNIGHT');
-    expect(fusedDarkTheme.colors.primary).toBe(darkThemeColors.accentTeal);
-    expect(fusedDarkTheme.colors.background).toBe(darkThemeColors.bgCanvas);
+    expect(dark.kinship.lineageBorders.PATERNAL).toBe('#FBBF24');
+    expect(dark.kinship.tags.inVillageText).toBe('#34D399');
+    expect(light.kinship.lineageBorders.PATERNAL).toBe('#C85A32');
+    expect(light.kinship.tags.inVillageText).toBe('#2D6A4F');
   });
 
   test('FirebaseKinshipRepository is exported and instantiated cleanly for Firestore collection separation', () => {

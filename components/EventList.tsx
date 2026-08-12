@@ -19,6 +19,7 @@ interface EventListProps {
 }
 
 const ESTIMATED_ITEM_SIZE = 320;
+const FLASH_LIST_DRAW_DISTANCE = ESTIMATED_ITEM_SIZE * 2;
 
 export const EventList: React.FC<EventListProps> = ({
   events,
@@ -69,6 +70,8 @@ export const EventList: React.FC<EventListProps> = ({
       renderItem={renderEventItem}
       keyExtractor={keyExtractor}
       estimatedItemSize={ESTIMATED_ITEM_SIZE}
+      drawDistance={FLASH_LIST_DRAW_DISTANCE}
+      estimatedListSize={{ height: 800, width: 390 }}
       removeClippedSubviews
       refreshControl={
         onRefresh ? (
