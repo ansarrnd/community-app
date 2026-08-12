@@ -1,5 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import { eventSharePage } from './openGraph';
+import { whatsappWebhook } from './whatsapp';
 
 if (!admin.apps.length) {
   admin.initializeApp();
@@ -33,3 +35,5 @@ export const grantRole = functions.https.onCall(async (data, context) => {
 
   return { success: true, uid, role };
 });
+
+export { eventSharePage, whatsappWebhook };

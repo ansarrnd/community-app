@@ -1,0 +1,58 @@
+name: Maestro Native Smoke
+
+# Requires a self-hosted macOS runner with Maestro CLI, Xcode, and Android SDK.
+# Labels: self-hosted, macOS, ARM64 (see docs/testing/MAESTRO_CI.md)
+
+on:
+  pull_request:
+    paths:
+      - 'app/**'
+      - 'components/**'
+      - '.maestro/**'
+      - 'package.json'
+      - 'app.json'
+
+jobs:
+  maestro-ios-smoke:
+    name: Maestro iOS smoke (self-hosted Mac)
+    runs-on: [self-hosted, macOS, ARM64]
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Verify Maestro CLI
+        run: maestro --version
+      - name: Run iOS screenshot / smoke flow
+        run: maestro test .maestro/ios/screenshots.yaml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: maestro-ios-screenshots
+          path: docs/screenshots/ios/
+          retention-days: 14
+
+  maestro-android-smoke:
+    name: Maestro Android smoke (self-hosted Mac)
+    runs-on: [self-hosted, macOS, ARM64]
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Verify Maestro CLI
+        run: maestro --version
+      - name: Run Android screenshot / smoke flow
+        run: maestro test .maestro/android/screenshots.yaml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: maestro-android-screenshots
+          path: docs/screenshots/android/
+          retention-days: 14

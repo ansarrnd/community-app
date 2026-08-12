@@ -5921,10 +5921,14 @@ exports[`Screen snapshots (dark theme) matches Event detail screen tree: screen-
                 ]
               }
             >
-              &lt;meta property="og:title" content="Grand Royal Wedding: Rahul & Priya" /&gt;
-&lt;meta property="og:description" content="Wedding celebration with dinner and dance...." /&gt;
-&lt;meta property="og:image" content="" /&gt;
+              &lt;meta property="og:title" content="Grand Royal Wedding: Rahul &amp; Priya" /&gt;
+&lt;meta property="og:description" content="Wedding celebration with dinner and dance." /&gt;
 &lt;meta property="og:url" content="https://community.yourdomain.com/e/evt-1" /&gt;
+&lt;meta property="og:type" content="website" /&gt;
+&lt;meta property="og:site_name" content="Community Connect" /&gt;
+&lt;meta name="twitter:card" content="summary_large_image" /&gt;
+&lt;meta name="twitter:title" content="Grand Royal Wedding: Rahul &amp; Priya" /&gt;
+&lt;meta name="twitter:description" content="Wedding celebration with dinner and dance." /&gt;
             </Text>
           </View>
         </View>
@@ -17486,10 +17490,14 @@ exports[`Screen snapshots (light theme — legibility-sensitive) matches Event d
                 ]
               }
             >
-              &lt;meta property="og:title" content="Grand Royal Wedding: Rahul & Priya" /&gt;
-&lt;meta property="og:description" content="Wedding celebration with dinner and dance...." /&gt;
-&lt;meta property="og:image" content="" /&gt;
+              &lt;meta property="og:title" content="Grand Royal Wedding: Rahul &amp; Priya" /&gt;
+&lt;meta property="og:description" content="Wedding celebration with dinner and dance." /&gt;
 &lt;meta property="og:url" content="https://community.yourdomain.com/e/evt-1" /&gt;
+&lt;meta property="og:type" content="website" /&gt;
+&lt;meta property="og:site_name" content="Community Connect" /&gt;
+&lt;meta name="twitter:card" content="summary_large_image" /&gt;
+&lt;meta name="twitter:title" content="Grand Royal Wedding: Rahul &amp; Priya" /&gt;
+&lt;meta name="twitter:description" content="Wedding celebration with dinner and dance." /&gt;
             </Text>
           </View>
         </View>

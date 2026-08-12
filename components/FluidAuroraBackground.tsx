@@ -2,10 +2,22 @@ import React from 'react';
 import { View, StyleSheet, Dimensions, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../context/ThemeContext';
+import { SkiaFluidAuroraBackground } from './SkiaFluidAuroraBackground';
 
 const { width, height } = Dimensions.get('window');
 
+const USE_SKIA_AURORA =
+  process.env.EXPO_PUBLIC_USE_SKIA_AURORA === 'true' && Platform.OS !== 'web';
+
 export const FluidAuroraBackground: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  if (USE_SKIA_AURORA) {
+    return <SkiaFluidAuroraBackground>{children}</SkiaFluidAuroraBackground>;
+  }
+
+  return <LinearGradientAuroraBackground>{children}</LinearGradientAuroraBackground>;
+};
+
+const LinearGradientAuroraBackground: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { theme } = useTheme();
 
   return (
