@@ -19,6 +19,11 @@ const DIST = join(ROOT, 'dist');
 const SCREENSHOTS_ROOT = join(ROOT, 'docs/screenshots');
 const PORT = 4173;
 
+const candidateMode = process.argv.includes('--candidate');
+const SCREENSHOTS_BASE = candidateMode
+  ? join(SCREENSHOTS_ROOT, '.ci-candidate')
+  : SCREENSHOTS_ROOT;
+
 const SCREENS = [
   { name: '01-explore', path: '/' },
   { name: '02-create', path: '/create' },
@@ -27,11 +32,11 @@ const SCREENS = [
 
 const PLATFORMS = {
   ios: {
-    dir: join(SCREENSHOTS_ROOT, 'ios'),
+    dir: join(SCREENSHOTS_BASE, 'ios'),
     device: devices['iPhone 14'],
   },
   android: {
-    dir: join(SCREENSHOTS_ROOT, 'android'),
+    dir: join(SCREENSHOTS_BASE, 'android'),
     device: devices['Pixel 7'],
   },
 };
@@ -88,9 +93,8 @@ async function capturePlatform(platformKey) {
 }
 
 async function main() {
-  const arg = process.argv[2];
-  const targets =
-    arg === 'ios' || arg === 'android' ? [arg] : ['ios', 'android'];
+  const arg = process.argv.find((value) => value === 'ios' || value === 'android');
+  const targets = arg ? [arg] : ['ios', 'android'];
 
   if (!existsSync(join(DIST, 'index.html'))) {
     console.error('Missing dist/. Run: npm run build:web');
@@ -103,7 +107,7 @@ async function main() {
     for (const platform of targets) {
       await capturePlatform(platform);
     }
-    console.log(`[screenshots] Done → ${SCREENSHOTS_ROOT}`);
+    console.log(`[screenshots] Done → ${SCREENSHOTS_BASE}`);
   } finally {
     server.close();
   }

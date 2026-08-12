@@ -24,6 +24,7 @@ export const EventImage: React.FC<EventImageProps> = ({
         source={{ uri: imageSource }}
         style={StyleSheet.absoluteFillObject}
         contentFit="cover"
+        cachePolicy="memory-disk"
         placeholder="L6E8:8.AY.yE00?b.xR*00~q%M~q" // Blurhash fallback placeholder
         transition={300}
       />

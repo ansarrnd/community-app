@@ -88,7 +88,6 @@ export class MockEventRepository implements IEventRepository {
   private rsvps: Record<string, Record<string, 'ATTENDING' | 'DECLINED'>> = {};
 
   async getApprovedEvents(categoryFilter?: string, searchQuery?: string): Promise<CommunityEvent[]> {
-    await new Promise((resolve) => setTimeout(resolve, 200)); // Simulate realistic JSI latency
     return this.events.filter((evt) => {
       if (evt.status !== 'APPROVED') return false;
       if (categoryFilter && categoryFilter !== 'ALL' && evt.category !== categoryFilter) return false;
@@ -101,7 +100,6 @@ export class MockEventRepository implements IEventRepository {
   }
 
   async getPendingEvents(): Promise<CommunityEvent[]> {
-    await new Promise((resolve) => setTimeout(resolve, 150));
     return this.events.filter((evt) => evt.status === 'PENDING');
   }
 

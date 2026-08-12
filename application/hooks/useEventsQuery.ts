@@ -33,6 +33,7 @@ export const useEventDetail = (id: string) => {
     queryKey: ['event', id],
     queryFn: () => eventRepo.getEventById(id),
     enabled: !!id,
+    staleTime: 1000 * 60 * 5,
   });
 };
 
@@ -41,6 +42,7 @@ export const useUserRsvps = (userId: string) => {
     queryKey: ['userRsvps', userId],
     queryFn: () => eventRepo.getUserRsvps(userId),
     enabled: !!userId,
+    staleTime: 1000 * 60 * 5,
   });
 };
 

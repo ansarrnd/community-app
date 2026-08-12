@@ -1,8 +1,8 @@
 import React from 'react';
 import ExploreEventsScreen from '../../app/(tabs)/index';
-import CreateEventScreen from '../../app/(tabs)/create';
-import ProfileScreen from '../../app/(tabs)/profile';
-import AdminModerationScreen from '../../app/(tabs)/admin';
+import CreateEventScreen from '../../app/(tabs)/_createScreen';
+import ProfileScreen from '../../app/(tabs)/_profileScreen';
+import AdminModerationScreen from '../../app/(tabs)/_adminScreen';
 import EventDetailScreen from '../../app/e/[id]';
 import { useAuthStore } from '../../application/stores/useAuthStore';
 import { renderWithProviders, renderWithThemeMode } from '../helpers/renderWithProviders';
@@ -175,5 +175,57 @@ describe('Screen snapshots (light theme — legibility-sensitive)', () => {
   it('matches Profile screen in light mode', () => {
     const tree = renderWithThemeMode(<ProfileScreen />, 'light');
     expect(tree.toJSON()).toMatchSnapshot('screen-profile-light');
+  });
+
+  it('matches Admin moderation screen in light mode (authorized)', () => {
+    const tree = renderWithThemeMode(<AdminModerationScreen />, 'light');
+    expect(tree.toJSON()).toMatchSnapshot('screen-admin-mod-light');
+  });
+
+  it('matches Admin moderation screen in light mode when access restricted', () => {
+    useAuthStore.getState().setRole('USER');
+    const tree = renderWithThemeMode(<AdminModerationScreen />, 'light');
+    expect(tree.toJSON()).toMatchSnapshot('screen-admin-restricted-light');
+  });
+
+  it('matches Event detail screen in light mode', () => {
+    const tree = renderWithThemeMode(<EventDetailScreen />, 'light');
+    expect(tree.toJSON()).toMatchSnapshot('screen-event-detail-light');
+  });
+});
+
+describe('Screen snapshots (loading and empty states)', () => {
+  beforeEach(() => {
+    useAuthStore.getState().setRole('ADMIN');
+  });
+
+  it('matches Explore screen loading state', () => {
+    mockedUseApprovedEvents.mockReturnValue({
+      data: undefined,
+      isLoading: true,
+      refetch: jest.fn(),
+      isRefetching: false,
+    });
+    mockedUsePendingEvents.mockReturnValue({ data: snapshotPendingEvents, isLoading: false });
+    mockedUseEventDetail.mockReturnValue({ data: snapshotEventDetail, isLoading: false });
+    mockedUseUserRsvps.mockReturnValue({ data: {} });
+
+    const tree = renderWithProviders(<ExploreEventsScreen />);
+    expect(tree.toJSON()).toMatchSnapshot('screen-explore-loading');
+  });
+
+  it('matches Explore screen empty feed', () => {
+    mockedUseApprovedEvents.mockReturnValue({
+      data: [],
+      isLoading: false,
+      refetch: jest.fn(),
+      isRefetching: false,
+    });
+    mockedUsePendingEvents.mockReturnValue({ data: [], isLoading: false });
+    mockedUseEventDetail.mockReturnValue({ data: snapshotEventDetail, isLoading: false });
+    mockedUseUserRsvps.mockReturnValue({ data: {} });
+
+    const tree = renderWithProviders(<ExploreEventsScreen />);
+    expect(tree.toJSON()).toMatchSnapshot('screen-explore-empty');
   });
 });

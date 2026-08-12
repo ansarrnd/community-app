@@ -20,13 +20,15 @@ export class FirebaseEventRepository implements IEventRepository {
 
   async getApprovedEvents(categoryFilter?: string, searchQuery?: string): Promise<CommunityEvent[]> {
     try {
-      let q = query(this.eventsCollection, where('status', '==', 'APPROVED'), orderBy('createdAt', 'desc'));
+      const constraints = [where('status', '==', 'APPROVED')];
+      if (categoryFilter && categoryFilter !== 'ALL') {
+        constraints.push(where('category', '==', categoryFilter));
+      }
+      constraints.push(orderBy('createdAt', 'desc'));
+
+      const q = query(this.eventsCollection, ...constraints);
       const snapshot = await getDocs(q);
       let results = snapshot.docs.map((docSnap) => ({ id: docSnap.id, ...docSnap.data() } as CommunityEvent));
-
-      if (categoryFilter && categoryFilter !== 'ALL') {
-        results = results.filter((e) => e.category === categoryFilter);
-      }
       if (searchQuery && searchQuery.trim() !== '') {
         const queryStr = searchQuery.toLowerCase();
         results = results.filter(

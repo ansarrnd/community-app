@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet, Dimensions, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../context/ThemeContext';
 
@@ -46,23 +46,25 @@ export const FluidAuroraBackground: React.FC<{ children: React.ReactNode }> = ({
         ]}
       />
 
-      {/* Aurora Mesh Node 3 - Bottom Left Glow */}
-      <LinearGradient
-        colors={[
-          theme.isDark ? 'rgba(255, 42, 109, 0.22)' : 'rgba(236, 72, 153, 0.14)',
-          'transparent',
-        ]}
-        style={[
-          styles.auroraOrb,
-          {
-            bottom: -100,
-            left: -50,
-            width: width * 0.85,
-            height: width * 0.85,
-            borderRadius: width * 0.42,
-          },
-        ]}
-      />
+      {/* Aurora Mesh Node 3 - Bottom Left Glow (skipped on Android for perf) */}
+      {Platform.OS !== 'android' && (
+        <LinearGradient
+          colors={[
+            theme.isDark ? 'rgba(255, 42, 109, 0.22)' : 'rgba(236, 72, 153, 0.14)',
+            'transparent',
+          ]}
+          style={[
+            styles.auroraOrb,
+            {
+              bottom: -100,
+              left: -50,
+              width: width * 0.85,
+              height: width * 0.85,
+              borderRadius: width * 0.42,
+            },
+          ]}
+        />
+      )}
 
       {/* Content Container */}
       <View style={styles.content}>{children}</View>

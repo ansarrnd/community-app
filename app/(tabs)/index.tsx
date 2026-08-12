@@ -44,6 +44,7 @@ export default function ExploreEventsScreen() {
         containerStyle={styles.searchBarContainer}
         leadingIcon={<Search size={18} color={theme.colors.textMuted} style={styles.searchIcon} />}
         placeholder="Search events, venues, topics..."
+        accessibilityLabel="Search events, venues, and topics"
         value={searchQuery}
         onChangeText={setSearchQuery}
       />

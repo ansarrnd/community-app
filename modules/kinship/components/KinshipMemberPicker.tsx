@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ScrollView, TextInput, Pressable, StyleSheet } from 'react-native';
 import { Users, UserPlus, Trash2 } from 'lucide-react-native';
 import { EventMemberInput } from '../domain/types';
-import { SegmentPill } from '@/components/ui';
+import { SegmentPill, ActionChip } from '@/components/ui';
 import { ThemedText } from '@/components/ThemedText';
 import { useTheme } from '@/context/ThemeContext';
 
@@ -136,7 +136,11 @@ export const KinshipMemberPicker: React.FC<KinshipMemberPickerProps> = ({ member
               <ThemedText variant="caption" style={{ marginRight: 6 }}>
                 Context:
               </ThemedText>
-              <Pressable
+              <ActionChip
+                label={member.contextTag || 'In-Village'}
+                variant={member.contextTag === 'In-Village' ? 'success' : 'accent'}
+                selected
+                compact
                 onPress={() =>
                   handleUpdateMember(
                     index,
@@ -144,26 +148,7 @@ export const KinshipMemberPicker: React.FC<KinshipMemberPickerProps> = ({ member
                     member.contextTag === 'In-Village' ? 'Out-Village' : 'In-Village'
                   )
                 }
-                style={[
-                  styles.tagBadge,
-                  {
-                    backgroundColor:
-                      member.contextTag === 'In-Village'
-                        ? colors.accentGreen + '33'
-                        : colors.accentCyan + '33',
-                  },
-                ]}
-              >
-                <ThemedText
-                  variant="caption"
-                  bold
-                  style={{
-                    color: member.contextTag === 'In-Village' ? colors.accentGreen : colors.accentCyan,
-                  }}
-                >
-                  {member.contextTag || 'In-Village'}
-                </ThemedText>
-              </Pressable>
+              />
             </View>
           </View>
         ))
@@ -227,10 +212,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 8,
     alignItems: 'center',
-  },
-  tagBadge: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 8,
   },
 });

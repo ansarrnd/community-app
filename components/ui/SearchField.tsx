@@ -19,6 +19,8 @@ export const SearchField: React.FC<SearchFieldProps> = ({
   inputStyle,
   leadingIcon,
   placeholderTextColor,
+  accessibilityLabel,
+  placeholder,
   ...textInputProps
 }) => {
   const { theme } = useTheme();
@@ -38,8 +40,10 @@ export const SearchField: React.FC<SearchFieldProps> = ({
       {leadingIcon}
       <TextInput
         style={[styles.input, { color: colors.textPrimary }, inputStyle]}
+        placeholder={placeholder}
         placeholderTextColor={placeholderTextColor ?? colors.textMuted}
         accessibilityRole="search"
+        accessibilityLabel={accessibilityLabel ?? placeholder ?? 'Search'}
         {...textInputProps}
       />
     </View>

@@ -22,9 +22,11 @@ jobs:
       - run: npm ci
       - run: npx playwright install chromium --with-deps
       - run: npm run build:web
-      - run: npm run screenshots
+      - run: npm run screenshots:candidate
+      - run: npm run screenshots:compare
+      - run: npm run bundle:check
       - uses: actions/upload-artifact@v4
         with:
           name: ui-screenshots
-          path: docs/screenshots/
+          path: docs/screenshots/.ci-candidate/
           retention-days: 14

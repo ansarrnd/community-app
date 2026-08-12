@@ -4,7 +4,7 @@ This document maps **current coverage**, **gaps**, **performance risks**, and a 
 
 ---
 
-## Current test inventory (133+ Jest tests + 3 Playwright E2E)
+## Current test inventory (142 Jest tests + 5 Playwright E2E)
 
 | Layer | What's covered | Location |
 |-------|----------------|----------|
@@ -127,33 +127,33 @@ Phases are ordered by **effort and infra dependency**: quick RTL/integration win
 - Integration: filter store → `useApprovedEvents` pipeline
 - Web E2E smoke + GitHub Actions workflows (`ui-screenshots.yml`, `web-e2e.yml`)
 
-### Phase 2 — Easy wins (next PRs)
+### Phase 2 — Done ✅
 Low infra, mostly Jest/RTL and small hook tweaks.
 
-| ID | Item | Effort | Notes |
-|----|------|--------|-------|
-| P2-1 | Light-mode snapshots for Admin + Event detail | S | Extend `ScreenSnapshots.test.tsx` |
-| P2-2 | Screen **interaction** RTL (category tap, Create submit mock) | S | Reuse mocks from snapshots |
-| P2-3 | Integration: create event → `usePendingEvents` | S | Mock repo + mutation hook |
-| P2-4 | Integration: RSVP → attending/declined counts | S | Extend `MockEventRepository` tests |
-| P2-5 | `useUserRsvps` `staleTime: 5min` across tabs | S | Single query cache |
-| P2-6 | Remove mock repo 200ms artificial delay | S | Faster dev/test feedback |
-| P2-7 | Expand Playwright: category pill + search debounce | S | Tab bar navigation pattern |
-| P2-8 | Kinship context tag → shared `ActionChip` | S | UI consistency |
-| P2-9 | Loading / empty state snapshots | S | Mock `isLoading` / empty `data` |
+| ID | Item | Status |
+|----|------|--------|
+| P2-1 | Light-mode snapshots for Admin + Event detail | ✅ |
+| P2-2 | Screen interaction RTL (category tap, Create submit mock) | ✅ `ScreenInteractions.test.tsx` |
+| P2-3 | Integration: create event → `usePendingEvents` | ✅ `CreateEvent.integration.test.tsx` |
+| P2-4 | Integration: RSVP → attending/declined counts | ✅ `Rsvp.integration.test.tsx` |
+| P2-5 | `useUserRsvps` `staleTime: 5min` across tabs | ✅ |
+| P2-6 | Remove mock repo artificial delay | ✅ |
+| P2-7 | Expand Playwright: category pill + search debounce | ✅ `e2e/web-smoke.spec.ts` |
+| P2-8 | Kinship context tag → shared `ActionChip` | ✅ |
+| P2-9 | Loading / empty state snapshots | ✅ |
 
-### Phase 3 — Medium (backend + visual CI)
-Requires Firestore/index work or CI plumbing beyond Jest.
+### Phase 3 — Done ✅
+Backend filter, visual CI, perf tuning, lazy tabs.
 
-| ID | Item | Effort | Notes |
-|----|------|--------|-------|
-| P3-1 | Firestore server-side category filter + composite indexes | M | Replace client-side filter |
-| P3-2 | PNG screenshot diff in CI (`pixelmatch` on `docs/screenshots/`) | M | No SaaS required |
-| P3-3 | Bundle size CI step (`expo export` + size limit) | M | Guard 3.6MB web bundle |
-| P3-4 | Aurora background: 2 gradients on Android (`Platform`) | S | Low-end device perf |
-| P3-5 | `expo-image` `cachePolicy` tuning on feed | S | Optional if profiling shows need |
-| P3-6 | Lazy tab screens / router code-splitting (web) | M | Reduce initial JS |
-| P3-7 | Accessibility audit: labels on remaining controls | M | a11y regression tests |
+| ID | Item | Status |
+|----|------|--------|
+| P3-1 | Firestore server-side category filter + composite indexes | ✅ `firestore.indexes.json` |
+| P3-2 | PNG screenshot diff in CI (`pixelmatch`) | ✅ `screenshots:compare` + workflow |
+| P3-3 | Bundle size CI step | ✅ `bundle:check` (4 MB budget) |
+| P3-4 | Aurora background: 2 gradients on Android | ✅ |
+| P3-5 | `expo-image` `cachePolicy` on feed images | ✅ |
+| P3-6 | Lazy tab screens (create, admin, profile) | ✅ `_createScreen` + `React.lazy` |
+| P3-7 | Accessibility labels on search + submit | ✅ |
 
 ### Phase 4 — Hard / infra-heavy (last)
 Self-hosted runners, SaaS visual CI, or large refactors.
@@ -182,18 +182,18 @@ Single list of all outstanding work (testing, performance, architecture, CI). **
 | ✅ | Chip component snapshots (dark/light) | 1 |
 | ✅ | Screen tree snapshots — all 5 screens (dark) | 1 |
 | ✅ | Screen tree snapshots — Explore, Create, Profile (light) | 1 |
-| ⬜ | Light snapshots — Admin authorized/restricted | 2 |
-| ⬜ | Light snapshots — Event detail | 2 |
-| ⬜ | Screen interaction RTL — Explore category filter | 2 |
-| ⬜ | Screen interaction RTL — Create form submit (mocked) | 2 |
-| ⬜ | Integration — create event → pending queue | 2 |
-| ⬜ | Integration — RSVP → count updates | 2 |
-| ⬜ | Loading / empty state snapshot matrix | 2 |
-| ⬜ | Playwright — category pill + search | 2 |
+| ✅ | Light snapshots — Admin authorized/restricted | 2 |
+| ✅ | Light snapshots — Event detail | 2 |
+| ✅ | Screen interaction RTL — Explore category filter | 2 |
+| ✅ | Screen interaction RTL — Create form submit (mocked) | 2 |
+| ✅ | Integration — create event → pending queue | 2 |
+| ✅ | Integration — RSVP → count updates | 2 |
+| ✅ | Loading / empty state snapshot matrix | 2 |
+| ✅ | Playwright — category pill + search | 2 |
 | ⬜ | Maestro native flows in CI | 4 |
 | ⬜ | Chromatic/Percy visual regression | 4 |
 | ⬜ | Detox evaluation | 4 |
-| ⬜ | PNG `pixelmatch` diff in CI | 3 |
+| ✅ | PNG `pixelmatch` diff in CI | 3 |
 
 ### Performance
 
@@ -203,12 +203,12 @@ Single list of all outstanding work (testing, performance, architecture, CI). **
 | ✅ | `EventListItem` memo + FlashList tuning | 1 |
 | ✅ | `blurEnabled={false}` on feed `LiquidGlassCard` | 1 |
 | ✅ | `placeholderData` on approved events query | 1 |
-| ⬜ | `useUserRsvps` shared cache / 5min staleTime | 2 |
-| ⬜ | Remove mock repo 200ms delay | 2 |
-| ⬜ | Firestore server-side category filter | 3 |
-| ⬜ | Aurora gradient reduction on Android | 3 |
-| ⬜ | Web bundle size CI gate | 3 |
-| ⬜ | Lazy tab screens (web export) | 3 |
+| ✅ | `useUserRsvps` shared cache / 5min staleTime | 2 |
+| ✅ | Remove mock repo 200ms delay | 2 |
+| ✅ | Firestore server-side category filter | 3 |
+| ✅ | Aurora gradient reduction on Android | 3 |
+| ✅ | Web bundle size CI gate | 3 |
+| ✅ | Lazy tab screens (web export) | 3 |
 | ⬜ | Explore mount profiler budget | 4 |
 | ⬜ | FlashList large-list perf fixture | 4 |
 
@@ -220,7 +220,7 @@ Single list of all outstanding work (testing, performance, architecture, CI). **
 | ✅ | Segment/chip theme tokens vs input styling | 1 |
 | ✅ | Village theme bridge (`syncCoreColorsFromAppTheme`) | 1 |
 | ✅ | Babel `@/` alias | 1 |
-| ⬜ | Kinship context tag → `ActionChip` | 2 |
+| ✅ | Kinship context tag → `ActionChip` | 2 |
 | ⬜ | Remaining hardcoded glows → theme tokens | 3 |
 | ⬜ | Remove `glassTheme` / `villageTheme` duplicates | 4 |
 
@@ -232,7 +232,7 @@ Single list of all outstanding work (testing, performance, architecture, CI). **
 | ✅ | Playwright web capture script | 1 |
 | ✅ | Maestro YAML stubs (local) | 1 |
 | ✅ | `ui-screenshots.yml` + `web-e2e.yml` workflows | 1 |
-| ⬜ | Screenshot diff on PR (pixelmatch) | 3 |
+| ✅ | Screenshot diff on PR (pixelmatch) | 3 |
 | ⬜ | Maestro on self-hosted Mac runner | 4 |
 | ⬜ | Fastlane iOS screenshot lane | 4 |
 
@@ -246,5 +246,8 @@ npm run test:integration  # Integration folder only
 npm run test:snapshots    # UI snapshot tests
 npm run test:e2e          # Playwright web smoke
 npm run screenshots       # PNG capture (iOS + Android viewports)
+npm run screenshots:candidate # CI candidate PNGs (.ci-candidate/)
+npm run screenshots:compare   # pixelmatch diff vs baseline
+npm run bundle:check          # Web JS size budget (4 MB)
 npm run test:coverage     # Coverage report (includes app/)
 ```
