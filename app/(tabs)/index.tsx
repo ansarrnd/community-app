@@ -8,6 +8,7 @@ import { EventList } from '../../components/EventList';
 import { ThemedText } from '../../components/ThemedText';
 import { SegmentPill, SearchField } from '../../components/ui';
 import { useTheme } from '../../context/ThemeContext';
+import { useDebouncedValue } from '../../application/hooks/useDebouncedValue';
 import { Search, Sparkles } from 'lucide-react-native';
 import { CommunityEvent } from '../../domain/models/Event';
 
@@ -22,9 +23,10 @@ export default function ExploreEventsScreen() {
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
   const { category, searchQuery, setCategory, setSearchQuery } = useFilterStore();
+  const debouncedSearch = useDebouncedValue(searchQuery, 300);
   const { theme } = useTheme();
 
-  const { data: events = [], isLoading, refetch, isRefetching } = useApprovedEvents(category, searchQuery);
+  const { data: events = [], isLoading, refetch, isRefetching } = useApprovedEvents(category, debouncedSearch);
   const { data: userRsvps = {} } = useUserRsvps(user.uid);
   const rsvpMutation = useRsvpMutation();
 

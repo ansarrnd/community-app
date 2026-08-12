@@ -1,0 +1,518 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UI component snapshots matches ActionChip variant trees: action-chip-danger-selected 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    accessibilityLabel="No"
+    accessibilityRole="button"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": true,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      [
+        {
+          "alignItems": "center",
+          "borderRadius": 8,
+          "borderWidth": 1,
+          "flexDirection": "row",
+          "paddingHorizontal": 12,
+          "paddingVertical": 8,
+        },
+        false,
+        false,
+        {
+          "backgroundColor": "rgba(255, 42, 109, 0.22)",
+          "borderColor": "#FF2A6D",
+        },
+        false,
+        undefined,
+      ]
+    }
+  >
+    <Text
+      style={
+        [
+          {
+            "fontFamily": undefined,
+          },
+          {
+            "fontSize": 13,
+            "fontWeight": "500",
+            "lineHeight": 18,
+          },
+          {
+            "color": "#F9F8F6",
+          },
+          undefined,
+          {
+            "fontWeight": "700",
+          },
+          [
+            false,
+            {
+              "color": "#FF2A6D",
+            },
+          ],
+        ]
+      }
+    >
+      No
+    </Text>
+  </View>
+</RNCSafeAreaProvider>
+`;
+
+exports[`UI component snapshots matches ActionChip variant trees: action-chip-success-unselected 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    accessibilityLabel="Going"
+    accessibilityRole="button"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": false,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      [
+        {
+          "alignItems": "center",
+          "borderRadius": 8,
+          "borderWidth": 1,
+          "flexDirection": "row",
+          "paddingHorizontal": 12,
+          "paddingVertical": 8,
+        },
+        false,
+        false,
+        {
+          "backgroundColor": "#1A1E28",
+          "borderColor": "#3D4450",
+        },
+        false,
+        undefined,
+      ]
+    }
+  >
+    <Text
+      style={
+        [
+          {
+            "fontFamily": undefined,
+          },
+          {
+            "fontSize": 13,
+            "fontWeight": "500",
+            "lineHeight": 18,
+          },
+          {
+            "color": "#F9F8F6",
+          },
+          undefined,
+          {
+            "fontWeight": "700",
+          },
+          [
+            false,
+            {
+              "color": "#F9F8F6",
+            },
+          ],
+        ]
+      }
+    >
+      Going
+    </Text>
+  </View>
+</RNCSafeAreaProvider>
+`;
+
+exports[`UI component snapshots matches SegmentPill selected and unselected trees: segment-pill-selected 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    accessibilityLabel="Cultural"
+    accessibilityRole="button"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": true,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      [
+        {
+          "borderRadius": 999,
+          "borderWidth": 1,
+          "marginRight": 8,
+          "paddingHorizontal": 16,
+          "paddingVertical": 8,
+        },
+        false,
+        false,
+        {
+          "backgroundColor": "rgba(251, 191, 36, 0.22)",
+          "borderColor": "#FBBF24",
+        },
+        false,
+        false,
+        undefined,
+      ]
+    }
+  >
+    <Text
+      style={
+        [
+          {
+            "fontFamily": undefined,
+          },
+          {
+            "fontSize": 13,
+            "fontWeight": "500",
+            "lineHeight": 18,
+          },
+          {
+            "color": "#F9F8F6",
+          },
+          undefined,
+          {
+            "fontWeight": "700",
+          },
+          [
+            false,
+            {
+              "color": "#FBBF24",
+            },
+            false,
+          ],
+        ]
+      }
+    >
+      Cultural
+    </Text>
+  </View>
+</RNCSafeAreaProvider>
+`;
+
+exports[`UI component snapshots matches SegmentPill selected and unselected trees: segment-pill-unselected 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    accessibilityLabel="Cultural"
+    accessibilityRole="button"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": false,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      [
+        {
+          "borderRadius": 999,
+          "borderWidth": 1,
+          "marginRight": 8,
+          "paddingHorizontal": 16,
+          "paddingVertical": 8,
+        },
+        false,
+        false,
+        {
+          "backgroundColor": "#1A1E28",
+          "borderColor": "#3D4450",
+        },
+        false,
+        false,
+        undefined,
+      ]
+    }
+  >
+    <Text
+      style={
+        [
+          {
+            "fontFamily": undefined,
+          },
+          {
+            "fontSize": 13,
+            "fontWeight": "500",
+            "lineHeight": 18,
+          },
+          {
+            "color": "#F9F8F6",
+          },
+          undefined,
+          false,
+          [
+            false,
+            {
+              "color": "#F9F8F6",
+            },
+            false,
+          ],
+        ]
+      }
+    >
+      Cultural
+    </Text>
+  </View>
+</RNCSafeAreaProvider>
+`;
+
+exports[`UI component snapshots matches SelectableCard trees: selectable-card-selected 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    accessibilityLabel="Moderator (MOD)"
+    accessibilityRole="button"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": true,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      [
+        {
+          "borderRadius": 14,
+          "borderWidth": 1,
+          "marginBottom": 10,
+          "padding": 14,
+        },
+        {
+          "backgroundColor": "rgba(251, 191, 36, 0.22)",
+          "borderColor": "#FBBF24",
+        },
+        false,
+        undefined,
+      ]
+    }
+  >
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+        }
+      }
+    >
+      <Text
+        style={
+          [
+            {
+              "fontFamily": undefined,
+            },
+            {
+              "fontSize": 16,
+              "fontWeight": "600",
+              "lineHeight": 22,
+            },
+            {
+              "color": "#F9F8F6",
+            },
+            undefined,
+            {
+              "fontWeight": "700",
+            },
+            {
+              "color": "#FBBF24",
+            },
+          ]
+        }
+      >
+        Moderator (MOD)
+      </Text>
+    </View>
+    <Text
+      style={
+        [
+          {
+            "fontFamily": undefined,
+          },
+          {
+            "fontSize": 13,
+            "fontWeight": "500",
+            "lineHeight": 18,
+          },
+          {
+            "color": "#9CA3AF",
+          },
+          undefined,
+          undefined,
+          {
+            "marginTop": 2,
+          },
+        ]
+      }
+    >
+      Approve events.
+    </Text>
+  </View>
+</RNCSafeAreaProvider>
+`;

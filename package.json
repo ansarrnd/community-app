@@ -12,6 +12,9 @@
     "seed": "npx ts-node scripts/seed.ts",
     "test": "jest",
     "test:unit": "jest",
+    "test:integration": "jest __tests__/integration",
+    "test:snapshots": "jest ChipSnapshots",
+    "test:e2e": "playwright test",
     "test:coverage": "jest --coverage",
     "type-check": "tsc --noEmit",
     "screenshots": "node scripts/capture-screenshots.mjs",
@@ -61,6 +64,7 @@
     "jest-expo": "~51.0.0",
     "babel-plugin-module-resolver": "^5.0.2",
     "playwright": "^1.49.0",
+    "@playwright/test": "^1.49.0",
     "ts-node": "^10.9.2",
     "typescript": "~5.3.3"
   },

@@ -15,7 +15,8 @@ export const useApprovedEvents = (categoryFilter?: string, searchQuery?: string)
   return useQuery({
     queryKey: ['approvedEvents', categoryFilter, searchQuery],
     queryFn: () => eventRepo.getApprovedEvents(categoryFilter, searchQuery),
-    staleTime: 1000 * 60 * 5, // 5 minutes cache
+    staleTime: 1000 * 60 * 5,
+    placeholderData: (previous) => previous,
   });
 };
 
