@@ -3,4 +3,5 @@ dist
 .expo
 test-results
 playwright-report
+.ci-reports
 docs/screenshots/.ci-candidate
