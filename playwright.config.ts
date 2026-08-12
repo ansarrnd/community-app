@@ -9,8 +9,8 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
   webServer: {
-    command: 'npx serve dist -l 4173',
+    command: 'npx serve dist -l 4173 -s',
     port: 4173,
-    reuseExistingServer: true,
+    reuseExistingServer: !process.env.CI,
   },
 });

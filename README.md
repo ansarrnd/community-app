@@ -1,8 +1,23 @@
 # Community Connect
 
+[![CI](https://github.com/ansarrnd/community-app/actions/workflows/ci.yml/badge.svg)](https://github.com/ansarrnd/community-app/actions/workflows/ci.yml)
+
 Cross-platform community events app for neighborhoods and village networks — weddings, cultural gatherings, and meetings — with RSVP, moderation, WhatsApp sharing, and Tamil kinship tooling.
 
-Built with **Expo SDK 55**, **React Native**, and **Firebase** (mock backend by default for local demos).
+**Stack:** Expo SDK 55 · React Native 0.83 · React 19 · Firebase (mock backend by default for local demos)
+
+> This file is the repository homepage. GitHub renders root `README.md` on the default branch (`main`) at  
+> https://github.com/ansarrnd/community-app
+
+---
+
+## Table of contents
+
+- [Features](#features)
+- [Quick start](#quick-start)
+- [Local CI (Linux / macOS)](#local-ci-linux--macos)
+- [App structure](#app-structure-high-level)
+- [Documentation](#documentation)
 
 ---
 
@@ -45,14 +60,16 @@ Built with **Expo SDK 55**, **React Native**, and **Firebase** (mock backend by 
 ### Platform & quality
 - Clean Architecture (domain use cases, repositories, factory switching mock ↔ Firebase)
 - React Query v5 with persisted cache
-- Jest unit/integration/perf tests, Playwright web E2E, pixelmatch screenshot diffs
-- Single active CI workflow: `.github/workflows/ci.yml` (see `docs/CI_CD_PLAN.md`)
+- **166** Jest tests + **10** Playwright web E2E tests, pixelmatch screenshot diffs
+- Single active CI workflow: [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
 
 ---
 
 ## Quick start
 
 ```bash
+git clone https://github.com/ansarrnd/community-app.git
+cd community-app
 npm ci
 npm start                 # Expo dev server
 npm run web               # Web
@@ -76,6 +93,19 @@ EXPO_PUBLIC_BACKEND_PROVIDER=firebase EXPO_PUBLIC_USE_EMULATORS=true npm start
 
 ---
 
+## Local CI (Linux / macOS)
+
+Mirror GitHub Actions before every push:
+
+```bash
+npm run ci              # full pipeline (quality · web build · e2e · screenshots)
+npm run ci:fast         # fast gate: type-check · jest · perf
+```
+
+Details: [`docs/CI_CD_PLAN.md`](docs/CI_CD_PLAN.md) · [`scripts/ci-local.sh`](scripts/ci-local.sh)
+
+---
+
 ## App structure (high level)
 
 | Area | Path |
@@ -91,12 +121,15 @@ EXPO_PUBLIC_BACKEND_PROVIDER=firebase EXPO_PUBLIC_USE_EMULATORS=true npm start
 
 ---
 
-## Docs
+## Documentation
 
-- [`docs/CI_CD_PLAN.md`](docs/CI_CD_PLAN.md) — active GitHub Actions CI
-- [`docs/IMPLEMENTATION_GAP_ANALYSIS.md`](docs/IMPLEMENTATION_GAP_ANALYSIS.md) — plan vs codebase
-- [`docs/testing/TESTING_STRATEGY.md`](docs/testing/TESTING_STRATEGY.md) — test inventory
-- [`docs/screenshots/README.md`](docs/screenshots/README.md) — screenshot capture
+| Doc | Topic |
+|-----|-------|
+| [`docs/CI_CD_PLAN.md`](docs/CI_CD_PLAN.md) | GitHub Actions CI + local golden pipeline |
+| [`docs/testing/AUTOMATED_REGRESSION_PLAN.md`](docs/testing/AUTOMATED_REGRESSION_PLAN.md) | Regression coverage map |
+| [`docs/testing/TESTING_STRATEGY.md`](docs/testing/TESTING_STRATEGY.md) | Test inventory |
+| [`docs/IMPLEMENTATION_GAP_ANALYSIS.md`](docs/IMPLEMENTATION_GAP_ANALYSIS.md) | Plan vs codebase |
+| [`docs/screenshots/README.md`](docs/screenshots/README.md) | Screenshot capture |
 
 ---
 

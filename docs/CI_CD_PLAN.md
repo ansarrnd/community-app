@@ -103,7 +103,39 @@ Protect the default branch with this single check:
 
 ---
 
-## Local parity
+## Local golden CI (Linux · macOS)
+
+Run the **same pipeline as GitHub** on your machine before every push:
+
+```bash
+npm run ci              # full: quality → web build → e2e + screenshots (parallel)
+npm run ci:fast         # quality only (type-check · jest · perf) — ~1 min
+npm run ci:install      # full pipeline, skip npm ci (deps already installed)
+```
+
+Or invoke the script directly:
+
+```bash
+./scripts/ci-local.sh
+./scripts/ci-local.sh --fast
+./scripts/ci-local.sh --skip-e2e
+./scripts/ci-local.sh --skip-screenshots
+./scripts/ci-local.sh --no-install
+./scripts/ci-local.sh --with-native   # macOS only: Maestro iOS/Android screenshots
+```
+
+| Stage | Mirrors GHA job | Commands |
+|-------|-----------------|----------|
+| Install | all jobs | `npm ci` |
+| Quality | `quality` | `type-check` · `npm test` · `test:perf` |
+| Web build | `web-e2e` + `screenshots` | `build:web` (includes `patch-web-export`) |
+| Web E2E | `web-e2e` | `bundle:check` · `test:e2e` |
+| Screenshots | `screenshots` | `screenshots:candidate` · `screenshots:compare` |
+| Native (optional) | manual | `--with-native` → Maestro on macOS only |
+
+Logs are written to `.ci-reports/ci-local-*.log`. Requires **Node 22+** and Playwright Chromium (installed automatically on first full run).
+
+### One-liner parity (manual)
 
 ```bash
 npm ci
