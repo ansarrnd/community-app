@@ -4,20 +4,23 @@ This document maps **current coverage**, **gaps**, **performance risks**, and a 
 
 ---
 
-## Current test inventory (142 Jest tests + 5 Playwright E2E)
+## Current test inventory (163 Jest tests + 5 Playwright E2E)
 
 | Layer | What's covered | Location |
 |-------|----------------|----------|
 | Domain | Use cases, models, validation | `__tests__/unit/*UseCase*.ts` |
-| Infrastructure | Mock repo, MMKV, WhatsApp | `__tests__/unit/Mock*.ts` |
-| Application | Filter store, React Query hooks | `FilterStore.test.ts`, `EventsQueryHooks.test.tsx` |
+| Infrastructure | Mock/Firebase repos, MMKV, WhatsApp, OpenGraph | `__tests__/unit/*` |
+| Application | Filter store, React Query hooks (incl. infinite) | `FilterStore.test.ts`, `EventsQueryHooks.test.tsx` |
 | UI components | Chips, Kinship picker, EventList RSVP | `ChipComponents.test.tsx`, etc. |
 | Theme | Token contracts | `Theme.test.ts` |
-| **Screen snapshots** | All 5 screens (dark + partial light) | `ScreenSnapshots.test.tsx` |
+| **Screen snapshots** | All 5 screens (dark + light matrix) | `ScreenSnapshots.test.tsx` |
 | Chip snapshots | SegmentPill, ActionChip, SelectableCard | `ChipSnapshots.test.tsx` |
-| Integration | Filter → approved events query | `EventsFilter.integration.test.tsx` |
-| Screenshots | Viewport PNGs (web export) | `docs/screenshots/ios`, `android` |
+| Integration | Filter → approved events; create→pending; RSVP | `__tests__/integration/` |
+| Screenshots | Viewport PNGs (web export) + pixelmatch CI | `docs/screenshots/` |
 | E2E (web) | Smoke navigation | `e2e/web-smoke.spec.ts` |
+| E2E (native) | Maestro tab/screenshot flows | `.maestro/` + `maestro-native.yml` |
+
+**CI/CD plan:** see `docs/CI_CD_PLAN.md` (Expo 55 · EAS · Maestro · Playwright).
 
 ### Screen snapshot matrix
 
@@ -51,7 +54,7 @@ This document maps **current coverage**, **gaps**, **performance risks**, and a 
 | Gap | Risk | Planned fix |
 |-----|------|-------------|
 | No screen-level RTL tests | Explore/Create flows untested | Add `ExploreScreen.test.tsx` (mock hooks) |
-| Maestro flows not in CI | Native tab navigation untested | Self-hosted job + `screenshots:native:*` |
+| Maestro flows not in CI | Native tab navigation untested | ✅ `maestro-native.yml` (self-hosted Mac) |
 | Accessibility | Missing labels on some controls | `accessibilityLabel` on chips (done) |
 | OfflineBanner | Was missing SafeAreaProvider | Fixed via `renderWithProviders` |
 
@@ -72,9 +75,9 @@ This document maps **current coverage**, **gaps**, **performance risks**, and a 
 
 | Gap | Risk | Planned fix |
 |-----|------|-------------|
-| No Playwright test suite in CI | Web regressions | `e2e/web-smoke.spec.ts` + workflow |
-| No Detox/Maestro CI | Native-only bugs | Maestro on self-hosted Mac (see `cicd.yml` comments) |
-| No performance budgets in E2E | Slow lists unnoticed | FlashList + blur optimizations (below) |
+| No Playwright test suite in CI | Web regressions | ✅ `web-e2e.yml` |
+| No Detox/Maestro CI | Native-only bugs | ✅ Maestro on self-hosted Mac (`maestro-native.yml`); Detox deferred |
+| No performance budgets in E2E | Slow lists unnoticed | ✅ `quality.yml` runs `test:perf` |
 
 **Commands:** `npm run build:web && npm run test:e2e`
 
@@ -160,10 +163,10 @@ Self-hosted runners, SaaS visual CI, or large refactors.
 
 | ID | Item | Effort | Notes |
 |----|------|--------|-------|
-| P4-1 | Maestro native E2E in CI (self-hosted Mac) | L | `screenshots:native:*` flows |
-| P4-2 | Chromatic or Percy on web export | L | Hosted visual diff |
+| P4-1 | Maestro native E2E in CI (self-hosted Mac) | L | ✅ `maestro-native.yml` + `docs/CI_CD_PLAN.md` |
+| P4-2 | Chromatic or Percy on web export | L | ➖ Deferred — pixelmatch covers PR visual gate |
 | P4-3 | Detox evaluation if Maestro insufficient | L | ✅ `docs/testing/DETOX_EVALUATION.md` — defer adoption |
-| P4-4 | Fastlane iOS screenshot lane | L | Store-ready assets |
+| P4-4 | Fastlane iOS screenshot lane | L | ➖ Deferred — EAS Build/Submit replaces Fastlane |
 | P4-5 | Full `villageTheme` / `glassTheme` removal | L | ✅ Kinship tokens on `AppTheme` |
 | P4-6 | React DevTools profiler budget (Explore mount) | M | ✅ `test:perf` + Profiler budget |
 | P4-7 | FlashList 50-item fixture perf test | M | ✅ `RenderBudget.test.tsx` + list tuning |
@@ -190,8 +193,8 @@ Single list of all outstanding work (testing, performance, architecture, CI). **
 | ✅ | Integration — RSVP → count updates | 2 |
 | ✅ | Loading / empty state snapshot matrix | 2 |
 | ✅ | Playwright — category pill + search | 2 |
-| ⬜ | Maestro native flows in CI | 4 |
-| ⬜ | Chromatic/Percy visual regression | 4 |
+| ✅ | Maestro native flows in CI | 4 |
+| ➖ | Chromatic/Percy visual regression | 4 |
 | ✅ | Detox evaluation (deferred; see DETOX_EVALUATION.md) | 4 |
 | ✅ | PNG `pixelmatch` diff in CI | 3 |
 
@@ -233,8 +236,10 @@ Single list of all outstanding work (testing, performance, architecture, CI). **
 | ✅ | Maestro YAML stubs (local) | 1 |
 | ✅ | `ui-screenshots.yml` + `web-e2e.yml` workflows | 1 |
 | ✅ | Screenshot diff on PR (pixelmatch) | 3 |
-| ⬜ | Maestro on self-hosted Mac runner | 4 |
-| ⬜ | Fastlane iOS screenshot lane | 4 |
+| ✅ | Maestro on self-hosted Mac runner | 4 |
+| ➖ | Fastlane iOS screenshot lane | 4 |
+| ✅ | CI/CD plan (Expo 55 + EAS) | — | `docs/CI_CD_PLAN.md` |
+| ✅ | Quality gate + release workflows | — | `quality.yml`, `release.yml` |
 
 ---
 

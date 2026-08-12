@@ -91,10 +91,12 @@ npm run type-check
 npm run build:web
 ```
 
+**CI/CD:** see `docs/CI_CD_PLAN.md` — quality gate, web E2E, screenshots, Maestro, EAS release.
+
 ---
 
 ## PR tracking
 
 | PR / branch | Scope |
 |-------------|-------|
-| `cursor/tab-legibility-fix-729a` | UI, testing, gap P0–P3 complete (Detox deferred) |
+| `cursor/tab-legibility-fix-729a` | UI, testing, gap P0–P3 + CI/CD plan (Detox deferred) |

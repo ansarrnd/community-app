@@ -1,7 +1,7 @@
 name: Maestro Native Smoke
 
 # Requires a self-hosted macOS runner with Maestro CLI, Xcode, and Android SDK.
-# Labels: self-hosted, macOS, ARM64 (see docs/testing/MAESTRO_CI.md)
+# Labels: self-hosted, macOS, ARM64 — see docs/testing/MAESTRO_CI.md and docs/CI_CD_PLAN.md Stage 4.
 
 on:
   pull_request:
@@ -11,6 +11,11 @@ on:
       - '.maestro/**'
       - 'package.json'
       - 'app.json'
+  workflow_dispatch:
+
+concurrency:
+  group: maestro-native-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   maestro-ios-smoke:

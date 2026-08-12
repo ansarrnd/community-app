@@ -60,7 +60,7 @@ describe('Community Connect native smoke', () => {
 |---------|--------|
 | **Do not adopt Detox now** | Maestro + Playwright already cover smoke, screenshots, and tab navigation with lower setup cost on Expo managed workflow. |
 | **Re-evaluate Detox if** | You move to bare workflow, need gray-box synchronization for complex gestures inside FlashList, or Maestro cannot stabilize critical flows. |
-| **Short-term native CI** | Finish Maestro on self-hosted Mac (Phase 4 backlog P4-1) before investing in Detox. |
+| **Short-term native CI** | Finish Maestro on self-hosted Mac — ✅ `maestro-native.yml` + `docs/CI_CD_PLAN.md`. |
 
 ## Alternatives considered
 

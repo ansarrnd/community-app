@@ -1,0 +1,32 @@
+name: Quality Gate
+
+# PR + main quality: type-check, Jest, perf budgets.
+# See docs/CI_CD_PLAN.md
+
+on:
+  pull_request:
+  push:
+    branches: [main, develop]
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Type-check · Jest · Perf
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Type-check
+        run: npm run type-check
+      - name: Unit + integration tests
+        run: npm test
+      - name: Perf budgets
+        run: npm run test:perf

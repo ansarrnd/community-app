@@ -1,5 +1,7 @@
 name: UI Screenshot Reference
 
+# Viewport PNGs + pixelmatch. See docs/CI_CD_PLAN.md Stage 3.
+
 on:
   pull_request:
     paths:
@@ -8,11 +10,21 @@ on:
       - 'constants/theme.ts'
       - 'docs/screenshots/**'
       - 'scripts/capture-screenshots.mjs'
+      - 'scripts/compare-screenshots.mjs'
+      - 'package.json'
+      - 'app.json'
+  push:
+    branches: [main]
+
+concurrency:
+  group: ui-screenshots-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   capture-viewport-screenshots:
-    name: Capture iOS/Android viewport screenshots (web export)
+    name: Capture + pixelmatch
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -26,6 +38,7 @@ jobs:
       - run: npm run screenshots:compare
       - run: npm run bundle:check
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: ui-screenshots
           path: docs/screenshots/.ci-candidate/
