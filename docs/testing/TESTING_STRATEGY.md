@@ -4,7 +4,9 @@ This document maps **current coverage**, **gaps**, **performance risks**, and a 
 
 ---
 
-## Current test inventory (163 Jest tests + 5 Playwright E2E)
+## Current test inventory (166 Jest tests + 10 Playwright E2E)
+
+**Regression plan (GHA-only):** `docs/testing/AUTOMATED_REGRESSION_PLAN.md`
 
 | Layer | What's covered | Location |
 |-------|----------------|----------|
@@ -15,9 +17,9 @@ This document maps **current coverage**, **gaps**, **performance risks**, and a 
 | Theme | Token contracts | `Theme.test.ts` |
 | **Screen snapshots** | All 5 screens (dark + light matrix) | `ScreenSnapshots.test.tsx` |
 | Chip snapshots | SegmentPill, ActionChip, SelectableCard | `ChipSnapshots.test.tsx` |
-| Integration | Filter → approved events; create→pending; RSVP | `__tests__/integration/` |
+| Integration | Filter, create→pending, RSVP, moderate, infinite scroll, auth bootstrap | `__tests__/integration/` |
 | Screenshots | Viewport PNGs (web export) + pixelmatch CI | `docs/screenshots/` |
-| E2E (web) | Smoke navigation | `e2e/web-smoke.spec.ts` |
+| E2E (web) | Smoke + regression (RSVP, moderation, role gate, create, theme) | `e2e/web-smoke.spec.ts`, `e2e/regression.spec.ts` |
 | E2E (native) | Maestro tab/screenshot flows | `.maestro/` + `maestro-native.yml` |
 
 **CI/CD plan:** see `docs/CI_CD_PLAN.md` — sole active workflow `.github/workflows/ci.yml` (GitHub-hosted). Maestro/EAS release workflows are disabled.
@@ -193,6 +195,10 @@ Single list of all outstanding work (testing, performance, architecture, CI). **
 | ✅ | Integration — RSVP → count updates | 2 |
 | ✅ | Loading / empty state snapshot matrix | 2 |
 | ✅ | Playwright — category pill + search | 2 |
+| ✅ | Playwright — RSVP, moderation, role gate, create, theme | 2 | `e2e/regression.spec.ts` |
+| ✅ | Integration — moderate pending → approved | 2 | `Moderate.integration.test.tsx` |
+| ✅ | Integration — infinite approved events page 2 | 2 | `EventsInfinite.integration.test.tsx` |
+| ✅ | Integration — AuthBootstrap → Zustand | 2 | `AuthBootstrap.integration.test.tsx` |
 | ⛔ | Maestro native flows in CI (disabled) | 4 |
 | ➖ | Chromatic/Percy visual regression | 4 |
 | ✅ | Detox evaluation (deferred; see DETOX_EVALUATION.md) | 4 |
@@ -250,7 +256,7 @@ npm test                  # All Jest tests
 npm run test:integration  # Integration folder only
 npm run test:perf         # Profiler + FlashList render budgets
 npm run test:snapshots    # UI snapshot tests
-npm run test:e2e          # Playwright web smoke
+npm run test:e2e          # Playwright smoke + regression (10 tests)
 npm run screenshots       # PNG capture (iOS + Android viewports)
 npm run screenshots:candidate # CI candidate PNGs (.ci-candidate/)
 npm run screenshots:compare   # pixelmatch diff vs baseline
