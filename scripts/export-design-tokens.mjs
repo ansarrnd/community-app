@@ -1,0 +1,187 @@
+/**
+ * Export design tokens → docs/BLUEPRINT/design-tokens.json
+ * Static snapshot from constants/theme.ts (avoids RN import in Node).
+ * Re-run after theme changes; diff against constants/theme.ts.
+ */
+import { writeFileSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const OUT = join(dirname(fileURLToPath(import.meta.url)), '../docs/BLUEPRINT/design-tokens.json');
+
+// Inline mirror of constants/theme.ts exports
+const themeTypography = {
+  h1: { fontSize: 28, lineHeight: 36, fontWeight: '800', letterSpacing: -0.5 },
+  h2: { fontSize: 22, lineHeight: 28, fontWeight: '700', letterSpacing: -0.3 },
+  h3: { fontSize: 18, lineHeight: 24, fontWeight: '700' },
+  subtitle: { fontSize: 16, lineHeight: 22, fontWeight: '600' },
+  body: { fontSize: 15, lineHeight: 22, fontWeight: '400' },
+  bodyBold: { fontSize: 15, lineHeight: 22, fontWeight: '600' },
+  caption: { fontSize: 13, lineHeight: 18, fontWeight: '500' },
+  button: { fontSize: 15, lineHeight: 20, fontWeight: '700' },
+};
+
+const themeSpacing = { xs: 4, sm: 8, md: 16, lg: 24, xl: 32, xxl: 48 };
+const themeRadius = { sm: 8, md: 14, lg: 20, xl: 28, pill: 999 };
+
+const darkThemeColors = {
+  bgCanvas: '#0B0D13',
+  bgCard: 'rgba(22, 25, 34, 0.95)',
+  bgCardSolid: '#161922',
+  borderCard: '#21262D',
+  bgHeader: 'rgba(11, 13, 19, 0.94)',
+  bgInput: 'rgba(255, 255, 255, 0.06)',
+  borderInput: '#21262D',
+  accentGold: '#FBBF24',
+  accentTeal: '#FBBF24',
+  accentCyan: '#E07A5F',
+  accentPink: '#FDE047',
+  accentPurple: '#A78BFA',
+  accentGreen: '#34D399',
+  roleUser: '#34D399',
+  roleMod: '#E07A5F',
+  roleAdmin: '#FBBF24',
+  textPrimary: '#F9F8F6',
+  textSecondary: '#E5E7EB',
+  textMuted: '#9CA3AF',
+  textInverse: '#0B0D13',
+  tabBarBg: 'rgba(11, 13, 19, 0.96)',
+  tabBarBorder: '#21262D',
+  overlayBg: 'rgba(0, 0, 0, 0.78)',
+  buttonPrimaryBg: '#FBBF24',
+  buttonPrimaryText: '#0B0D13',
+  segmentBg: '#1A1E28',
+  segmentBgActive: 'rgba(251, 191, 36, 0.22)',
+  segmentBorder: '#3D4450',
+  segmentBorderActive: '#FBBF24',
+  segmentText: '#F9F8F6',
+  segmentTextActive: '#FBBF24',
+  chipSuccessBg: 'rgba(52, 211, 153, 0.22)',
+  chipSuccessBorder: '#34D399',
+  chipSuccessText: '#34D399',
+  chipDangerBg: 'rgba(255, 42, 109, 0.22)',
+  chipDangerBorder: '#FF2A6D',
+  chipDangerText: '#FF2A6D',
+  glowAccent: 'rgba(251, 191, 36, 0.4)',
+  glowAccentSubtle: 'rgba(251, 191, 36, 0.12)',
+  glowAvatarBg: 'rgba(251, 191, 36, 0.2)',
+  glowCategoryMarriage: 'rgba(255, 184, 0, 0.4)',
+  glowCategoryCultural: 'rgba(224, 122, 95, 0.4)',
+  glowCategoryMeeting: 'rgba(167, 139, 250, 0.4)',
+  auroraPrimary: 'rgba(251, 191, 36, 0.25)',
+};
+
+const lightThemeColors = {
+  bgCanvas: '#F9F6F0',
+  bgCard: '#FFFFFF',
+  bgCardSolid: '#FFFFFF',
+  borderCard: '#E6E1DA',
+  bgHeader: 'rgba(249, 246, 240, 0.95)',
+  bgInput: '#FFFFFF',
+  borderInput: '#E6E1DA',
+  accentTeal: '#C85A32',
+  accentCyan: '#E28743',
+  accentPink: '#BE185D',
+  accentPurple: '#7C3AED',
+  accentGold: '#D97706',
+  accentGreen: '#2D6A4F',
+  roleUser: '#2D6A4F',
+  roleMod: '#E28743',
+  roleAdmin: '#C85A32',
+  textPrimary: '#1E1E1E',
+  textSecondary: '#374151',
+  textMuted: '#706C61',
+  textInverse: '#FFFFFF',
+  tabBarBg: 'rgba(249, 246, 240, 0.96)',
+  tabBarBorder: '#E6E1DA',
+  overlayBg: 'rgba(0, 0, 0, 0.4)',
+  buttonPrimaryBg: '#C85A32',
+  buttonPrimaryText: '#FFFFFF',
+  segmentBg: '#EDE8E0',
+  segmentBgActive: 'rgba(200, 90, 50, 0.18)',
+  segmentBorder: '#C9C2B8',
+  segmentBorderActive: '#C85A32',
+  segmentText: '#1E1E1E',
+  segmentTextActive: '#C85A32',
+  chipSuccessBg: 'rgba(45, 106, 79, 0.18)',
+  chipSuccessBorder: '#2D6A4F',
+  chipSuccessText: '#2D6A4F',
+  chipDangerBg: 'rgba(190, 24, 93, 0.16)',
+  chipDangerBorder: '#BE185D',
+  chipDangerText: '#BE185D',
+  glowAccent: 'rgba(200, 90, 50, 0.35)',
+  glowAccentSubtle: 'rgba(200, 90, 50, 0.08)',
+  glowAvatarBg: 'rgba(200, 90, 50, 0.15)',
+  glowCategoryMarriage: 'rgba(217, 119, 6, 0.35)',
+  glowCategoryCultural: 'rgba(226, 135, 67, 0.35)',
+  glowCategoryMeeting: 'rgba(124, 58, 237, 0.25)',
+  auroraPrimary: 'rgba(200, 90, 50, 0.16)',
+};
+
+const darkKinshipTokens = {
+  lineageBorders: {
+    PATERNAL: '#FBBF24',
+    MATERNAL: '#60A5FA',
+    AFFINAL: '#FDE047',
+    NUCLEAR: '#E07A5F',
+    COUSIN: '#A78BFA',
+    EXTERNAL: '#9CA3AF',
+    SOCIAL: '#34D399',
+    GENERAL: '#9CA3AF',
+  },
+  tags: {
+    inVillageBg: '#064E3B',
+    inVillageText: '#34D399',
+    outVillageBg: '#1E3A8A',
+    outVillageText: '#60A5FA',
+    affinalBg: '#451A03',
+    affinalText: '#FDE047',
+  },
+};
+
+const lightKinshipTokens = {
+  lineageBorders: {
+    PATERNAL: '#C85A32',
+    MATERNAL: '#1D4ED8',
+    AFFINAL: '#BE185D',
+    NUCLEAR: '#E28743',
+    COUSIN: '#8B5CF6',
+    EXTERNAL: '#6B7280',
+    SOCIAL: '#10B981',
+    GENERAL: '#706C61',
+  },
+  tags: {
+    inVillageBg: '#E1F0E5',
+    inVillageText: '#2D6A4F',
+    outVillageBg: '#E2EAFC',
+    outVillageText: '#1D4ED8',
+    affinalBg: '#FDF2F8',
+    affinalText: '#BE185D',
+  },
+};
+
+const payload = {
+  generatedAt: new Date().toISOString(),
+  source: 'constants/theme.ts (static snapshot — update script when tokens change)',
+  typography: themeTypography,
+  spacing: themeSpacing,
+  borderRadius: themeRadius,
+  blurIntensity: { card: 20, modal: 35, tabBar: 25 },
+  colors: { dark: darkThemeColors, light: lightThemeColors },
+  kinship: { dark: darkKinshipTokens, light: lightKinshipTokens },
+  auroraMesh: {
+    dark: [
+      { color: 'rgba(127, 0, 255, 0.35)', x: 0.1, y: 0.1, radius: 250 },
+      { color: 'rgba(251, 191, 36, 0.25)', x: 0.8, y: 0.3, radius: 300 },
+      { color: 'rgba(255, 42, 109, 0.25)', x: 0.5, y: 0.8, radius: 280 },
+    ],
+    light: [
+      { color: 'rgba(59, 130, 246, 0.18)', x: 0.1, y: 0.1, radius: 250 },
+      { color: 'rgba(200, 90, 50, 0.16)', x: 0.8, y: 0.3, radius: 300 },
+      { color: 'rgba(236, 72, 153, 0.15)', x: 0.5, y: 0.8, radius: 280 },
+    ],
+  },
+};
+
+writeFileSync(OUT, JSON.stringify(payload, null, 2) + '\n');
+console.log(`[export-design-tokens] Written ${OUT}`);

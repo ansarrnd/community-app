@@ -125,6 +125,7 @@ Details: [`docs/CI_CD_PLAN.md`](docs/CI_CD_PLAN.md) · [`scripts/ci-local.sh`](s
 
 | Doc | Topic |
 |-----|-------|
+| [`docs/BLUEPRINT/README.md`](docs/BLUEPRINT/README.md) | **Portability blueprint** — domain, UI, architecture, tests |
 | [`docs/CI_CD_PLAN.md`](docs/CI_CD_PLAN.md) | GitHub Actions CI + local golden pipeline |
 | [`docs/testing/AUTOMATED_REGRESSION_PLAN.md`](docs/testing/AUTOMATED_REGRESSION_PLAN.md) | Regression coverage map |
 | [`docs/testing/TESTING_STRATEGY.md`](docs/testing/TESTING_STRATEGY.md) | Test inventory |
