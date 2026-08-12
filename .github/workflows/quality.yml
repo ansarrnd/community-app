@@ -1,32 +1,15 @@
-name: Quality Gate
-
-# PR + main quality: type-check, Jest, perf budgets.
+# DISABLED — not part of the active CI surface.
+# Active pipeline: .github/workflows/ci.yml (GitHub-hosted only).
 # See docs/CI_CD_PLAN.md
 
-on:
-  pull_request:
-  push:
-    branches: [main, develop]
+name: Quality Gate (disabled)
 
-concurrency:
-  group: quality-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+on:
+  workflow_dispatch:
 
 jobs:
-  quality:
-    name: Type-check · Jest · Perf
+  disabled:
+    if: false
     runs-on: ubuntu-latest
-    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
-      - name: Type-check
-        run: npm run type-check
-      - name: Unit + integration tests
-        run: npm test
-      - name: Perf budgets
-        run: npm run test:perf
+      - run: echo "Disabled — use ci.yml"

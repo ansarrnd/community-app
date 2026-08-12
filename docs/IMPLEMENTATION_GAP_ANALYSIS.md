@@ -45,7 +45,7 @@ Update status as work lands: ⬜ open · 🔄 in progress · ✅ done · ➖ def
 | ✅ | Bridgeless New Architecture | `newArchEnabled: true` in `app.json` |
 | ✅ | `eas.json` build profiles | `eas.json` (development / preview / production) |
 | ✅ | `expo-updates` OTA | `UpdatesBootstrap` + `app.json` updates config |
-| ✅ | Maestro native CI (self-hosted Mac) | `.github/workflows/maestro-native.yml` |
+| ✅ | Maestro native CI (self-hosted Mac) | ⛔ Disabled — local Maestro only; active CI is `ci.yml` |
 
 ---
 
@@ -91,7 +91,7 @@ npm run type-check
 npm run build:web
 ```
 
-**CI/CD:** see `docs/CI_CD_PLAN.md` — quality gate, web E2E, screenshots, Maestro, EAS release.
+**CI/CD:** sole active workflow `.github/workflows/ci.yml` — see `docs/CI_CD_PLAN.md`. Maestro/EAS release Actions are disabled.
 
 ---
 

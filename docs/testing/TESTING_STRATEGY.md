@@ -20,7 +20,7 @@ This document maps **current coverage**, **gaps**, **performance risks**, and a 
 | E2E (web) | Smoke navigation | `e2e/web-smoke.spec.ts` |
 | E2E (native) | Maestro tab/screenshot flows | `.maestro/` + `maestro-native.yml` |
 
-**CI/CD plan:** see `docs/CI_CD_PLAN.md` (Expo 55 · EAS · Maestro · Playwright).
+**CI/CD plan:** see `docs/CI_CD_PLAN.md` — sole active workflow `.github/workflows/ci.yml` (GitHub-hosted). Maestro/EAS release workflows are disabled.
 
 ### Screen snapshot matrix
 
@@ -76,8 +76,8 @@ This document maps **current coverage**, **gaps**, **performance risks**, and a 
 | Gap | Risk | Planned fix |
 |-----|------|-------------|
 | No Playwright test suite in CI | Web regressions | ✅ `web-e2e.yml` |
-| No Detox/Maestro CI | Native-only bugs | ✅ Maestro on self-hosted Mac (`maestro-native.yml`); Detox deferred |
-| No performance budgets in E2E | Slow lists unnoticed | ✅ `quality.yml` runs `test:perf` |
+| No Detox/Maestro CI | Native-only bugs | Maestro Action disabled — run locally; Detox deferred (`CI_CD_PLAN.md`) |
+| No performance budgets in E2E | Slow lists unnoticed | ✅ `ci.yml` quality job runs `test:perf` |
 
 **Commands:** `npm run build:web && npm run test:e2e`
 

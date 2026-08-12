@@ -2,11 +2,11 @@
 
 Maestro flows live under `.maestro/` and run on **self-hosted macOS** runners (ARM64 recommended for iOS Simulator + Android emulator performance).
 
-**Full pipeline context:** `docs/CI_CD_PLAN.md` (Stage 4).
+**Full pipeline context:** `docs/CI_CD_PLAN.md` — Maestro GitHub Action is **disabled**; use local commands below.
 
 ## GitHub Actions
 
-Workflow: `.github/workflows/maestro-native.yml`
+Workflow: `.github/workflows/maestro-native.yml` (**disabled** — active CI is `ci.yml` only).
 
 Register a self-hosted runner with labels:
 

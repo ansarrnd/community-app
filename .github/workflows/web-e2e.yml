@@ -1,39 +1,15 @@
-name: Web E2E Smoke
+# DISABLED — merged into ci.yml.
+# Active pipeline: .github/workflows/ci.yml
+# See docs/CI_CD_PLAN.md
 
-# Web export + Playwright + bundle gate. See docs/CI_CD_PLAN.md Stage 2.
+name: Web E2E Smoke (disabled)
 
 on:
-  pull_request:
-    paths:
-      - 'app/**'
-      - 'components/**'
-      - 'application/**'
-      - 'infrastructure/**'
-      - 'e2e/**'
-      - 'playwright.config.ts'
-      - 'package.json'
-      - 'package-lock.json'
-      - 'app.json'
-  push:
-    branches: [main]
-
-concurrency:
-  group: web-e2e-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  workflow_dispatch:
 
 jobs:
-  playwright-smoke:
-    name: Build web · Playwright · Bundle
+  disabled:
+    if: false
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npx playwright install chromium --with-deps
-      - run: npm run build:web
-      - run: npm run bundle:check
-      - run: npm run test:e2e
+      - run: echo "Disabled — use ci.yml"

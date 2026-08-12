@@ -1,33 +1,15 @@
-# Legacy Hybrid CI/CD stub
-#
-# This file previously held a commented Fastlane + Gradle + Maestro mega-pipeline.
-# That plan is obsolete for Community Connect (Expo SDK 55 + EAS).
-#
-# Canonical plan:     docs/CI_CD_PLAN.md
-# Active workflows:
-#   - quality.yml           PR/main type-check + Jest + perf
-#   - web-e2e.yml           Web export + Playwright + bundle gate
-#   - ui-screenshots.yml    Viewport screenshots + pixelmatch
-#   - maestro-native.yml    Self-hosted Mac Maestro smoke
-#   - release.yml           EAS production build / OTA / Functions
-#
-# Do not re-enable Fastlane jobs here. Use EAS Build / Submit / Update instead.
+# DISABLED — legacy Fastlane hybrid stub.
+# Active pipeline: .github/workflows/ci.yml
+# See docs/CI_CD_PLAN.md
 
 name: Legacy CI/CD Stub (disabled)
 
 on:
   workflow_dispatch:
-    inputs:
-      note:
-        description: 'This workflow is intentionally disabled — see docs/CI_CD_PLAN.md'
-        required: false
-        default: 'noop'
 
 jobs:
-  point-to-plan:
+  disabled:
+    if: false
     runs-on: ubuntu-latest
     steps:
-      - name: CI/CD plan pointer
-        run: |
-          echo "Use quality.yml, web-e2e.yml, ui-screenshots.yml, maestro-native.yml, and release.yml."
-          echo "Full plan: docs/CI_CD_PLAN.md"
+      - run: echo "Disabled — use ci.yml"

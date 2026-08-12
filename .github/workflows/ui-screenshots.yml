@@ -1,45 +1,15 @@
-name: UI Screenshot Reference
+# DISABLED — merged into ci.yml.
+# Active pipeline: .github/workflows/ci.yml
+# See docs/CI_CD_PLAN.md
 
-# Viewport PNGs + pixelmatch. See docs/CI_CD_PLAN.md Stage 3.
+name: UI Screenshot Reference (disabled)
 
 on:
-  pull_request:
-    paths:
-      - 'app/**'
-      - 'components/**'
-      - 'constants/theme.ts'
-      - 'docs/screenshots/**'
-      - 'scripts/capture-screenshots.mjs'
-      - 'scripts/compare-screenshots.mjs'
-      - 'package.json'
-      - 'app.json'
-  push:
-    branches: [main]
-
-concurrency:
-  group: ui-screenshots-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  workflow_dispatch:
 
 jobs:
-  capture-viewport-screenshots:
-    name: Capture + pixelmatch
+  disabled:
+    if: false
     runs-on: ubuntu-latest
-    timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npx playwright install chromium --with-deps
-      - run: npm run build:web
-      - run: npm run screenshots:candidate
-      - run: npm run screenshots:compare
-      - run: npm run bundle:check
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: ui-screenshots
-          path: docs/screenshots/.ci-candidate/
-          retention-days: 14
+      - run: echo "Disabled — use ci.yml"
