@@ -1,0 +1,25 @@
+appId: com.community.connect
+---
+# Android Emulator — UI screenshot capture
+# Run: maestro test .maestro/android/screenshots.yaml
+# Output: docs/screenshots/android/
+
+- launchApp
+- extendedWaitUntil:
+    visible: "Explore Events"
+    timeout: 15000
+- takeScreenshot: docs/screenshots/android/01-explore
+
+- tapOn:
+    text: "Create"
+- extendedWaitUntil:
+    visible: "Host a Community Event"
+    timeout: 10000
+- takeScreenshot: docs/screenshots/android/02-create
+
+- tapOn:
+    text: "Profile"
+- extendedWaitUntil:
+    visible: "Theme Preference"
+    timeout: 10000
+- takeScreenshot: docs/screenshots/android/03-profile

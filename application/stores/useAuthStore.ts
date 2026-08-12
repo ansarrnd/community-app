@@ -8,10 +8,10 @@ interface AuthState {
 }
 
 const DEFAULT_DEMO_USER: User = {
-  uid: 'demo-user-123',
-  phoneNumber: '+15550192834',
-  displayName: 'Alex Mercer',
-  role: 'ADMIN', // Default to ADMIN so all mod/admin features are immediately accessible in demo
+  uid: 'demo-user-admin',
+  phoneNumber: '+15550192836',
+  displayName: 'Arun Administrator',
+  role: 'ADMIN',
   createdAt: new Date().toISOString(),
 };
 

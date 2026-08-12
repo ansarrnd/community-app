@@ -6,7 +6,7 @@ describe('MMKV / LocalStorage Storage Unit Tests', () => {
     storage.delete('REACT_QUERY_OFFLINE_CACHE');
   });
 
-  describe('LocalStorageFallback', () => {
+  describe('storage adapter', () => {
     it('sets and gets string values in memory/cache', () => {
       storage.set('TEST_KEY', 'Hello World');
       const value = storage.getString('TEST_KEY');

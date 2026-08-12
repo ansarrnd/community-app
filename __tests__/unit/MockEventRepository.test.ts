@@ -9,38 +9,48 @@ describe('MockEventRepository Infrastructure Unit Tests', () => {
 
   describe('getApprovedEvents', () => {
     it('returns all approved events when no filters are passed', async () => {
-      const events = await repo.getApprovedEvents();
-      expect(events.length).toBe(3);
-      events.forEach((evt) => expect(evt.status).toBe('APPROVED'));
+      const page = await repo.getApprovedEvents();
+      expect(page.items.length).toBe(3);
+      page.items.forEach((evt) => expect(evt.status).toBe('APPROVED'));
     });
 
     it('filters approved events by category', async () => {
       const marriageEvents = await repo.getApprovedEvents('MARRIAGE');
-      expect(marriageEvents.length).toBe(1);
-      expect(marriageEvents[0].category).toBe('MARRIAGE');
+      expect(marriageEvents.items.length).toBe(1);
+      expect(marriageEvents.items[0].category).toBe('MARRIAGE');
 
       const culturalEvents = await repo.getApprovedEvents('CULTURAL');
-      expect(culturalEvents.length).toBe(1);
-      expect(culturalEvents[0].category).toBe('CULTURAL');
+      expect(culturalEvents.items.length).toBe(1);
+      expect(culturalEvents.items[0].category).toBe('CULTURAL');
 
       const meetingEvents = await repo.getApprovedEvents('MEETING');
-      expect(meetingEvents.length).toBe(1);
-      expect(meetingEvents[0].category).toBe('MEETING');
+      expect(meetingEvents.items.length).toBe(1);
+      expect(meetingEvents.items[0].category).toBe('MEETING');
     });
 
     it('filters approved events by searchQuery on title or venue', async () => {
       const titleSearch = await repo.getApprovedEvents('ALL', 'Diwali');
-      expect(titleSearch.length).toBe(1);
-      expect(titleSearch[0].id).toBe('evt-2');
+      expect(titleSearch.items.length).toBe(1);
+      expect(titleSearch.items[0].id).toBe('evt-2');
 
       const venueSearch = await repo.getApprovedEvents('ALL', 'Town Hall');
-      expect(venueSearch.length).toBe(1);
-      expect(venueSearch[0].id).toBe('evt-3');
+      expect(venueSearch.items.length).toBe(1);
+      expect(venueSearch.items[0].id).toBe('evt-3');
     });
 
     it('returns empty array when searchQuery matches nothing', async () => {
       const search = await repo.getApprovedEvents('ALL', 'nonexistentquery123');
-      expect(search.length).toBe(0);
+      expect(search.items.length).toBe(0);
+    });
+
+    it('paginates with cursor and limit', async () => {
+      const page1 = await repo.getApprovedEvents('ALL', '', { limit: 2 });
+      expect(page1.items.length).toBe(2);
+      expect(page1.nextCursor).toBeTruthy();
+
+      const page2 = await repo.getApprovedEvents('ALL', '', { cursor: page1.nextCursor, limit: 2 });
+      expect(page2.items.length).toBe(1);
+      expect(page2.nextCursor).toBeNull();
     });
   });
 

@@ -1,12 +1,15 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Calendar, PlusCircle, ShieldAlert, User } from 'lucide-react-native';
 import { useTheme } from '../../context/ThemeContext';
 import { useRoleGuard } from '../../application/hooks/useRoleGuard';
+import { TAB_BAR_BASE_HEIGHT } from '../../application/hooks/useLayoutInsets';
 
 export default function TabsLayout() {
   const { isMod, isAdmin } = useRoleGuard();
   const { theme } = useTheme();
+  const insets = useSafeAreaInsets();
   const canModerate = isMod || isAdmin;
 
   return (
@@ -23,8 +26,8 @@ export default function TabsLayout() {
         tabBarStyle: {
           backgroundColor: theme.colors.tabBarBg,
           borderTopColor: theme.colors.tabBarBorder,
-          height: 64,
-          paddingBottom: 8,
+          height: TAB_BAR_BASE_HEIGHT + insets.bottom,
+          paddingBottom: insets.bottom || 8,
           paddingTop: 8,
           position: 'absolute',
         },

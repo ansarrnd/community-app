@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { WifiOff } from 'lucide-react-native';
 import { useNetworkGuard } from '../application/hooks/useNetworkGuard';
 import { useTheme } from '../context/ThemeContext';
@@ -8,6 +9,7 @@ import { ThemedText } from './ThemedText';
 export const OfflineBanner: React.FC = () => {
   const { isConnected } = useNetworkGuard();
   const { theme } = useTheme();
+  const insets = useSafeAreaInsets();
 
   if (isConnected) return null;
 
@@ -16,6 +18,7 @@ export const OfflineBanner: React.FC = () => {
       style={[
         styles.container,
         {
+          paddingTop: insets.top + 8,
           backgroundColor: theme.isDark ? 'rgba(255, 184, 0, 0.18)' : 'rgba(217, 119, 6, 0.12)',
           borderColor: theme.colors.accentGold,
         },
@@ -32,7 +35,7 @@ export const OfflineBanner: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
-    paddingVertical: 8,
+    paddingBottom: 8,
     paddingHorizontal: 16,
     flexDirection: 'row',
     alignItems: 'center',

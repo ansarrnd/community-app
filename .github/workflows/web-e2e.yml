@@ -1,0 +1,26 @@
+name: Web E2E Smoke
+
+on:
+  pull_request:
+    paths:
+      - 'app/**'
+      - 'components/**'
+      - 'e2e/**'
+      - 'playwright.config.ts'
+
+jobs:
+  playwright-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run test:perf
+      - run: npx playwright install chromium --with-deps
+      - run: npm run build:web
+      - run: npm run bundle:check
+      - run: npm run test:e2e

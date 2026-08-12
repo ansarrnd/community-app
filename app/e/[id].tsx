@@ -7,7 +7,10 @@ import { useAuthStore } from '../../application/stores/useAuthStore';
 import { LiquidGlassCard } from '../../components/LiquidGlassCard';
 import { EventImage } from '../../components/EventImage';
 import { ThemedText } from '../../components/ThemedText';
+import { ActionChip, getActionChipColors } from '../../components/ui';
 import { useTheme } from '../../context/ThemeContext';
+import { useLayoutInsets } from '../../application/hooks/useLayoutInsets';
+import { platformShadow } from '../../constants/theme';
 import { whatsappService } from '../../infrastructure/services/whatsappService';
 import { MapPin, Calendar, Clock, Share2, CheckCircle2, XCircle, ExternalLink, Globe, Users } from 'lucide-react-native';
 import { TAMIL_RELATIONSHIPS } from '../../modules/kinship';
@@ -17,6 +20,7 @@ export default function EventDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const user = useAuthStore((state) => state.user);
   const { theme } = useTheme();
+  const { stackBottomPadding } = useLayoutInsets();
 
   const { data: event, isLoading } = useEventDetail(id || '');
   const { data: userRsvps = {} } = useUserRsvps(user.uid);
@@ -48,7 +52,10 @@ export default function EventDetailScreen() {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={[styles.contentContainer, { paddingBottom: stackBottomPadding }]}
+    >
       {/* Hero Image View */}
       <EventImage uri={event.inviteCardUrl} height={220} borderRadius={20} />
 
@@ -159,7 +166,7 @@ export default function EventDetailScreen() {
 
       {/* Attached Family & Kinship Members */}
       {event.attachedMembers && event.attachedMembers.length > 0 && (
-        <LiquidGlassCard style={styles.templateCard} glowColor="rgba(0, 242, 254, 0.3)">
+        <LiquidGlassCard style={styles.templateCard} glowColor={theme.colors.glowAccent}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
             <Users size={18} color={theme.colors.accentTeal} style={{ marginRight: 6 }} />
             <ThemedText variant="subtitle" bold style={{ color: theme.colors.accentTeal }}>
@@ -238,55 +245,38 @@ export default function EventDetailScreen() {
         Your Response
       </ThemedText>
       <View style={styles.rsvpRow}>
-        <Pressable
+        <ActionChip
+          variant="success"
+          selected={userRsvpStatus === 'ATTENDING'}
+          style={styles.rsvpActionSpacing}
+          icon={
+            <CheckCircle2
+              size={18}
+              color={getActionChipColors(theme.colors, 'success', userRsvpStatus === 'ATTENDING').iconColor}
+            />
+          }
+          label={`Attending (${event.attendingCount})`}
           onPress={() => handleRsvp('ATTENDING')}
-          style={({ pressed }) => [
-            styles.rsvpActionBtn,
-            userRsvpStatus === 'ATTENDING'
-              ? { backgroundColor: 'rgba(0, 230, 118, 0.22)', borderColor: theme.colors.roleUser }
-              : { backgroundColor: theme.colors.bgInput, borderColor: theme.colors.borderInput },
-            pressed && { opacity: 0.8 },
-          ]}
-        >
-          <CheckCircle2
-            size={18}
-            color={userRsvpStatus === 'ATTENDING' ? theme.colors.roleUser : theme.colors.textMuted}
-          />
-          <ThemedText
-            variant="button"
-            style={{ color: userRsvpStatus === 'ATTENDING' ? theme.colors.roleUser : theme.colors.textPrimary }}
-          >
-            Attending ({event.attendingCount})
-          </ThemedText>
-        </Pressable>
+        />
 
-        <Pressable
+        <ActionChip
+          variant="danger"
+          selected={userRsvpStatus === 'DECLINED'}
+          icon={
+            <XCircle
+              size={18}
+              color={getActionChipColors(theme.colors, 'danger', userRsvpStatus === 'DECLINED').iconColor}
+            />
+          }
+          label="Declined"
           onPress={() => handleRsvp('DECLINED')}
-          style={({ pressed }) => [
-            styles.rsvpActionBtn,
-            userRsvpStatus === 'DECLINED'
-              ? { backgroundColor: 'rgba(255, 42, 109, 0.22)', borderColor: theme.colors.accentPink }
-              : { backgroundColor: theme.colors.bgInput, borderColor: theme.colors.borderInput },
-            pressed && { opacity: 0.8 },
-          ]}
-        >
-          <XCircle
-            size={18}
-            color={userRsvpStatus === 'DECLINED' ? theme.colors.accentPink : theme.colors.textMuted}
-          />
-          <ThemedText
-            variant="button"
-            style={{ color: userRsvpStatus === 'DECLINED' ? theme.colors.accentPink : theme.colors.textPrimary }}
-          >
-            Declined
-          </ThemedText>
-        </Pressable>
+        />
       </View>
 
       {/* Primary WhatsApp Deep Link Share Button */}
       <Pressable
         onPress={() => whatsappService.shareEventToWhatsApp(event)}
-        style={({ pressed }) => [styles.whatsappBtn, pressed && { opacity: 0.88 }]}
+        style={({ pressed }) => [styles.whatsappBtn, platformShadow('whatsapp'), pressed && { opacity: 0.88 }]}
       >
         <Share2 size={20} color="#FFF" style={{ marginRight: 8 }} />
         <ThemedText variant="button" style={{ color: '#FFF' }}>
@@ -317,7 +307,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: 12,
-    paddingBottom: 80,
   },
   loadingContainer: {
     flex: 1,
@@ -384,15 +373,9 @@ const styles = StyleSheet.create({
     gap: 10,
     marginBottom: 16,
   },
-  rsvpActionBtn: {
+  rsvpActionSpacing: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 12,
-    borderRadius: 20,
-    borderWidth: 1,
-    gap: 6,
   },
   whatsappBtn: {
     flexDirection: 'row',
@@ -402,11 +385,6 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 20,
     marginBottom: 16,
-    shadowColor: '#25D366',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.4,
-    shadowRadius: 12,
-    elevation: 6,
   },
   ogCard: {
     marginTop: 10,

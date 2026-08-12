@@ -6,7 +6,7 @@ jest.mock('../../infrastructure/repositories/FirebaseEventRepository', () => ({
   FirebaseEventRepository: jest.fn(),
 }));
 
-import { useApprovedEvents, usePendingEvents, useEventDetail } from '../../application/hooks/useEventsQuery';
+import { useApprovedEvents, useApprovedEventsInfinite, usePendingEvents, useEventDetail } from '../../application/hooks/useEventsQuery';
 
 describe('useEventsQuery React Query Hooks Unit Tests', () => {
   let queryClient: QueryClient;
@@ -32,6 +32,17 @@ describe('useEventsQuery React Query Hooks Unit Tests', () => {
 
     expect(result.current.data).toBeDefined();
     expect(result.current.data?.length).toBe(3);
+  });
+
+  it('paginates approved events via useApprovedEventsInfinite', async () => {
+    const { result } = renderHook(() => useApprovedEventsInfinite(), { wrapper });
+
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+    const firstPage = result.current.data?.pages[0];
+    expect(firstPage?.items.length).toBe(3);
+    expect(firstPage?.nextCursor).toBeNull();
+    expect(result.current.hasNextPage).toBe(false);
   });
 
   it('fetches pending events via usePendingEvents', async () => {

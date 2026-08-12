@@ -1,4 +1,4 @@
-import { ColorSchemeName } from 'react-native';
+import { ColorSchemeName, Platform, ViewStyle } from 'react-native';
 
 export type ThemeMode = 'dark' | 'light' | 'system';
 
@@ -36,7 +36,95 @@ export interface ThemeColors {
   overlayBg: string;
   buttonPrimaryBg: string;
   buttonPrimaryText: string;
+
+  // Segment pills (category filters, toggles) — visually distinct from text inputs
+  segmentBg: string;
+  segmentBgActive: string;
+  segmentBorder: string;
+  segmentBorderActive: string;
+  segmentText: string;
+  segmentTextActive: string;
+
+  // Action chips (RSVP, moderation)
+  chipSuccessBg: string;
+  chipSuccessBorder: string;
+  chipSuccessText: string;
+  chipDangerBg: string;
+  chipDangerBorder: string;
+  chipDangerText: string;
+
+  // Accent glows (cards, avatars, aurora)
+  glowAccent: string;
+  glowAccentSubtle: string;
+  glowAvatarBg: string;
+  glowCategoryMarriage: string;
+  glowCategoryCultural: string;
+  glowCategoryMeeting: string;
+  auroraPrimary: string;
 }
+
+export interface KinshipThemeTokens {
+  lineageBorders: {
+    PATERNAL: string;
+    MATERNAL: string;
+    AFFINAL: string;
+    NUCLEAR: string;
+    COUSIN: string;
+    EXTERNAL: string;
+    SOCIAL: string;
+    GENERAL: string;
+  };
+  tags: {
+    inVillageBg: string;
+    inVillageText: string;
+    outVillageBg: string;
+    outVillageText: string;
+    affinalBg: string;
+    affinalText: string;
+  };
+}
+
+export const darkKinshipTokens: KinshipThemeTokens = {
+  lineageBorders: {
+    PATERNAL: '#FBBF24',
+    MATERNAL: '#60A5FA',
+    AFFINAL: '#FDE047',
+    NUCLEAR: '#E07A5F',
+    COUSIN: '#A78BFA',
+    EXTERNAL: '#9CA3AF',
+    SOCIAL: '#34D399',
+    GENERAL: '#9CA3AF',
+  },
+  tags: {
+    inVillageBg: '#064E3B',
+    inVillageText: '#34D399',
+    outVillageBg: '#1E3A8A',
+    outVillageText: '#60A5FA',
+    affinalBg: '#451A03',
+    affinalText: '#FDE047',
+  },
+};
+
+export const lightKinshipTokens: KinshipThemeTokens = {
+  lineageBorders: {
+    PATERNAL: '#C85A32',
+    MATERNAL: '#1D4ED8',
+    AFFINAL: '#BE185D',
+    NUCLEAR: '#E28743',
+    COUSIN: '#8B5CF6',
+    EXTERNAL: '#6B7280',
+    SOCIAL: '#10B981',
+    GENERAL: '#706C61',
+  },
+  tags: {
+    inVillageBg: '#E1F0E5',
+    inVillageText: '#2D6A4F',
+    outVillageBg: '#E2EAFC',
+    outVillageText: '#1D4ED8',
+    affinalBg: '#FDF2F8',
+    affinalText: '#BE185D',
+  },
+};
 
 export const darkThemeColors: ThemeColors = {
   bgCanvas: '#0B0D13', // Midnight Soil (Dark & Immersive)
@@ -68,6 +156,28 @@ export const darkThemeColors: ThemeColors = {
   overlayBg: 'rgba(0, 0, 0, 0.78)',
   buttonPrimaryBg: '#FBBF24',
   buttonPrimaryText: '#0B0D13',
+
+  segmentBg: '#1A1E28',
+  segmentBgActive: 'rgba(251, 191, 36, 0.22)',
+  segmentBorder: '#3D4450',
+  segmentBorderActive: '#FBBF24',
+  segmentText: '#F9F8F6',
+  segmentTextActive: '#FBBF24',
+
+  chipSuccessBg: 'rgba(52, 211, 153, 0.22)',
+  chipSuccessBorder: '#34D399',
+  chipSuccessText: '#34D399',
+  chipDangerBg: 'rgba(255, 42, 109, 0.22)',
+  chipDangerBorder: '#FF2A6D',
+  chipDangerText: '#FF2A6D',
+
+  glowAccent: 'rgba(251, 191, 36, 0.4)',
+  glowAccentSubtle: 'rgba(251, 191, 36, 0.12)',
+  glowAvatarBg: 'rgba(251, 191, 36, 0.2)',
+  glowCategoryMarriage: 'rgba(255, 184, 0, 0.4)',
+  glowCategoryCultural: 'rgba(224, 122, 95, 0.4)',
+  glowCategoryMeeting: 'rgba(167, 139, 250, 0.4)',
+  auroraPrimary: 'rgba(251, 191, 36, 0.25)',
 };
 
 
@@ -102,6 +212,28 @@ export const lightThemeColors: ThemeColors = {
   overlayBg: 'rgba(0, 0, 0, 0.4)',
   buttonPrimaryBg: '#C85A32',
   buttonPrimaryText: '#FFFFFF',
+
+  segmentBg: '#EDE8E0',
+  segmentBgActive: 'rgba(200, 90, 50, 0.18)',
+  segmentBorder: '#C9C2B8',
+  segmentBorderActive: '#C85A32',
+  segmentText: '#1E1E1E',
+  segmentTextActive: '#C85A32',
+
+  chipSuccessBg: 'rgba(45, 106, 79, 0.18)',
+  chipSuccessBorder: '#2D6A4F',
+  chipSuccessText: '#2D6A4F',
+  chipDangerBg: 'rgba(190, 24, 93, 0.16)',
+  chipDangerBorder: '#BE185D',
+  chipDangerText: '#BE185D',
+
+  glowAccent: 'rgba(200, 90, 50, 0.35)',
+  glowAccentSubtle: 'rgba(200, 90, 50, 0.08)',
+  glowAvatarBg: 'rgba(200, 90, 50, 0.15)',
+  glowCategoryMarriage: 'rgba(217, 119, 6, 0.35)',
+  glowCategoryCultural: 'rgba(226, 135, 67, 0.35)',
+  glowCategoryMeeting: 'rgba(124, 58, 237, 0.25)',
+  auroraPrimary: 'rgba(200, 90, 50, 0.16)',
 };
 
 
@@ -167,9 +299,60 @@ export const themeRadius = {
   pill: 999,
 };
 
+const shadowLevels = {
+  card: {
+    ios: {
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 6 },
+      shadowOpacity: 0.25,
+      shadowRadius: 16,
+    },
+    android: { elevation: 6 },
+    default: { elevation: 6 },
+  },
+  button: {
+    ios: {
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 6 },
+      shadowOpacity: 0.3,
+      shadowRadius: 12,
+    },
+    android: { elevation: 6 },
+    default: { elevation: 6 },
+  },
+  whatsapp: {
+    ios: {
+      shadowColor: '#25D366',
+      shadowOffset: { width: 0, height: 6 },
+      shadowOpacity: 0.4,
+      shadowRadius: 12,
+    },
+    android: { elevation: 6 },
+    default: { elevation: 6 },
+  },
+} as const;
+
+export function platformShadow(level: keyof typeof shadowLevels): ViewStyle {
+  const config = shadowLevels[level];
+  if (Platform.OS === 'ios') {
+    return config.ios;
+  }
+  if (Platform.OS === 'android') {
+    return config.android;
+  }
+  return config.default;
+}
+
+export const platformBlurIntensity = {
+  card: Platform.select({ ios: 20, android: 40, default: 20 }) ?? 20,
+  modal: Platform.select({ ios: 35, android: 60, default: 35 }) ?? 35,
+  tabBar: Platform.select({ ios: 25, android: 45, default: 25 }) ?? 25,
+};
+
 export interface AppTheme {
   isDark: boolean;
   colors: ThemeColors;
+  kinship: KinshipThemeTokens;
   typography: typeof themeTypography;
   spacing: typeof themeSpacing;
   borderRadius: typeof themeRadius;
@@ -188,36 +371,25 @@ export function getAppTheme(colorScheme: ColorSchemeName, mode: ThemeMode): AppT
   return {
     isDark,
     colors,
+    kinship: isDark ? darkKinshipTokens : lightKinshipTokens,
     typography: themeTypography,
     spacing: themeSpacing,
     borderRadius: themeRadius,
     blur: {
-      card: 20,
-      modal: 35,
-      tabBar: 25,
+      card: platformBlurIntensity.card,
+      modal: platformBlurIntensity.modal,
+      tabBar: platformBlurIntensity.tabBar,
     },
     auroraMesh: isDark
       ? [
           { color: 'rgba(127, 0, 255, 0.35)', x: 0.1, y: 0.1, radius: 250 },
-          { color: 'rgba(0, 242, 254, 0.25)', x: 0.8, y: 0.3, radius: 300 },
-          { color: 'rgba(255, 8, 68, 0.25)', x: 0.5, y: 0.8, radius: 280 },
+          { color: darkThemeColors.auroraPrimary, x: 0.8, y: 0.3, radius: 300 },
+          { color: 'rgba(255, 42, 109, 0.25)', x: 0.5, y: 0.8, radius: 280 },
         ]
       : [
           { color: 'rgba(59, 130, 246, 0.18)', x: 0.1, y: 0.1, radius: 250 },
-          { color: 'rgba(147, 51, 234, 0.15)', x: 0.8, y: 0.3, radius: 300 },
+          { color: lightThemeColors.auroraPrimary, x: 0.8, y: 0.3, radius: 300 },
           { color: 'rgba(236, 72, 153, 0.15)', x: 0.5, y: 0.8, radius: 280 },
         ],
   };
 }
-
-// Re-export legacy glassTheme reference mapping to theme for backward compatibility
-export const glassTheme = {
-  colors: darkThemeColors,
-  blur: { card: 20, modal: 35, tabBar: 25 },
-  borderRadius: themeRadius,
-  auroraMesh: [
-    { color: 'rgba(127, 0, 255, 0.35)', x: 0.1, y: 0.1, radius: 250 },
-    { color: 'rgba(0, 242, 254, 0.25)', x: 0.8, y: 0.3, radius: 300 },
-    { color: 'rgba(255, 8, 68, 0.25)', x: 0.5, y: 0.8, radius: 280 },
-  ],
-};

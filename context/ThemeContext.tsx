@@ -13,6 +13,8 @@ const THEME_STORAGE_KEY = 'COMMUNITY_APP_THEME_MODE';
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+export { ThemeContext };
+
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const systemColorScheme = useColorScheme();
   const [themeMode, setThemeModeState] = useState<ThemeMode>('dark');
