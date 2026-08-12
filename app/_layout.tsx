@@ -7,6 +7,7 @@ import { clientPersister } from '../infrastructure/storage/mmkvStorage';
 import { FluidAuroraBackground } from '../components/FluidAuroraBackground';
 import { OfflineBanner } from '../components/OfflineBanner';
 import { ThemeProvider, useTheme } from '../context/ThemeContext';
+import { AuthBootstrap } from '../application/providers/AuthBootstrap';
 import { StatusBar } from 'expo-status-bar';
 
 const queryClient = new QueryClient({
@@ -62,7 +63,9 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <PersistQueryClientProvider client={queryClient} persistOptions={{ persister: clientPersister }}>
         <ThemeProvider>
-          <AppNav />
+          <AuthBootstrap>
+            <AppNav />
+          </AuthBootstrap>
         </ThemeProvider>
       </PersistQueryClientProvider>
     </SafeAreaProvider>

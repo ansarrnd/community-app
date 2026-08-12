@@ -209,8 +209,8 @@ Single list of all outstanding work (testing, performance, architecture, CI). **
 | ✅ | Aurora gradient reduction on Android | 3 |
 | ✅ | Web bundle size CI gate | 3 |
 | ✅ | Lazy tab screens (web export) | 3 |
-| ⬜ | Explore mount profiler budget | 4 |
-| ⬜ | FlashList large-list perf fixture | 4 |
+| ✅ | Explore mount profiler budget (`test:perf`) | 4 |
+| ✅ | FlashList large-list perf fixture | 4 |
 
 ### Architecture & UI consistency
 
@@ -243,6 +243,7 @@ Single list of all outstanding work (testing, performance, architecture, CI). **
 ```bash
 npm test                  # All Jest tests
 npm run test:integration  # Integration folder only
+npm run test:perf         # Profiler + FlashList render budgets
 npm run test:snapshots    # UI snapshot tests
 npm run test:e2e          # Playwright web smoke
 npm run screenshots       # PNG capture (iOS + Android viewports)

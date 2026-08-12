@@ -1,6 +1,7 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { getAuth, connectAuthEmulator } from 'firebase/auth';
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 
 const firebaseConfig = {
   apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY || 'demo-api-key',
@@ -14,6 +15,21 @@ const firebaseConfig = {
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 export const db = getFirestore(app);
 export const auth = getAuth(app);
+
+// App Check — enable in production with EXPO_PUBLIC_RECAPTCHA_SITE_KEY
+if (process.env.EXPO_PUBLIC_RECAPTCHA_SITE_KEY) {
+  try {
+    initializeAppCheck(app, {
+      provider: new ReCaptchaV3Provider(process.env.EXPO_PUBLIC_RECAPTCHA_SITE_KEY),
+      isTokenAutoRefreshEnabled: true,
+    });
+    console.log('[Firebase] App Check initialized');
+  } catch (e) {
+    console.warn('[Firebase] App Check setup skipped:', e);
+  }
+} else if (__DEV__) {
+  console.log('[Firebase] App Check not configured (set EXPO_PUBLIC_RECAPTCHA_SITE_KEY for production)');
+}
 
 // Connect to Local Firebase Emulators in development mode if flag is enabled
 if (__DEV__ && process.env.EXPO_PUBLIC_USE_EMULATORS === 'true') {

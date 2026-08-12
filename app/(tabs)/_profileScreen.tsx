@@ -10,6 +10,7 @@ import { useTheme } from '../../context/ThemeContext';
 import { useLayoutInsets } from '../../application/hooks/useLayoutInsets';
 import { ThemeMode } from '../../constants/theme';
 import { UserRole } from '../../domain/models/User';
+import { RepositoryFactory } from '../../infrastructure/factory/RepositoryFactory';
 import { User, Phone, ShieldCheck, CheckCircle2, Moon, Sun, Smartphone } from 'lucide-react-native';
 
 const ROLES: { id: UserRole; title: string; desc: string }[] = [
@@ -25,7 +26,7 @@ const THEME_OPTIONS: { id: ThemeMode; label: string; icon: React.ComponentType<a
 ];
 
 export default function ProfileScreen() {
-  const { user, setRole } = useAuthStore();
+  const { user, setUser } = useAuthStore();
   const { theme, themeMode, setThemeMode } = useTheme();
   const { contentBottomPadding } = useLayoutInsets();
   const { data: userRsvps = {} } = useUserRsvps(user.uid);
@@ -111,7 +112,10 @@ export default function ProfileScreen() {
             description={r.desc}
             selected={user.role === r.id}
             trailingIcon={<CheckCircle2 size={16} color={theme.colors.segmentTextActive} />}
-            onPress={() => setRole(r.id)}
+            onPress={async () => {
+              const signedIn = await RepositoryFactory.getAuthRepository().signInDemoUser(r.id);
+              setUser(signedIn);
+            }}
           />
         ))}
       </View>

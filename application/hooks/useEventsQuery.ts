@@ -14,7 +14,10 @@ const rsvpEventUseCase = new RsvpEventUseCase(eventRepo);
 export const useApprovedEvents = (categoryFilter?: string, searchQuery?: string) => {
   return useQuery({
     queryKey: ['approvedEvents', categoryFilter, searchQuery],
-    queryFn: () => eventRepo.getApprovedEvents(categoryFilter, searchQuery),
+    queryFn: async () => {
+      const page = await eventRepo.getApprovedEvents(categoryFilter, searchQuery);
+      return page.items;
+    },
     staleTime: 1000 * 60 * 5,
     placeholderData: (previous) => previous,
   });

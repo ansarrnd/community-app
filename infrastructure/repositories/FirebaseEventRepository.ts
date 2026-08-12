@@ -9,36 +9,63 @@ import {
   where,
   orderBy,
   serverTimestamp,
+  limit,
+  startAfter,
+  QueryConstraint,
+  DocumentSnapshot,
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import { CommunityEvent, CreateEventInput, EventStatus, RSVP } from '../../domain/models/Event';
+import { DEFAULT_PAGE_SIZE } from '../../domain/models/Pagination';
 import { IEventRepository } from '../../domain/repositories/IEventRepository';
 
 export class FirebaseEventRepository implements IEventRepository {
   private eventsCollection = collection(db, 'events');
   private rsvpsCollection = collection(db, 'rsvps');
 
-  async getApprovedEvents(categoryFilter?: string, searchQuery?: string): Promise<CommunityEvent[]> {
+  async getApprovedEvents(
+    categoryFilter?: string,
+    searchQuery?: string,
+    pagination?: { cursor?: string; limit?: number }
+  ) {
     try {
-      const constraints = [where('status', '==', 'APPROVED')];
+      const pageSize = pagination?.limit ?? DEFAULT_PAGE_SIZE;
+      const constraints: QueryConstraint[] = [where('status', '==', 'APPROVED')];
+
       if (categoryFilter && categoryFilter !== 'ALL') {
         constraints.push(where('category', '==', categoryFilter));
       }
+
       constraints.push(orderBy('createdAt', 'desc'));
+
+      if (pagination?.cursor) {
+        const cursorSnap = await getDoc(doc(db, 'events', pagination.cursor));
+        if (cursorSnap.exists()) {
+          constraints.push(startAfter(cursorSnap as DocumentSnapshot));
+        }
+      }
+
+      constraints.push(limit(pageSize + 1));
 
       const q = query(this.eventsCollection, ...constraints);
       const snapshot = await getDocs(q);
       let results = snapshot.docs.map((docSnap) => ({ id: docSnap.id, ...docSnap.data() } as CommunityEvent));
+
       if (searchQuery && searchQuery.trim() !== '') {
         const queryStr = searchQuery.toLowerCase();
         results = results.filter(
           (e) => e.title.toLowerCase().includes(queryStr) || e.venue.toLowerCase().includes(queryStr)
         );
       }
-      return results;
+
+      const hasMore = results.length > pageSize;
+      const items = hasMore ? results.slice(0, pageSize) : results;
+      const nextCursor = hasMore && items.length > 0 ? items[items.length - 1].id : null;
+
+      return { items, nextCursor };
     } catch (e) {
-      console.warn('[FirebaseEventRepository] Firestore fetch error, falling back to mock data:', e);
-      return [];
+      console.warn('[FirebaseEventRepository] Firestore fetch error:', e);
+      return { items: [], nextCursor: null };
     }
   }
 
@@ -67,7 +94,15 @@ export class FirebaseEventRepository implements IEventRepository {
       updatedAt: serverTimestamp(),
     };
     const docRef = await addDoc(this.eventsCollection, docData);
-    return { id: docRef.id, ...input, status: 'PENDING', rsvpCount: 0, attendingCount: 0, declinedCount: 0, version: 1 };
+    return {
+      id: docRef.id,
+      ...input,
+      status: 'PENDING',
+      rsvpCount: 0,
+      attendingCount: 0,
+      declinedCount: 0,
+      version: 1,
+    };
   }
 
   async updateEventStatus(id: string, status: EventStatus, moderatorId: string): Promise<void> {
