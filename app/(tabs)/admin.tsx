@@ -7,6 +7,7 @@ import { LiquidGlassCard } from '../../components/LiquidGlassCard';
 import { RoleBadge } from '../../components/RoleBadge';
 import { ThemedText } from '../../components/ThemedText';
 import { useTheme } from '../../context/ThemeContext';
+import { useLayoutInsets } from '../../application/hooks/useLayoutInsets';
 import { ShieldAlert, Send, CheckCircle, XCircle } from 'lucide-react-native';
 import { whatsappService } from '../../infrastructure/services/whatsappService';
 import { CommunityEvent, EventStatus } from '../../domain/models/Event';
@@ -15,6 +16,7 @@ export default function AdminModerationScreen() {
   const user = useAuthStore((state) => state.user);
   const { isMod, isAdmin } = useRoleGuard();
   const { theme } = useTheme();
+  const { contentBottomPadding } = useLayoutInsets();
   const { data: pendingEvents = [], isLoading } = usePendingEvents();
   const moderateMutation = useModerateEventMutation();
   const [broadcastingId, setBroadcastingId] = useState<string | null>(null);
@@ -102,7 +104,7 @@ export default function AdminModerationScreen() {
           </ThemedText>
         </View>
       ) : (
-        <ScrollView style={{ flex: 1 }}>
+        <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: contentBottomPadding }}>
           {pendingEvents.map((item) => (
             <LiquidGlassCard key={item.id} style={{ marginBottom: 12 }}>
               <ThemedText variant="subtitle" bold style={{ marginBottom: 4 }}>

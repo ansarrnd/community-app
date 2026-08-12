@@ -18,6 +18,8 @@ import { LiquidGlassCard } from '../../components/LiquidGlassCard';
 import { EventImage } from '../../components/EventImage';
 import { ThemedText } from '../../components/ThemedText';
 import { useTheme } from '../../context/ThemeContext';
+import { useLayoutInsets } from '../../application/hooks/useLayoutInsets';
+import { platformShadow } from '../../constants/theme';
 import { Image as ImageIcon, Send, Sparkles, UserPlus, Users, Trash2 } from 'lucide-react-native';
 import { KinshipMemberPicker } from '../../modules/kinship';
 
@@ -51,6 +53,7 @@ export default function CreateEventScreen() {
   const { checkConnection } = useNetworkGuard();
   const createMutation = useCreateEventMutation();
   const { theme } = useTheme();
+  const { contentBottomPadding } = useLayoutInsets();
 
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState<EventCategory>('MARRIAGE');
@@ -179,7 +182,10 @@ export default function CreateEventScreen() {
   ];
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={[styles.contentContainer, { paddingBottom: contentBottomPadding }]}
+    >
       <ThemedText variant="h2" bold style={{ marginBottom: 4 }}>
         Host a Community Event
       </ThemedText>
@@ -409,6 +415,7 @@ export default function CreateEventScreen() {
         disabled={createMutation.isPending}
         style={({ pressed }) => [
           styles.submitBtn,
+          platformShadow('button'),
           { backgroundColor: theme.colors.buttonPrimaryBg },
           pressed && { opacity: 0.88 },
         ]}
@@ -430,7 +437,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: 16,
-    paddingBottom: 100,
   },
   label: {
     marginBottom: 6,
@@ -485,10 +491,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 14,
     borderRadius: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
-    elevation: 6,
   },
 });

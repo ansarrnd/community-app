@@ -6,6 +6,7 @@ import { LiquidGlassCard } from '../../components/LiquidGlassCard';
 import { RoleBadge } from '../../components/RoleBadge';
 import { ThemedText } from '../../components/ThemedText';
 import { useTheme } from '../../context/ThemeContext';
+import { useLayoutInsets } from '../../application/hooks/useLayoutInsets';
 import { ThemeMode } from '../../constants/theme';
 import { UserRole } from '../../domain/models/User';
 import { User, Phone, ShieldCheck, CheckCircle2, Moon, Sun, Smartphone } from 'lucide-react-native';
@@ -25,11 +26,15 @@ const THEME_OPTIONS: { id: ThemeMode; label: string; icon: React.ComponentType<a
 export default function ProfileScreen() {
   const { user, setRole } = useAuthStore();
   const { theme, themeMode, setThemeMode } = useTheme();
+  const { contentBottomPadding } = useLayoutInsets();
   const { data: userRsvps = {} } = useUserRsvps(user.uid);
   const rsvpEntries = Object.entries(userRsvps);
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={[styles.contentContainer, { paddingBottom: contentBottomPadding }]}
+    >
       {/* Profile Card */}
       <LiquidGlassCard style={styles.profileCard} glowColor="rgba(0, 242, 254, 0.4)">
         <View style={styles.profileHeader}>
@@ -191,7 +196,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: 16,
-    paddingBottom: 80,
   },
   profileCard: {
     marginBottom: 20,

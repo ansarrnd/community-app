@@ -6,6 +6,7 @@ import { LiquidGlassCard } from './LiquidGlassCard';
 import { EventImage } from './EventImage';
 import { ThemedText } from './ThemedText';
 import { useTheme } from '../context/ThemeContext';
+import { useLayoutInsets } from '../application/hooks/useLayoutInsets';
 import { MapPin, Calendar, Clock, Share2, CheckCircle2, XCircle } from 'lucide-react-native';
 import { whatsappService } from '../infrastructure/services/whatsappService';
 
@@ -31,6 +32,7 @@ export const EventList: React.FC<EventListProps> = ({
   onModerate,
 }) => {
   const { theme } = useTheme();
+  const { contentBottomPadding } = useLayoutInsets();
 
   const renderEventItem = ({ item }: { item: CommunityEvent }) => {
     const userRsvpStatus = userRsvps[item.id];
@@ -232,18 +234,21 @@ export const EventList: React.FC<EventListProps> = ({
       estimatedItemSize={320}
       refreshControl={
         onRefresh ? (
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={theme.colors.accentTeal} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={theme.colors.accentTeal}
+            colors={[theme.colors.accentTeal]}
+            progressBackgroundColor={theme.colors.bgCard}
+          />
         ) : undefined
       }
-      contentContainerStyle={styles.listPadding}
+      contentContainerStyle={{ paddingBottom: contentBottomPadding }}
     />
   );
 };
 
 const styles = StyleSheet.create({
-  listPadding: {
-    paddingBottom: 40,
-  },
   cardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',

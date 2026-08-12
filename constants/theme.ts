@@ -1,4 +1,4 @@
-import { ColorSchemeName } from 'react-native';
+import { ColorSchemeName, Platform, ViewStyle } from 'react-native';
 
 export type ThemeMode = 'dark' | 'light' | 'system';
 
@@ -167,6 +167,56 @@ export const themeRadius = {
   pill: 999,
 };
 
+const shadowLevels = {
+  card: {
+    ios: {
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 6 },
+      shadowOpacity: 0.25,
+      shadowRadius: 16,
+    },
+    android: { elevation: 6 },
+    default: { elevation: 6 },
+  },
+  button: {
+    ios: {
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 6 },
+      shadowOpacity: 0.3,
+      shadowRadius: 12,
+    },
+    android: { elevation: 6 },
+    default: { elevation: 6 },
+  },
+  whatsapp: {
+    ios: {
+      shadowColor: '#25D366',
+      shadowOffset: { width: 0, height: 6 },
+      shadowOpacity: 0.4,
+      shadowRadius: 12,
+    },
+    android: { elevation: 6 },
+    default: { elevation: 6 },
+  },
+} as const;
+
+export function platformShadow(level: keyof typeof shadowLevels): ViewStyle {
+  const config = shadowLevels[level];
+  if (Platform.OS === 'ios') {
+    return config.ios;
+  }
+  if (Platform.OS === 'android') {
+    return config.android;
+  }
+  return config.default;
+}
+
+export const platformBlurIntensity = {
+  card: Platform.select({ ios: 20, android: 40, default: 20 }) ?? 20,
+  modal: Platform.select({ ios: 35, android: 60, default: 35 }) ?? 35,
+  tabBar: Platform.select({ ios: 25, android: 45, default: 25 }) ?? 25,
+};
+
 export interface AppTheme {
   isDark: boolean;
   colors: ThemeColors;
@@ -192,9 +242,9 @@ export function getAppTheme(colorScheme: ColorSchemeName, mode: ThemeMode): AppT
     spacing: themeSpacing,
     borderRadius: themeRadius,
     blur: {
-      card: 20,
-      modal: 35,
-      tabBar: 25,
+      card: platformBlurIntensity.card,
+      modal: platformBlurIntensity.modal,
+      tabBar: platformBlurIntensity.tabBar,
     },
     auroraMesh: isDark
       ? [

@@ -8,6 +8,8 @@ import { LiquidGlassCard } from '../../components/LiquidGlassCard';
 import { EventImage } from '../../components/EventImage';
 import { ThemedText } from '../../components/ThemedText';
 import { useTheme } from '../../context/ThemeContext';
+import { useLayoutInsets } from '../../application/hooks/useLayoutInsets';
+import { platformShadow } from '../../constants/theme';
 import { whatsappService } from '../../infrastructure/services/whatsappService';
 import { MapPin, Calendar, Clock, Share2, CheckCircle2, XCircle, ExternalLink, Globe, Users } from 'lucide-react-native';
 import { TAMIL_RELATIONSHIPS } from '../../modules/kinship';
@@ -17,6 +19,7 @@ export default function EventDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const user = useAuthStore((state) => state.user);
   const { theme } = useTheme();
+  const { stackBottomPadding } = useLayoutInsets();
 
   const { data: event, isLoading } = useEventDetail(id || '');
   const { data: userRsvps = {} } = useUserRsvps(user.uid);
@@ -48,7 +51,10 @@ export default function EventDetailScreen() {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={[styles.contentContainer, { paddingBottom: stackBottomPadding }]}
+    >
       {/* Hero Image View */}
       <EventImage uri={event.inviteCardUrl} height={220} borderRadius={20} />
 
@@ -286,7 +292,7 @@ export default function EventDetailScreen() {
       {/* Primary WhatsApp Deep Link Share Button */}
       <Pressable
         onPress={() => whatsappService.shareEventToWhatsApp(event)}
-        style={({ pressed }) => [styles.whatsappBtn, pressed && { opacity: 0.88 }]}
+        style={({ pressed }) => [styles.whatsappBtn, platformShadow('whatsapp'), pressed && { opacity: 0.88 }]}
       >
         <Share2 size={20} color="#FFF" style={{ marginRight: 8 }} />
         <ThemedText variant="button" style={{ color: '#FFF' }}>
@@ -317,7 +323,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: 12,
-    paddingBottom: 80,
   },
   loadingContainer: {
     flex: 1,
@@ -402,11 +407,6 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 20,
     marginBottom: 16,
-    shadowColor: '#25D366',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.4,
-    shadowRadius: 12,
-    elevation: 6,
   },
   ogCard: {
     marginTop: 10,

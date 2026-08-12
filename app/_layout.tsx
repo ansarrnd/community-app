@@ -2,6 +2,7 @@ import React from 'react';
 import { Stack } from 'expo-router';
 import { QueryClient } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { clientPersister } from '../infrastructure/storage/mmkvStorage';
 import { FluidAuroraBackground } from '../components/FluidAuroraBackground';
 import { OfflineBanner } from '../components/OfflineBanner';
@@ -21,7 +22,10 @@ function AppNav() {
 
   return (
     <>
-      <StatusBar style={theme.isDark ? 'light' : 'dark'} />
+      <StatusBar
+        style={theme.isDark ? 'light' : 'dark'}
+        backgroundColor={theme.colors.bgHeader}
+      />
       <FluidAuroraBackground>
         <OfflineBanner />
         <Stack
@@ -55,10 +59,12 @@ function AppNav() {
 
 export default function RootLayout() {
   return (
-    <PersistQueryClientProvider client={queryClient} persistOptions={{ persister: clientPersister }}>
-      <ThemeProvider>
-        <AppNav />
-      </ThemeProvider>
-    </PersistQueryClientProvider>
+    <SafeAreaProvider>
+      <PersistQueryClientProvider client={queryClient} persistOptions={{ persister: clientPersister }}>
+        <ThemeProvider>
+          <AppNav />
+        </ThemeProvider>
+      </PersistQueryClientProvider>
+    </SafeAreaProvider>
   );
 }
