@@ -12,6 +12,7 @@ import { useTheme } from '../../context/ThemeContext';
 import { useLayoutInsets } from '../../application/hooks/useLayoutInsets';
 import { platformShadow } from '../../constants/theme';
 import { whatsappService } from '../../infrastructure/services/whatsappService';
+import { buildOpenGraphMetaHtml } from '../../infrastructure/services/openGraphService';
 import { MapPin, Calendar, Clock, Share2, CheckCircle2, XCircle, ExternalLink, Globe, Users } from 'lucide-react-native';
 import { TAMIL_RELATIONSHIPS } from '../../modules/kinship';
 
@@ -293,7 +294,7 @@ export default function EventDetailScreen() {
           </ThemedText>
         </View>
         <ThemedText variant="caption" muted style={styles.ogCode}>
-          {`<meta property="og:title" content="${event.title}" />\n<meta property="og:description" content="${event.details.slice(0, 80)}..." />\n<meta property="og:image" content="${event.inviteCardUrl || ''}" />\n<meta property="og:url" content="https://community.yourdomain.com/e/${event.id}" />`}
+          {buildOpenGraphMetaHtml(event)}
         </ThemedText>
       </LiquidGlassCard>
     </ScrollView>

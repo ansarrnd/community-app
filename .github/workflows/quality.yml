@@ -1,8 +1,8 @@
-# DISABLED — legacy Fastlane hybrid stub.
-# Active pipeline: .github/workflows/ci.yml
+# DISABLED — not part of the active CI surface.
+# Active pipeline: .github/workflows/ci.yml (GitHub-hosted only).
 # See docs/CI_CD_PLAN.md
 
-name: Legacy CI/CD Stub (disabled)
+name: Quality Gate (disabled)
 
 on:
   workflow_dispatch:

@@ -1,0 +1,15 @@
+# DISABLED — EAS release is out of the active CI surface.
+# Run manually when ready: eas build / eas update (see docs/CI_CD_PLAN.md Stage 5).
+# Active pipeline: .github/workflows/ci.yml
+
+name: Release EAS (disabled)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  disabled:
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Disabled — use ci.yml; run EAS manually when releasing"

@@ -1,0 +1,16 @@
+# DISABLED — self-hosted Maestro is out of the active CI surface.
+# Run locally: npm run screenshots:native:ios | screenshots:native:android
+# Active pipeline: .github/workflows/ci.yml
+# See docs/CI_CD_PLAN.md
+
+name: Maestro Native Smoke (disabled)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  disabled:
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Disabled — use ci.yml; run Maestro locally if needed"

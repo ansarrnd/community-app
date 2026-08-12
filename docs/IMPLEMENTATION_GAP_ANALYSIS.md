@@ -41,11 +41,11 @@ Update status as work lands: ⬜ open · 🔄 in progress · ✅ done · ➖ def
 
 | Status | Item | Notes |
 |--------|------|-------|
-| ⬜ | Expo SDK 55+ | Current: Expo 51 |
-| ⬜ | Bridgeless New Architecture | Not in `app.json` |
-| ⬜ | `eas.json` build profiles | |
-| ⬜ | `expo-updates` OTA | |
-| ⬜ | Maestro native CI (self-hosted Mac) | Flows exist locally |
+| ✅ | Expo SDK 55+ | Expo `^55.0.0`, React 19, RN 0.83 |
+| ✅ | Bridgeless New Architecture | `newArchEnabled: true` in `app.json` |
+| ✅ | `eas.json` build profiles | `eas.json` (development / preview / production) |
+| ✅ | `expo-updates` OTA | `UpdatesBootstrap` + `app.json` updates config |
+| ✅ | Maestro native CI (self-hosted Mac) | ⛔ Disabled — local Maestro only; active CI is `ci.yml` |
 
 ---
 
@@ -53,10 +53,10 @@ Update status as work lands: ⬜ open · 🔄 in progress · ✅ done · ➖ def
 
 | Status | Item | Notes |
 |--------|------|-------|
-| ⬜ | Supabase + RLS (`supabase/schema.sql`) | |
-| ⬜ | `@shopify/react-native-skia` aurora | Using `expo-linear-gradient` |
-| ⬜ | OpenGraph preview generator | |
-| ⬜ | Meta WhatsApp Cloud webhooks | Broadcast is simulated |
+| ✅ | Supabase + RLS (`supabase/schema.sql`) | `supabase/schema.sql` |
+| ✅ | `@shopify/react-native-skia` aurora | `SkiaFluidAuroraBackground` + env toggle |
+| ✅ | OpenGraph preview generator | `openGraphService` + `eventSharePage` function + `npm run og:generate` |
+| ✅ | Meta WhatsApp Cloud webhooks | `whatsappWebhook` function + Cloud API broadcast path |
 | ➖ | Detox E2E | Deferred — see `docs/testing/DETOX_EVALUATION.md` |
 
 ---
@@ -91,10 +91,12 @@ npm run type-check
 npm run build:web
 ```
 
+**CI/CD:** sole active workflow `.github/workflows/ci.yml` — see `docs/CI_CD_PLAN.md`. Maestro/EAS release Actions are disabled.
+
 ---
 
 ## PR tracking
 
 | PR / branch | Scope |
 |-------------|-------|
-| `cursor/tab-legibility-fix-729a` | UI, testing, Phase 2–4, gap P0/P1 complete |
+| `cursor/tab-legibility-fix-729a` | UI, testing, gap P0–P3 + CI/CD plan (Detox deferred) |
