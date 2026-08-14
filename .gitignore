@@ -8,3 +8,6 @@ playwright-report
 .ci-reports
 docs/screenshots/.ci-candidate
 functions/lib
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
