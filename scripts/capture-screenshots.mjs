@@ -72,7 +72,9 @@ async function capturePlatform(platformKey) {
   const { dir, device } = PLATFORMS[platformKey];
   mkdirSync(dir, { recursive: true });
 
-  const browser = await chromium.launch();
+  const browser = await chromium.launch({
+    args: ['--font-render-hinting=none', '--disable-lcd-text'],
+  });
   const context = await browser.newContext({
     ...device,
     baseURL: `http://127.0.0.1:${PORT}`,
@@ -80,8 +82,13 @@ async function capturePlatform(platformKey) {
   const page = await context.newPage();
 
   for (const screen of SCREENS) {
-    await page.goto(screen.path, { waitUntil: 'networkidle', timeout: 60000 });
-    await page.waitForTimeout(2500);
+    await page.goto(screen.path, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    if (screen.name === '01-explore') {
+      await page.getByText('Grand Royal Wedding').waitFor({ timeout: 20000 });
+      await page.waitForTimeout(1500);
+    } else {
+      await page.waitForTimeout(2500);
+    }
     await page.screenshot({
       path: join(dir, `${screen.name}.png`),
       fullPage: false,
