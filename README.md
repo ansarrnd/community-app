@@ -97,11 +97,16 @@ Then run three terminals:
 ```bash
 npm run emulators
 npm run seed:emulators
-npm run web:firebase
+npm run web:firebase:static
 ```
 
-- App (typical Expo web): http://localhost:8081
+`web:firebase:static` builds a local-only static bundle (`127.0.0.1:4173`) that talks to emulators. Use `npm run web:firebase` if you want the Expo dev server instead.
+
+- App (static): http://127.0.0.1:4173
+- App (Expo dev, typical): http://localhost:8081
 - Firestore Emulator UI (edit data): http://127.0.0.1:4000
+
+Optional check that Firestore round-trips work: `npm run validate:emulators`. After serving the static app, `npm run check:web:emulators` confirms the feed is reading emulator data (not the mock backend).
 
 Demo logins (seeded into the Auth emulator): `resident@demo.community`, `mod@demo.community`, `admin@demo.community` — password `DemoPass123!`. Switch roles on the Profile tab.
 

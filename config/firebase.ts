@@ -18,7 +18,7 @@ export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const functions = getFunctions(app);
 
-const useEmulators = __DEV__ && process.env.EXPO_PUBLIC_USE_EMULATORS === 'true';
+const useEmulators = process.env.EXPO_PUBLIC_USE_EMULATORS === 'true';
 const appCheckSiteKey = process.env.EXPO_PUBLIC_RECAPTCHA_SITE_KEY;
 const appCheckDebugToken = process.env.EXPO_PUBLIC_APP_CHECK_DEBUG_TOKEN;
 
