@@ -83,13 +83,29 @@ npm run build:web         # Static web export
 | Mode | How |
 |------|-----|
 | **Mock** (default) | No env required — in-memory repos |
-| **Firebase emulators** | `EXPO_PUBLIC_BACKEND_PROVIDER=firebase` + `EXPO_PUBLIC_USE_EMULATORS=true`, then `npm run emulators` and seed |
+| **Firebase emulators** (private, $0) | Local Auth/Firestore/Functions only. No Firebase account, billing, or credit card. |
+
+Emulators bind to `127.0.0.1` so they are not exposed on the network. Copy [`.env.example`](.env.example) to `.env.local`:
+
+```bash
+EXPO_PUBLIC_BACKEND_PROVIDER=firebase
+EXPO_PUBLIC_USE_EMULATORS=true
+```
+
+Then run three terminals:
 
 ```bash
 npm run emulators
-FIRESTORE_EMULATOR_HOST=localhost:8080 FIREBASE_AUTH_EMULATOR_HOST=localhost:9099 npm run seed
-EXPO_PUBLIC_BACKEND_PROVIDER=firebase EXPO_PUBLIC_USE_EMULATORS=true npm start
+npm run seed:emulators
+npm run web:firebase
 ```
+
+- App (typical Expo web): http://localhost:8081
+- Firestore Emulator UI (edit data): http://127.0.0.1:4000
+
+Demo logins (seeded into the Auth emulator): `resident@demo.community`, `mod@demo.community`, `admin@demo.community` — password `DemoPass123!`. Switch roles on the Profile tab.
+
+Do **not** deploy Cloud Functions or Hosting for this workflow — cloud Functions typically require a Blaze billing account. The seed script sets Auth custom claims locally, so USER/MOD/ADMIN work without `grantRole` in the cloud.
 
 ---
 

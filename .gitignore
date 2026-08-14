@@ -1,7 +1,10 @@
 node_modules
 dist
 .expo
+.env.local
+.env*.local
 test-results
 playwright-report
 .ci-reports
 docs/screenshots/.ci-candidate
+functions/lib
