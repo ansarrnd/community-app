@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = fileURLToPath(new URL('../', import.meta.url));
 const DIST = join(ROOT, 'dist');
-const MAX_BYTES = 4 * 1024 * 1024; // 4 MB total JS budget
+const MAX_BYTES = 5 * 1024 * 1024; // 5 MB — Firebase client SDK is in the web graph
 
 function collectJsBytes(dir) {
   if (!existsSync(dir)) return 0;

@@ -7,7 +7,7 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "build:web": "expo export --platform web && node scripts/patch-web-export.mjs",
+    "build:web": "expo export --platform web --clear && node scripts/patch-web-export.mjs",
     "emulators": "firebase emulators:start",
     "seed": "npx ts-node scripts/seed.ts",
     "og:generate": "npx ts-node scripts/generate-og-preview.ts",

@@ -154,7 +154,7 @@ Backend filter, visual CI, perf tuning, lazy tabs.
 |----|------|--------|
 | P3-1 | Firestore server-side category filter + composite indexes | ✅ `firestore.indexes.json` |
 | P3-2 | PNG screenshot diff in CI (`pixelmatch`) | ✅ `screenshots:compare` + workflow |
-| P3-3 | Bundle size CI step | ✅ `bundle:check` (4 MB budget) |
+| P3-3 | Bundle size CI step | ✅ `bundle:check` (5 MB budget) |
 | P3-4 | Aurora background: 2 gradients on Android | ✅ |
 | P3-5 | `expo-image` `cachePolicy` on feed images | ✅ |
 | P3-6 | Lazy tab screens (create, admin, profile) | ✅ `_createScreen` + `React.lazy` |
@@ -260,6 +260,6 @@ npm run test:e2e          # Playwright smoke + regression (10 tests)
 npm run screenshots       # PNG capture (iOS + Android viewports)
 npm run screenshots:candidate # CI candidate PNGs (.ci-candidate/)
 npm run screenshots:compare   # pixelmatch diff vs baseline
-npm run bundle:check          # Web JS size budget (4 MB)
+npm run bundle:check          # Web JS size budget (5 MB)
 npm run test:coverage     # Coverage report (includes app/)
 ```
