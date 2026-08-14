@@ -57,9 +57,9 @@ Run on device/simulator and save screenshots into the matching folder using the 
 ## Updating screenshots
 
 1. After UI/theme changes, re-run the capture command for the platforms you care about.
-2. Commit updated PNGs with your PR so reviewers can see visual diffs.
+2. For the GitHub Actions pixelmatch job, **commit PNGs captured on `ubuntu-latest`** (download the `ui-screenshots` artifact from a CI run). Local captures will not match CI fonts/rasterization.
 3. Prefer native (Option A) before release; use Option B for day-to-day PR checks.
 
-## CI (optional)
+## CI
 
-On a self-hosted Mac with simulators, add a job that runs `npm run screenshots:native:ios` and uploads `docs/screenshots/ios/` as artifacts. Android emulator jobs can mirror with `screenshots:native:android`.
+The `Viewport screenshots · pixelmatch` job captures candidates on the GitHub runner and compares them to `docs/screenshots/{ios,android}/`. Compare allows up to 10k differing pixels to absorb font antialiasing and late-loading Unsplash images.

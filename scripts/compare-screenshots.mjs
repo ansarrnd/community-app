@@ -16,7 +16,7 @@ import { PNG } from 'pngjs';
 const ROOT = fileURLToPath(new URL('../', import.meta.url));
 const BASELINE_ROOT = join(ROOT, 'docs/screenshots');
 const CANDIDATE_ROOT = join(ROOT, 'docs/screenshots/.ci-candidate');
-const MAX_DIFF_PIXELS = 500;
+const MAX_DIFF_PIXELS = 10000;
 const PLATFORMS = ['ios', 'android'];
 
 function listPngs(dir) {

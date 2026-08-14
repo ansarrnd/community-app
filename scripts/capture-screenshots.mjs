@@ -72,7 +72,9 @@ async function capturePlatform(platformKey) {
   const { dir, device } = PLATFORMS[platformKey];
   mkdirSync(dir, { recursive: true });
 
-  const browser = await chromium.launch();
+  const browser = await chromium.launch({
+    args: ['--font-render-hinting=none', '--disable-lcd-text'],
+  });
   const context = await browser.newContext({
     ...device,
     baseURL: `http://127.0.0.1:${PORT}`,
