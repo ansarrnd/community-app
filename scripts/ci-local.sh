@@ -135,6 +135,14 @@ stage_quality() {
   npm run test:perf
 }
 
+stage_go() {
+  if ! command -v go >/dev/null 2>&1; then
+    log "${YELLOW}Go not installed — skipping backend tests${RESET}"
+    return 0
+  fi
+  (cd "$ROOT/backend" && go test ./...)
+}
+
 stage_build_web() {
   npm run build:web
 }
@@ -194,11 +202,13 @@ run_stage "install · npm ci" install_deps
 
 if [[ "$FAST" == true ]]; then
   run_stage "quality · type-check · jest · perf" stage_quality || true
+  run_stage "go-api · test" stage_go || true
   print_summary
   exit "$FAILED"
 fi
 
 run_stage "quality · type-check · jest · perf" stage_quality || true
+run_stage "go-api · test" stage_go || true
 
 if [[ "$FAILED" -eq 0 ]]; then
   NEED_PLAYWRIGHT=false

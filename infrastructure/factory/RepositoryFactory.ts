@@ -7,9 +7,12 @@ import { MockUserRepository } from '../repositories/MockUserRepository';
 import { MockAuthRepository } from '../repositories/MockAuthRepository';
 import { FirebaseUserRepository } from '../repositories/FirebaseUserRepository';
 import { FirebaseAuthRepository } from '../repositories/FirebaseAuthRepository';
+import { GoEventRepository } from '../repositories/GoEventRepository';
+import { GoUserRepository } from '../repositories/GoUserRepository';
+import { GoAuthRepository } from '../repositories/GoAuthRepository';
 
-function isFirebaseProvider(): boolean {
-  return process.env.EXPO_PUBLIC_BACKEND_PROVIDER === 'firebase';
+function provider(): string {
+  return process.env.EXPO_PUBLIC_BACKEND_PROVIDER || 'mock';
 }
 
 class RepositoryFactoryClass {
@@ -19,8 +22,10 @@ class RepositoryFactoryClass {
 
   getEventRepository(): IEventRepository {
     if (!this.eventRepoInstance) {
-      if (isFirebaseProvider()) {
+      if (provider() === 'firebase') {
         this.eventRepoInstance = new FirebaseEventRepository();
+      } else if (provider() === 'go') {
+        this.eventRepoInstance = new GoEventRepository();
       } else {
         this.eventRepoInstance = new MockEventRepository();
       }
@@ -30,8 +35,10 @@ class RepositoryFactoryClass {
 
   getUserRepository(): IUserRepository {
     if (!this.userRepoInstance) {
-      if (isFirebaseProvider()) {
+      if (provider() === 'firebase') {
         this.userRepoInstance = new FirebaseUserRepository();
+      } else if (provider() === 'go') {
+        this.userRepoInstance = new GoUserRepository();
       } else {
         this.userRepoInstance = new MockUserRepository();
       }
@@ -41,9 +48,11 @@ class RepositoryFactoryClass {
 
   getAuthRepository(): IAuthRepository {
     if (!this.authRepoInstance) {
-      if (isFirebaseProvider()) {
+      if (provider() === 'firebase') {
         const userRepo = this.getUserRepository() as FirebaseUserRepository;
         this.authRepoInstance = new FirebaseAuthRepository(userRepo);
+      } else if (provider() === 'go') {
+        this.authRepoInstance = new GoAuthRepository();
       } else {
         const userRepo = this.getUserRepository() as MockUserRepository;
         this.authRepoInstance = new MockAuthRepository(userRepo);

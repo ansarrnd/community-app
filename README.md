@@ -4,7 +4,7 @@
 
 Cross-platform community events app for neighborhoods and village networks — weddings, cultural gatherings, and meetings — with RSVP, moderation, WhatsApp sharing, and Tamil kinship tooling.
 
-**Stack:** Expo SDK 55 · React Native 0.83 · React 19 · Firebase (mock backend by default for local demos)
+**Stack:** Expo SDK 55 · React Native 0.83 · React 19 · Firebase or **Go** backend (mock by default for local demos)
 
 > This file is the repository homepage. GitHub renders root `README.md` on the default branch (`main`) at  
 > https://github.com/ansarrnd/community-app
@@ -84,6 +84,7 @@ npm run build:web         # Static web export
 |------|-----|
 | **Mock** (default) | No env required — in-memory repos |
 | **Firebase emulators** (private, $0) | Local Auth/Firestore/Functions only. No Firebase account, billing, or credit card. |
+| **Go API** (bootstrap) | Single SQLite + JWT process. See [`backend/README.md`](backend/README.md) and [startup vs enterprise](docs/BLUEPRINT/10-GO-BACKEND.md). |
 
 Emulators bind to `127.0.0.1` so they are not exposed on the network. Copy [`.env.example`](.env.example) to `.env.local`:
 
@@ -112,6 +113,22 @@ Demo logins (seeded into the Auth emulator): `resident@demo.community`, `mod@dem
 
 Do **not** deploy Cloud Functions or Hosting for this workflow — cloud Functions typically require a Blaze billing account. The seed script sets Auth custom claims locally, so USER/MOD/ADMIN work without `grantRole` in the cloud.
 
+### Go API (bootstrap)
+
+```bash
+npm run api:go          # http://127.0.0.1:8088
+npm run web:go          # Expo web → Go
+```
+
+`.env.local`:
+
+```
+EXPO_PUBLIC_BACKEND_PROVIDER=go
+EXPO_PUBLIC_GO_API_URL=http://127.0.0.1:8088
+```
+
+Same demo emails/password as the Firebase emulator path. Architecture choices (this SQLite process vs a multi-service enterprise layout) are in [`docs/BLUEPRINT/10-GO-BACKEND.md`](docs/BLUEPRINT/10-GO-BACKEND.md).
+
 ---
 
 ## Local CI (Linux / macOS)
@@ -137,6 +154,7 @@ Details: [`docs/CI_CD_PLAN.md`](docs/CI_CD_PLAN.md) · [`scripts/ci-local.sh`](s
 | Auth / query hooks / stores | `application/` |
 | Firebase / mock repositories | `infrastructure/` |
 | Kinship module | `modules/kinship/` |
+| Go API | `backend/` |
 | Cloud Functions | `functions/` |
 | Docs (gaps, CI, testing) | `docs/` |
 
@@ -147,6 +165,7 @@ Details: [`docs/CI_CD_PLAN.md`](docs/CI_CD_PLAN.md) · [`scripts/ci-local.sh`](s
 | Doc | Topic |
 |-----|-------|
 | [`docs/BLUEPRINT/README.md`](docs/BLUEPRINT/README.md) | **Portability blueprint** — domain, UI, architecture, tests |
+| [`docs/BLUEPRINT/10-GO-BACKEND.md`](docs/BLUEPRINT/10-GO-BACKEND.md) | Go backend: startup vs enterprise |
 | [`docs/CI_CD_PLAN.md`](docs/CI_CD_PLAN.md) | GitHub Actions CI + local golden pipeline |
 | [`docs/testing/AUTOMATED_REGRESSION_PLAN.md`](docs/testing/AUTOMATED_REGRESSION_PLAN.md) | Regression coverage map |
 | [`docs/testing/TESTING_STRATEGY.md`](docs/testing/TESTING_STRATEGY.md) | Test inventory |

@@ -21,6 +21,7 @@ Maestro self-hosted, EAS release, and legacy hybrid workflows are **disabled** (
 ```mermaid
 flowchart TD
   PR[Pull Request / push main] --> Q[quality job]
+  PR --> Go[go-api tests]
   Q --> W[web-e2e job]
   Q --> S[screenshots job]
   Q --> Jest[type-check · Jest · perf]
@@ -33,6 +34,7 @@ flowchart TD
 | Job | Runner | Steps |
 |-----|--------|-------|
 | `quality` | `ubuntu-latest` | `npm ci` · type-check · `npm test` · `test:perf` |
+| `go-api` | `ubuntu-latest` | `go test ./...` in `backend/` |
 | `web-e2e` | `ubuntu-latest` | `build:web` · `bundle:check` · Playwright |
 | `screenshots` | `ubuntu-latest` | candidate PNGs · pixelmatch · artifact upload |
 
