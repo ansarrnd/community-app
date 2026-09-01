@@ -67,6 +67,7 @@ flowchart TB
 |--------------------------------|-------|------|------|
 | unset / `mock` | `MockEventRepository` | `MockAuthRepository` | `MockUserRepository` |
 | `firebase` | `FirebaseEventRepository` | `FirebaseAuthRepository` | `FirebaseUserRepository` |
+| `go` | `GoEventRepository` | `GoAuthRepository` | `GoUserRepository` |
 
 Kinship: `KinshipRepositoryFactory` mirrors the same env flag.
 
@@ -92,6 +93,7 @@ flowchart LR
 | Firestore rules | `firestore.rules` | Security model |
 | Firestore indexes | `firestore.indexes.json` | Category + pagination queries |
 | Cloud Functions | `functions/src/` | `grantRole`, `eventSharePage`, `whatsappWebhook` |
+| Go API (startup) | `backend/` | SQLite + JWT REST — [10-GO-BACKEND.md](10-GO-BACKEND.md) |
 | Supabase (optional) | `supabase/schema.sql` | Alternate SQL + RLS schema |
 | EAS / OTA | `eas.json`, `app.json` | Manual release profiles |
 

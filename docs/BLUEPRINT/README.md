@@ -19,6 +19,7 @@ Framework-agnostic specification for reimplementing Community Connect in another
 | [design-tokens.json](design-tokens.json) | Machine-readable tokens (dark/light) |
 | [08-APPLICATION-LAYER.md](08-APPLICATION-LAYER.md) | React Query keys, Zustand stores, data flows |
 | [09-INFRASTRUCTURE.md](09-INFRASTRUCTURE.md) | Firebase, env vars, Cloud Functions, mock backend |
+| [10-GO-BACKEND.md](10-GO-BACKEND.md) | Go rewrite: startup (SQLite) vs enterprise architecture |
 | [06-ACCEPTANCE-TESTS.md](06-ACCEPTANCE-TESTS.md) | Journey → test mapping (porting contract) |
 | [07-FRAMEWORK-PORTING-GUIDE.md](07-FRAMEWORK-PORTING-GUIDE.md) | RN → Flutter/Next mappings, port order |
 

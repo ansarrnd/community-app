@@ -10,7 +10,8 @@ Regenerate: `node scripts/export-env-example.mjs`
 
 | Variable | Required when | Purpose |
 |----------|---------------|---------|
-| `EXPO_PUBLIC_BACKEND_PROVIDER` | optional | `firebase` or unset (mock) |
+| `EXPO_PUBLIC_BACKEND_PROVIDER` | optional | `mock` (default), `firebase`, or `go` |
+| `EXPO_PUBLIC_GO_API_URL` | go | Go API base URL (default `http://127.0.0.1:8088`) |
 | `EXPO_PUBLIC_FIREBASE_API_KEY` | firebase | Firebase web config |
 | `EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN` | firebase | |
 | `EXPO_PUBLIC_FIREBASE_PROJECT_ID` | firebase | |
@@ -41,6 +42,20 @@ No env required. In-memory repos with seeded demo data.
 | `MockAuthRepository` | `signInDemoUser(role)` maps to demo UIDs |
 
 **Demo credentials:** `infrastructure/config/demoAuthCredentials.ts`
+
+---
+
+## Go bootstrap API
+
+Implemented in [`backend/`](../../backend/). Spec + enterprise target: [10-GO-BACKEND.md](10-GO-BACKEND.md).
+
+```bash
+npm run api:go          # SQLite + JWT on 127.0.0.1:8088
+npm run web:go          # Expo web against the Go API
+npm run test:go
+```
+
+`EXPO_PUBLIC_BACKEND_PROVIDER=go` selects `Go*Repository` adapters that call `/v1/*`.
 
 ---
 
