@@ -55,7 +55,7 @@ Cross-platform community events app for neighborhoods and village networks — w
 ### Platform & quality
 - Clean Architecture (domain use cases, repositories, factory switching mock ↔ Firebase)
 - React Query v5 with persisted cache
-- **166** Jest tests + **10** Playwright web E2E tests, pixelmatch screenshot diffs
+- **152** Jest tests + **10** Playwright web E2E tests, pixelmatch screenshot diffs
 - Single active CI workflow: [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
 
 ---

@@ -30,7 +30,7 @@ Tests encode the **porting contract**. A reimplementation should pass equivalent
 
 | Layer | Count | Location |
 |-------|-------|----------|
-| Jest (all) | 166 | `__tests__/` |
+| Jest (all) | 152 | `__tests__/` |
 | Integration | 9 | `__tests__/integration/` |
 | Playwright E2E | 10 | `e2e/web-smoke.spec.ts` (5), `e2e/regression.spec.ts` (5) |
 | Snapshots | 19 | `ScreenSnapshots`, `ChipSnapshots` |

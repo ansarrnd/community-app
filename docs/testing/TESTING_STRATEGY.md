@@ -4,7 +4,7 @@ This document maps **current coverage**, **gaps**, **performance risks**, and a 
 
 ---
 
-## Current test inventory (166 Jest tests + 10 Playwright E2E)
+## Current test inventory (152 Jest tests + 10 Playwright E2E)
 
 **Regression plan (GHA-only):** `docs/testing/AUTOMATED_REGRESSION_PLAN.md`
 
