@@ -50,7 +50,6 @@ Tests encode the **porting contract**. A reimplementation should pass equivalent
 | `MockEventRepository.test.ts` | Repo behavior |
 | `FirebaseEventRepository.rsvp.test.ts` | Transaction RSVP |
 | `FirebaseAuthRepository.test.ts` | Auth adapter |
-| `KinshipModule.test.ts` | Kinship domain |
 
 ---
 

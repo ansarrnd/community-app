@@ -63,69 +63,6 @@ export interface ThemeColors {
   auroraPrimary: string;
 }
 
-export interface KinshipThemeTokens {
-  lineageBorders: {
-    PATERNAL: string;
-    MATERNAL: string;
-    AFFINAL: string;
-    NUCLEAR: string;
-    COUSIN: string;
-    EXTERNAL: string;
-    SOCIAL: string;
-    GENERAL: string;
-  };
-  tags: {
-    inVillageBg: string;
-    inVillageText: string;
-    outVillageBg: string;
-    outVillageText: string;
-    affinalBg: string;
-    affinalText: string;
-  };
-}
-
-export const darkKinshipTokens: KinshipThemeTokens = {
-  lineageBorders: {
-    PATERNAL: '#FBBF24',
-    MATERNAL: '#60A5FA',
-    AFFINAL: '#FDE047',
-    NUCLEAR: '#E07A5F',
-    COUSIN: '#A78BFA',
-    EXTERNAL: '#9CA3AF',
-    SOCIAL: '#34D399',
-    GENERAL: '#9CA3AF',
-  },
-  tags: {
-    inVillageBg: '#064E3B',
-    inVillageText: '#34D399',
-    outVillageBg: '#1E3A8A',
-    outVillageText: '#60A5FA',
-    affinalBg: '#451A03',
-    affinalText: '#FDE047',
-  },
-};
-
-export const lightKinshipTokens: KinshipThemeTokens = {
-  lineageBorders: {
-    PATERNAL: '#C85A32',
-    MATERNAL: '#1D4ED8',
-    AFFINAL: '#BE185D',
-    NUCLEAR: '#E28743',
-    COUSIN: '#8B5CF6',
-    EXTERNAL: '#6B7280',
-    SOCIAL: '#10B981',
-    GENERAL: '#706C61',
-  },
-  tags: {
-    inVillageBg: '#E1F0E5',
-    inVillageText: '#2D6A4F',
-    outVillageBg: '#E2EAFC',
-    outVillageText: '#1D4ED8',
-    affinalBg: '#FDF2F8',
-    affinalText: '#BE185D',
-  },
-};
-
 export const darkThemeColors: ThemeColors = {
   bgCanvas: '#0B0D13', // Midnight Soil (Dark & Immersive)
   bgCard: 'rgba(22, 25, 34, 0.95)', // Charcoal Clay (#161922)
@@ -352,7 +289,6 @@ export const platformBlurIntensity = {
 export interface AppTheme {
   isDark: boolean;
   colors: ThemeColors;
-  kinship: KinshipThemeTokens;
   typography: typeof themeTypography;
   spacing: typeof themeSpacing;
   borderRadius: typeof themeRadius;
@@ -371,7 +307,6 @@ export function getAppTheme(colorScheme: ColorSchemeName, mode: ThemeMode): AppT
   return {
     isDark,
     colors,
-    kinship: isDark ? darkKinshipTokens : lightKinshipTokens,
     typography: themeTypography,
     spacing: themeSpacing,
     borderRadius: themeRadius,

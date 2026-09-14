@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/ansarrnd/community-app/actions/workflows/ci.yml/badge.svg)](https://github.com/ansarrnd/community-app/actions/workflows/ci.yml)
 
-Cross-platform community events app for neighborhoods and village networks — weddings, cultural gatherings, and meetings — with RSVP, moderation, WhatsApp sharing, and Tamil kinship tooling.
+Cross-platform community events app for neighborhoods and village networks — weddings, cultural gatherings, and meetings — with RSVP, moderation, and WhatsApp sharing.
 
 **Stack:** Expo SDK 55 · React Native 0.83 · React 19 · Firebase or **Go** backend (mock by default for local demos)
 
@@ -45,11 +45,6 @@ Cross-platform community events app for neighborhoods and village networks — w
 - **WhatsApp deep-link share** for native and web clients
 - Optional **Meta WhatsApp Cloud API** broadcast path for admins (env-configured)
 - **Open Graph** meta generation for social previews (`npm run og:generate` + Cloud Function page)
-
-### Kinship network
-- Dedicated **kinship module** for family relationships (Tamil labels/taxonomy)
-- Attach **event members** and organizer relationships when creating events
-- In-village / out-village context tags on members
 
 ### UI & experience
 - Liquid-glass cards, themed chips/pills, and dark/light themes
@@ -153,7 +148,6 @@ Details: [`docs/CI_CD_PLAN.md`](docs/CI_CD_PLAN.md) · [`scripts/ci-local.sh`](s
 | Domain models & use cases | `domain/` |
 | Auth / query hooks / stores | `application/` |
 | Firebase / mock repositories | `infrastructure/` |
-| Kinship module | `modules/kinship/` |
 | Go API | `backend/` |
 | Cloud Functions | `functions/` |
 | Docs (gaps, CI, testing) | `docs/` |

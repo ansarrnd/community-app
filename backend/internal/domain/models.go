@@ -63,8 +63,6 @@ type CreateEventInput struct {
 	GroomName              string           `json:"groomName,omitempty"`
 	BrideName              string           `json:"brideName,omitempty"`
 	Agenda                 string           `json:"agenda,omitempty"`
-	AttachedMembers        []map[string]any `json:"attachedMembers,omitempty"`
-	AttachedRelationships  []map[string]any `json:"attachedRelationships,omitempty"`
 }
 
 type Event struct {
@@ -91,34 +89,4 @@ type RSVP struct {
 type PaginatedEvents struct {
 	Items      []Event `json:"items"`
 	NextCursor *string `json:"nextCursor"`
-}
-
-type Person struct {
-	ID                 string `json:"id"`
-	FullName           string `json:"fullName"`
-	Gender             string `json:"gender"`
-	BirthYear          *int   `json:"birthYear,omitempty"`
-	HomeVillageID      string `json:"homeVillageId,omitempty"`
-	CurrentLocationTag string `json:"currentLocationTag"`
-	Phone              string `json:"phone,omitempty"`
-	Notes              string `json:"notes,omitempty"`
-}
-
-type Village struct {
-	ID            string `json:"id"`
-	Name          string `json:"name"`
-	District      string `json:"district,omitempty"`
-	State         string `json:"state,omitempty"`
-	IsHomeVillage bool   `json:"isHomeVillage"`
-}
-
-type Relationship struct {
-	ID               string `json:"id"`
-	SourcePersonID   string `json:"sourcePersonId"`
-	TargetPersonID   string `json:"targetPersonId"`
-	RelationshipType string `json:"relationshipType"`
-	InverseType      string `json:"inverseType"`
-	LineageCategory  string `json:"lineageCategory"`
-	ContextTag       string `json:"contextTag"`
-	IsActive         bool   `json:"isActive"`
 }

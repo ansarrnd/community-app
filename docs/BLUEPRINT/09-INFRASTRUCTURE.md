@@ -78,7 +78,6 @@ npm run test:go
 | `events` | APPROVED public to auth; all if auth | Create if organizer; update if MOD+ or organizer (no status self-change) |
 | `users` | auth | self create/update (not role field) |
 | `rsvps` | auth | auth |
-| `persons`, `relationships`, `villages` | auth | auth |
 | `templates` | auth | ADMIN only |
 
 Custom claims: `request.auth.token.role` = USER | MOD | ADMIN

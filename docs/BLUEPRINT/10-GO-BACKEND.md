@@ -5,7 +5,7 @@ Community Connect currently talks to **mock in-memory repos** or **Firebase**. T
 1. **Startup (bootstrap)** — what is implemented in [`backend/`](../../backend/). Ship this first.
 2. **Enterprise** — the target if the product becomes a multi-tenant, regulated, SLA-bound platform. Do **not** build this on day one.
 
-The domain stays the same: events, RSVP, USER/MOD/ADMIN, kinship, OG share pages, WhatsApp webhooks. See [00-ARCHITECTURE.md](00-ARCHITECTURE.md) and [03-USE-CASES.md](03-USE-CASES.md).
+The domain stays the same: events, RSVP, USER/MOD/ADMIN, OG share pages, WhatsApp webhooks. See [00-ARCHITECTURE.md](00-ARCHITECTURE.md) and [03-USE-CASES.md](03-USE-CASES.md).
 
 ---
 
@@ -137,11 +137,6 @@ flowchart TB
     PG[(Postgres primary + replica)]
   end
 
-  subgraph kinshipBC [Kinship BC]
-    KinAPI[Kinship API]
-    KinPG[(Postgres)]
-  end
-
   subgraph notifyBC [Notifications BC]
     WA[WhatsApp adapter]
     OG[OG renderer]
@@ -157,7 +152,6 @@ flowchart TB
   WAF --> APIGW
   APIGW --> CmdAPI
   APIGW --> QueryAPI
-  APIGW --> KinAPI
   APIGW --> OIDC
   CmdAPI --> AuthZ
   QueryAPI --> AuthZ
@@ -165,7 +159,6 @@ flowchart TB
   CmdAPI --> Outbox
   Outbox --> Bus
   QueryAPI --> PG
-  KinAPI --> KinPG
   Bus --> WA
   Bus --> OG
   CmdAPI --> OTel
@@ -177,7 +170,6 @@ flowchart TB
 |---------|------|-------------|
 | **Identity** | users, roles, sessions, grantRole | Strong; every role change is an audit event |
 | **Events** | events, RSVP, moderation | Strong inside the RSVP aggregate (one event row + rsvps) |
-| **Kinship** | persons, villages, relationships | Strong per person graph write; eventually visible to events |
 | **Notifications** | WhatsApp inbound/outbound, OG HTML | At-least-once via outbox; never in the RSVP transaction |
 
 Do **not** put WhatsApp I/O inside `rsvpToEvent`. That is how a Meta timeout corrupts attendance counts.
@@ -218,7 +210,7 @@ Handlers never import `database/sql`. Use cases never import `net/http`.
 | AuthZ | Central policy: `role ≥ MOD` for pending; ADMIN-only `grantRole`; organizer cannot self-approve |
 | Secrets | JWT keys in KMS; WhatsApp tokens never in the Expo bundle |
 | Tenancy | `community_id` on every row the moment you have a second village |
-| PII | Phone numbers encrypted or tokenized; kinship graph is PII |
+| PII | Phone numbers encrypted or tokenized |
 | Supply chain | `govulncheck`, pinned module hashes, SBOM |
 | Network | Private subnets; API only via gateway; DB not on public IP |
 
@@ -273,7 +265,6 @@ OpenTelemetry traces from Expo → gateway → use case → SQL. Metrics: RSVP T
 | GET | `/v1/users` | MOD+ | |
 | GET | `/v1/users/{id}` | yes | |
 | PATCH | `/v1/users/{id}/role` | ADMIN | `grantRole` replacement |
-| POST/GET | `/v1/kinship/*` | yes | persons, villages, relationships |
 | GET | `/e/{id}` | no | OG HTML |
 | GET/POST | `/v1/webhooks/whatsapp` | verify token | Meta |
 

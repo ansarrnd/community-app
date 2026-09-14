@@ -59,8 +59,6 @@ Returns true when `userRole >= requiredRole`.
 | `groomName` | string | optional (MARRIAGE) |
 | `brideName` | string | optional (MARRIAGE) |
 | `agenda` | string | optional (MEETING) |
-| `attachedMembers` | array | optional; see kinship |
-| `attachedRelationships` | array | optional; see kinship |
 
 ### `CommunityEvent` (extends create + persisted fields)
 

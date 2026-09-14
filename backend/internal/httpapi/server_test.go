@@ -258,28 +258,6 @@ func TestSharePageAndWhatsAppWebhook(t *testing.T) {
 	}
 }
 
-func TestKinshipRoundTrip(t *testing.T) {
-	srv := testServer(t)
-	defer srv.Close()
-	tok, client := login(t, srv, "USER")
-
-	person := doJSON(t, client, "POST", srv.URL+"/v1/kinship/persons", tok, map[string]any{
-		"id": "p1", "fullName": "Arun", "gender": "M", "currentLocationTag": "In-Village",
-	})
-	person.Body.Close()
-	rel := doJSON(t, client, "POST", srv.URL+"/v1/kinship/relationships", tok, map[string]any{
-		"id": "p1_p2_FATHER", "sourcePersonId": "p1", "targetPersonId": "p2",
-		"relationshipType": "FATHER", "inverseType": "SON", "lineageCategory": "PATERNAL",
-		"contextTag": "In-Village", "isActive": true,
-	})
-	rel.Body.Close()
-	list := doJSON(t, client, "GET", srv.URL+"/v1/kinship/persons/p1/relationships", tok, nil)
-	defer list.Body.Close()
-	if list.StatusCode != 200 {
-		t.Fatalf("rels %d", list.StatusCode)
-	}
-}
-
 func TestPasswordLogin(t *testing.T) {
 	srv := testServer(t)
 	defer srv.Close()

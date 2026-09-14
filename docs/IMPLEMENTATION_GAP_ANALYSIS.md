@@ -77,7 +77,6 @@ Update status as work lands: ⬜ open · 🔄 in progress · ✅ done · ➖ def
 | Firebase emulator config | ✅ |
 | Web export + Playwright E2E | ✅ |
 | Jest / RNTL / integration / perf budgets | ✅ (exceeds plan) |
-| Kinship module | ✅ (beyond original plan) |
 
 ---
 

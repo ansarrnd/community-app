@@ -14,7 +14,7 @@ Framework-agnostic specification for reimplementing Community Connect in another
 | [01-DOMAIN-MODELS.md](01-DOMAIN-MODELS.md) | Entities, Zod schemas, enums |
 | [02-REPOSITORY-CONTRACTS.md](02-REPOSITORY-CONTRACTS.md) | `IEventRepository`, `IAuthRepository`, `IUserRepository` |
 | [03-USE-CASES.md](03-USE-CASES.md) | Business rules, role gates, side effects |
-| [04-KINSHIP-MODULE.md](04-KINSHIP-MODULE.md) | Tamil kinship taxonomy, optional plug-in |
+| [04-KINSHIP-MODULE.md](04-KINSHIP-MODULE.md) | Removed — kinship / relationship network |
 | [05-UI-DESIGN-TOKENS.md](05-UI-DESIGN-TOKENS.md) | Visual system, component catalog |
 | [design-tokens.json](design-tokens.json) | Machine-readable tokens (dark/light) |
 | [08-APPLICATION-LAYER.md](08-APPLICATION-LAYER.md) | React Query keys, Zustand stores, data flows |

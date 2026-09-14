@@ -61,11 +61,6 @@ func (s *Server) routes() {
 	s.mux.HandleFunc("GET /v1/users", s.withAuth(s.listUsers))
 	s.mux.HandleFunc("GET /v1/users/{id}", s.withAuth(s.getUser))
 	s.mux.HandleFunc("PATCH /v1/users/{id}/role", s.withAuth(s.grantRole))
-	s.mux.HandleFunc("POST /v1/kinship/persons", s.withAuth(s.putPerson))
-	s.mux.HandleFunc("GET /v1/kinship/persons/{id}", s.withAuth(s.getPerson))
-	s.mux.HandleFunc("POST /v1/kinship/villages", s.withAuth(s.putVillage))
-	s.mux.HandleFunc("POST /v1/kinship/relationships", s.withAuth(s.putRelationship))
-	s.mux.HandleFunc("GET /v1/kinship/persons/{id}/relationships", s.withAuth(s.personRels))
 	s.mux.HandleFunc("GET /e/{id}", s.sharePage)
 	s.mux.HandleFunc("GET /v1/webhooks/whatsapp", s.whatsappVerify)
 	s.mux.HandleFunc("POST /v1/webhooks/whatsapp", s.whatsappInbound)
@@ -345,67 +340,6 @@ func (s *Server) grantRole(w http.ResponseWriter, r *http.Request, au authedUser
 		return
 	}
 	writeJSON(w, http.StatusOK, map[string]any{"success": true, "uid": target, "role": body.Role})
-}
-
-func (s *Server) putPerson(w http.ResponseWriter, r *http.Request, _ authedUser) {
-	var p domain.Person
-	if err := json.NewDecoder(r.Body).Decode(&p); err != nil || p.ID == "" {
-		writeErr(w, http.StatusBadRequest, "invalid-argument", "person id required")
-		return
-	}
-	if err := s.store.PutJSON("persons", p.ID, p); err != nil {
-		writeErr(w, http.StatusInternalServerError, "internal", err.Error())
-		return
-	}
-	writeJSON(w, http.StatusOK, p)
-}
-
-func (s *Server) getPerson(w http.ResponseWriter, r *http.Request, _ authedUser) {
-	p, err := s.store.GetPerson(r.PathValue("id"))
-	if err != nil {
-		writeErr(w, http.StatusNotFound, "not-found", "person not found")
-		return
-	}
-	writeJSON(w, http.StatusOK, p)
-}
-
-func (s *Server) putVillage(w http.ResponseWriter, r *http.Request, _ authedUser) {
-	var v domain.Village
-	if err := json.NewDecoder(r.Body).Decode(&v); err != nil || v.ID == "" {
-		writeErr(w, http.StatusBadRequest, "invalid-argument", "village id required")
-		return
-	}
-	if err := s.store.PutJSON("villages", v.ID, v); err != nil {
-		writeErr(w, http.StatusInternalServerError, "internal", err.Error())
-		return
-	}
-	writeJSON(w, http.StatusOK, v)
-}
-
-func (s *Server) putRelationship(w http.ResponseWriter, r *http.Request, _ authedUser) {
-	var rel domain.Relationship
-	if err := json.NewDecoder(r.Body).Decode(&rel); err != nil || rel.ID == "" {
-		writeErr(w, http.StatusBadRequest, "invalid-argument", "relationship required")
-		return
-	}
-	if err := s.store.PutRelationship(rel); err != nil {
-		writeErr(w, http.StatusInternalServerError, "internal", err.Error())
-		return
-	}
-	writeJSON(w, http.StatusOK, rel)
-}
-
-func (s *Server) personRels(w http.ResponseWriter, r *http.Request, _ authedUser) {
-	q := r.URL.Query()
-	rels, err := s.store.RelationshipsForPerson(r.PathValue("id"), q.Get("outVillage") == "true", q.Get("lineage"), q.Get("contextTag"))
-	if err != nil {
-		writeErr(w, http.StatusInternalServerError, "internal", err.Error())
-		return
-	}
-	if rels == nil {
-		rels = []domain.Relationship{}
-	}
-	writeJSON(w, http.StatusOK, rels)
 }
 
 func (s *Server) sharePage(w http.ResponseWriter, r *http.Request) {

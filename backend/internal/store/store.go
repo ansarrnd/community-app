@@ -2,8 +2,6 @@ package store
 
 import (
 	"database/sql"
-	"encoding/json"
-	"fmt"
 	"strings"
 	"time"
 
@@ -60,8 +58,6 @@ CREATE TABLE IF NOT EXISTS events (
   groom_name TEXT,
   bride_name TEXT,
   agenda TEXT,
-  attached_members TEXT,
-  attached_relationships TEXT,
   rsvp_count INTEGER NOT NULL DEFAULT 0,
   attending_count INTEGER NOT NULL DEFAULT 0,
   declined_count INTEGER NOT NULL DEFAULT 0,
@@ -77,26 +73,6 @@ CREATE TABLE IF NOT EXISTS rsvps (
   status TEXT NOT NULL,
   timestamp TEXT NOT NULL,
   UNIQUE(event_id, user_id)
-);
-CREATE TABLE IF NOT EXISTS persons (
-  id TEXT PRIMARY KEY,
-  payload TEXT NOT NULL,
-  updated_at TEXT NOT NULL
-);
-CREATE TABLE IF NOT EXISTS villages (
-  id TEXT PRIMARY KEY,
-  payload TEXT NOT NULL,
-  updated_at TEXT NOT NULL
-);
-CREATE TABLE IF NOT EXISTS relationships (
-  id TEXT PRIMARY KEY,
-  source_person_id TEXT NOT NULL,
-  target_person_id TEXT NOT NULL,
-  payload TEXT NOT NULL,
-  is_active INTEGER NOT NULL DEFAULT 1,
-  context_tag TEXT NOT NULL DEFAULT 'In-Village',
-  lineage_category TEXT NOT NULL DEFAULT 'GENERAL',
-  updated_at TEXT NOT NULL
 );
 CREATE TABLE IF NOT EXISTS whatsapp_inbound (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -190,18 +166,16 @@ func (s *Store) scanUser(q string, args ...any) (*domain.User, error) {
 }
 
 func (s *Store) InsertEvent(e domain.Event) error {
-	members, _ := json.Marshal(e.AttachedMembers)
-	rels, _ := json.Marshal(e.AttachedRelationships)
 	_, err := s.DB.Exec(`
 INSERT INTO events (
   id, title, category, date, time, venue, details, google_maps_url, invite_card_url,
   organizer_id, organizer_name, status, groom_name, bride_name, agenda,
-  attached_members, attached_relationships, rsvp_count, attending_count, declined_count,
+  rsvp_count, attending_count, declined_count,
   version, moderated_by, created_at, updated_at
-) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
 		e.ID, e.Title, string(e.Category), e.Date, e.Time, e.Venue, e.Details, nullStr(e.GoogleMapsURL),
 		nullStr(e.InviteCardURL), e.OrganizerID, e.OrganizerName, string(e.Status), nullStr(e.GroomName),
-		nullStr(e.BrideName), nullStr(e.Agenda), string(members), string(rels), e.RSVPCount, e.AttendingCount,
+		nullStr(e.BrideName), nullStr(e.Agenda), e.RSVPCount, e.AttendingCount,
 		e.DeclinedCount, e.Version, nullStr(e.ModeratedBy), e.CreatedAt, e.UpdatedAt)
 	return err
 }
@@ -217,7 +191,7 @@ func (s *Store) EventByID(id string) (*domain.Event, error) {
 
 const eventColumns = `id, title, category, date, time, venue, details, google_maps_url, invite_card_url,
   organizer_id, organizer_name, status, groom_name, bride_name, agenda,
-  attached_members, attached_relationships, rsvp_count, attending_count, declined_count,
+  rsvp_count, attending_count, declined_count,
   version, moderated_by, created_at, updated_at`
 
 type scanner interface {
@@ -226,11 +200,11 @@ type scanner interface {
 
 func scanEvent(row scanner) (*domain.Event, error) {
 	var e domain.Event
-	var maps, invite, groom, bride, agenda, members, rels, mod sql.NullString
+	var maps, invite, groom, bride, agenda, mod sql.NullString
 	err := row.Scan(
 		&e.ID, &e.Title, &e.Category, &e.Date, &e.Time, &e.Venue, &e.Details, &maps, &invite,
 		&e.OrganizerID, &e.OrganizerName, &e.Status, &groom, &bride, &agenda,
-		&members, &rels, &e.RSVPCount, &e.AttendingCount, &e.DeclinedCount,
+		&e.RSVPCount, &e.AttendingCount, &e.DeclinedCount,
 		&e.Version, &mod, &e.CreatedAt, &e.UpdatedAt,
 	)
 	if err != nil {
@@ -242,12 +216,6 @@ func scanEvent(row scanner) (*domain.Event, error) {
 	e.BrideName = bride.String
 	e.Agenda = agenda.String
 	e.ModeratedBy = mod.String
-	if members.Valid && members.String != "" && members.String != "null" {
-		_ = json.Unmarshal([]byte(members.String), &e.AttachedMembers)
-	}
-	if rels.Valid && rels.String != "" && rels.String != "null" {
-		_ = json.Unmarshal([]byte(rels.String), &e.AttachedRelationships)
-	}
 	return &e, nil
 }
 
@@ -389,82 +357,6 @@ func (s *Store) UserRSVPs(userID string) (map[string]domain.RSVPStatus, error) {
 			return nil, err
 		}
 		out[eventID] = domain.RSVPStatus(status)
-	}
-	return out, rows.Err()
-}
-
-func (s *Store) PutJSON(table, id string, payload any) error {
-	b, err := json.Marshal(payload)
-	if err != nil {
-		return err
-	}
-	q := fmt.Sprintf(`INSERT INTO %s (id, payload, updated_at) VALUES (?, ?, ?)
-ON CONFLICT(id) DO UPDATE SET payload=excluded.payload, updated_at=excluded.updated_at`, table)
-	_, err = s.DB.Exec(q, id, string(b), nowRFC3339())
-	return err
-}
-
-func (s *Store) GetPerson(id string) (*domain.Person, error) {
-	var payload string
-	if err := s.DB.QueryRow(`SELECT payload FROM persons WHERE id = ?`, id).Scan(&payload); err != nil {
-		return nil, err
-	}
-	var p domain.Person
-	if err := json.Unmarshal([]byte(payload), &p); err != nil {
-		return nil, err
-	}
-	p.ID = id
-	return &p, nil
-}
-
-func (s *Store) PutRelationship(r domain.Relationship) error {
-	b, err := json.Marshal(r)
-	if err != nil {
-		return err
-	}
-	active := 0
-	if r.IsActive {
-		active = 1
-	}
-	_, err = s.DB.Exec(`
-INSERT INTO relationships (id, source_person_id, target_person_id, payload, is_active, context_tag, lineage_category, updated_at)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-ON CONFLICT(id) DO UPDATE SET payload=excluded.payload, is_active=excluded.is_active,
-  context_tag=excluded.context_tag, lineage_category=excluded.lineage_category, updated_at=excluded.updated_at
-`, r.ID, r.SourcePersonID, r.TargetPersonID, string(b), active, r.ContextTag, r.LineageCategory, nowRFC3339())
-	return err
-}
-
-func (s *Store) RelationshipsForPerson(personID string, outVillageOnly bool, lineage string, contextTag string) ([]domain.Relationship, error) {
-	q := `SELECT payload FROM relationships WHERE is_active = 1 AND (source_person_id = ? OR target_person_id = ?)`
-	args := []any{personID, personID}
-	if outVillageOnly {
-		q += ` AND context_tag = 'Out-Village'`
-	}
-	if lineage != "" {
-		q += ` AND lineage_category = ?`
-		args = append(args, lineage)
-	}
-	if contextTag != "" {
-		q += ` AND context_tag = ?`
-		args = append(args, contextTag)
-	}
-	rows, err := s.DB.Query(q, args...)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var out []domain.Relationship
-	for rows.Next() {
-		var payload string
-		if err := rows.Scan(&payload); err != nil {
-			return nil, err
-		}
-		var r domain.Relationship
-		if err := json.Unmarshal([]byte(payload), &r); err != nil {
-			return nil, err
-		}
-		out = append(out, r)
 	}
 	return out, rows.Err()
 }

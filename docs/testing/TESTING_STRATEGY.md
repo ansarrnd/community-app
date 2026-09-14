@@ -13,7 +13,7 @@ This document maps **current coverage**, **gaps**, **performance risks**, and a 
 | Domain | Use cases, models, validation | `__tests__/unit/*UseCase*.ts` |
 | Infrastructure | Mock/Firebase repos, MMKV, WhatsApp, OpenGraph | `__tests__/unit/*` |
 | Application | Filter store, React Query hooks (incl. infinite) | `FilterStore.test.ts`, `EventsQueryHooks.test.tsx` |
-| UI components | Chips, Kinship picker, EventList RSVP | `ChipComponents.test.tsx`, etc. |
+| UI components | Chips, EventList RSVP | `ChipComponents.test.tsx`, etc. |
 | Theme | Token contracts | `Theme.test.ts` |
 | **Screen snapshots** | All 5 screens (dark + light matrix) | `ScreenSnapshots.test.tsx` |
 | Chip snapshots | SegmentPill, ActionChip, SelectableCard | `ChipSnapshots.test.tsx` |
@@ -144,7 +144,7 @@ Low infra, mostly Jest/RTL and small hook tweaks.
 | P2-5 | `useUserRsvps` `staleTime: 5min` across tabs | ✅ |
 | P2-6 | Remove mock repo artificial delay | ✅ |
 | P2-7 | Expand Playwright: category pill + search debounce | ✅ `e2e/web-smoke.spec.ts` |
-| P2-8 | Kinship context tag → shared `ActionChip` | ✅ |
+| P2-8 | Kinship context tag → shared `ActionChip` (later removed with kinship module) | ✅ |
 | P2-9 | Loading / empty state snapshots | ✅ |
 
 ### Phase 3 — Done ✅
@@ -169,7 +169,7 @@ Self-hosted runners, SaaS visual CI, or large refactors.
 | P4-2 | Chromatic or Percy on web export | L | ➖ Deferred — pixelmatch covers PR visual gate |
 | P4-3 | Detox evaluation if Maestro insufficient | L | ✅ `docs/testing/DETOX_EVALUATION.md` — defer adoption |
 | P4-4 | Fastlane iOS screenshot lane | L | ➖ Deferred — EAS Build/Submit replaces Fastlane |
-| P4-5 | Full `villageTheme` / `glassTheme` removal | L | ✅ Kinship tokens on `AppTheme` |
+| P4-5 | Full `villageTheme` / `glassTheme` removal | L | ✅ Tokens on `AppTheme`; kinship module later removed |
 | P4-6 | React DevTools profiler budget (Explore mount) | M | ✅ `test:perf` + Profiler budget |
 | P4-7 | FlashList 50-item fixture perf test | M | ✅ `RenderBudget.test.tsx` + list tuning |
 | P4-8 | Firebase Auth AsyncStorage persistence in tests | S | Silence auth warnings in Jest |
@@ -228,8 +228,8 @@ Single list of all outstanding work (testing, performance, architecture, CI). **
 | ✅ | `components/ui` barrel (SegmentPill, ActionChip, etc.) | 1 |
 | ✅ | Segment/chip theme tokens vs input styling | 1 |
 | ✅ | Babel `@/` alias | 1 |
-| ✅ | Kinship context tag → `ActionChip` | 2 |
-| ✅ | Kinship tokens on `AppTheme` (replaces villageTheme bridge) | 4 |
+| ✅ | Shared `ActionChip` (RSVP / moderation) | 2 |
+| ✅ | Theme tokens on `AppTheme` (villageTheme bridge removed) | 4 |
 | ⬜ | Remaining hardcoded glows → theme tokens | 3 |
 | ✅ | Remove `glassTheme` / `villageTheme` duplicates | 4 |
 
