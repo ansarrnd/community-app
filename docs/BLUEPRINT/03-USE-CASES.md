@@ -28,7 +28,7 @@ Source: `domain/usecases/`. Each use case is a class with `execute()` — port a
 | **Output** | `CommunityEvent` |
 | **Precondition** | Valid Zod schema |
 | **Role rule** | MOD+ → auto `APPROVED`; USER → stays `PENDING` unless repo sets status |
-| **Side effects** | `eventRepo.createEvent`; optional `updateEventStatus(APPROVED)`; kinship `processEventKinshipPayload` |
+| **Side effects** | `eventRepo.createEvent`; optional `updateEventStatus(APPROVED)` |
 | **Errors** | Zod validation throws |
 
 **Steps:**
@@ -37,7 +37,6 @@ Source: `domain/usecases/`. Each use case is a class with `execute()` — port a
 2. `isAutoApproved = hasPermission(userRole, 'MOD')`
 3. `eventRepo.createEvent(validatedInput)`
 4. If auto-approved: `updateEventStatus(id, APPROVED, organizerId)`
-5. If kinship repo + members/relationships: normalize and `processEventKinshipPayload`
 
 ---
 

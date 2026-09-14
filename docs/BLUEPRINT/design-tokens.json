@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-12T12:29:26.241Z",
+  "generatedAt": "2026-09-14T13:03:37.153Z",
   "source": "constants/theme.ts (static snapshot — update script when tokens change)",
   "typography": {
     "h1": {
@@ -157,48 +157,6 @@
       "glowCategoryCultural": "rgba(226, 135, 67, 0.35)",
       "glowCategoryMeeting": "rgba(124, 58, 237, 0.25)",
       "auroraPrimary": "rgba(200, 90, 50, 0.16)"
-    }
-  },
-  "kinship": {
-    "dark": {
-      "lineageBorders": {
-        "PATERNAL": "#FBBF24",
-        "MATERNAL": "#60A5FA",
-        "AFFINAL": "#FDE047",
-        "NUCLEAR": "#E07A5F",
-        "COUSIN": "#A78BFA",
-        "EXTERNAL": "#9CA3AF",
-        "SOCIAL": "#34D399",
-        "GENERAL": "#9CA3AF"
-      },
-      "tags": {
-        "inVillageBg": "#064E3B",
-        "inVillageText": "#34D399",
-        "outVillageBg": "#1E3A8A",
-        "outVillageText": "#60A5FA",
-        "affinalBg": "#451A03",
-        "affinalText": "#FDE047"
-      }
-    },
-    "light": {
-      "lineageBorders": {
-        "PATERNAL": "#C85A32",
-        "MATERNAL": "#1D4ED8",
-        "AFFINAL": "#BE185D",
-        "NUCLEAR": "#E28743",
-        "COUSIN": "#8B5CF6",
-        "EXTERNAL": "#6B7280",
-        "SOCIAL": "#10B981",
-        "GENERAL": "#706C61"
-      },
-      "tags": {
-        "inVillageBg": "#E1F0E5",
-        "inVillageText": "#2D6A4F",
-        "outVillageBg": "#E2EAFC",
-        "outVillageText": "#1D4ED8",
-        "affinalBg": "#FDF2F8",
-        "affinalText": "#BE185D"
-      }
     }
   },
   "auroraMesh": {

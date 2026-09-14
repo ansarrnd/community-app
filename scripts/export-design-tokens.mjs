@@ -118,48 +118,6 @@ const lightThemeColors = {
   auroraPrimary: 'rgba(200, 90, 50, 0.16)',
 };
 
-const darkKinshipTokens = {
-  lineageBorders: {
-    PATERNAL: '#FBBF24',
-    MATERNAL: '#60A5FA',
-    AFFINAL: '#FDE047',
-    NUCLEAR: '#E07A5F',
-    COUSIN: '#A78BFA',
-    EXTERNAL: '#9CA3AF',
-    SOCIAL: '#34D399',
-    GENERAL: '#9CA3AF',
-  },
-  tags: {
-    inVillageBg: '#064E3B',
-    inVillageText: '#34D399',
-    outVillageBg: '#1E3A8A',
-    outVillageText: '#60A5FA',
-    affinalBg: '#451A03',
-    affinalText: '#FDE047',
-  },
-};
-
-const lightKinshipTokens = {
-  lineageBorders: {
-    PATERNAL: '#C85A32',
-    MATERNAL: '#1D4ED8',
-    AFFINAL: '#BE185D',
-    NUCLEAR: '#E28743',
-    COUSIN: '#8B5CF6',
-    EXTERNAL: '#6B7280',
-    SOCIAL: '#10B981',
-    GENERAL: '#706C61',
-  },
-  tags: {
-    inVillageBg: '#E1F0E5',
-    inVillageText: '#2D6A4F',
-    outVillageBg: '#E2EAFC',
-    outVillageText: '#1D4ED8',
-    affinalBg: '#FDF2F8',
-    affinalText: '#BE185D',
-  },
-};
-
 const payload = {
   generatedAt: new Date().toISOString(),
   source: 'constants/theme.ts (static snapshot — update script when tokens change)',
@@ -168,7 +126,6 @@ const payload = {
   borderRadius: themeRadius,
   blurIntensity: { card: 20, modal: 35, tabBar: 25 },
   colors: { dark: darkThemeColors, light: lightThemeColors },
-  kinship: { dark: darkKinshipTokens, light: lightKinshipTokens },
   auroraMesh: {
     dark: [
       { color: 'rgba(127, 0, 255, 0.35)', x: 0.1, y: 0.1, radius: 250 },

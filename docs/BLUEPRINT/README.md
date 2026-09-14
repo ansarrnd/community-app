@@ -14,11 +14,12 @@ Framework-agnostic specification for reimplementing Community Connect in another
 | [01-DOMAIN-MODELS.md](01-DOMAIN-MODELS.md) | Entities, Zod schemas, enums |
 | [02-REPOSITORY-CONTRACTS.md](02-REPOSITORY-CONTRACTS.md) | `IEventRepository`, `IAuthRepository`, `IUserRepository` |
 | [03-USE-CASES.md](03-USE-CASES.md) | Business rules, role gates, side effects |
-| [04-KINSHIP-MODULE.md](04-KINSHIP-MODULE.md) | Tamil kinship taxonomy, optional plug-in |
+| [04-KINSHIP-MODULE.md](04-KINSHIP-MODULE.md) | Removed — kinship / relationship network |
 | [05-UI-DESIGN-TOKENS.md](05-UI-DESIGN-TOKENS.md) | Visual system, component catalog |
 | [design-tokens.json](design-tokens.json) | Machine-readable tokens (dark/light) |
 | [08-APPLICATION-LAYER.md](08-APPLICATION-LAYER.md) | React Query keys, Zustand stores, data flows |
 | [09-INFRASTRUCTURE.md](09-INFRASTRUCTURE.md) | Firebase, env vars, Cloud Functions, mock backend |
+| [10-GO-BACKEND.md](10-GO-BACKEND.md) | Go rewrite: startup (SQLite) vs enterprise architecture |
 | [06-ACCEPTANCE-TESTS.md](06-ACCEPTANCE-TESTS.md) | Journey → test mapping (porting contract) |
 | [07-FRAMEWORK-PORTING-GUIDE.md](07-FRAMEWORK-PORTING-GUIDE.md) | RN → Flutter/Next mappings, port order |
 

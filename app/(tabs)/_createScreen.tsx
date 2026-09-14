@@ -21,30 +21,12 @@ import { SegmentPill } from '../../components/ui';
 import { useTheme } from '../../context/ThemeContext';
 import { useLayoutInsets } from '../../application/hooks/useLayoutInsets';
 import { platformShadow } from '../../constants/theme';
-import { Image as ImageIcon, Send, Sparkles, UserPlus, Users, Trash2 } from 'lucide-react-native';
-import { KinshipMemberPicker, EventMemberInput } from '../../modules/kinship';
-
-
+import { Image as ImageIcon, Send, Sparkles } from 'lucide-react-native';
 
 const CATEGORY_OPTIONS: { id: EventCategory; label: string }[] = [
   { id: 'MARRIAGE', label: '💍 Marriage' },
   { id: 'CULTURAL', label: '🎉 Cultural' },
   { id: 'MEETING', label: '📋 Meeting' },
-];
-
-const KINSHIP_OPTIONS = [
-  { id: 'MAMA', label: 'Mama / Mother Brother (மாமா)' },
-  { id: 'ATHAI', label: 'Athai / Father Sister (அத்தை)' },
-  { id: 'PERIYAPPA', label: 'Periyappa / Father Elder Brother (பெரியப்பா)' },
-  { id: 'CHITHAPPA', label: 'Chithappa / Father Younger Brother (சித்தப்பா)' },
-  { id: 'SAGALAI', label: 'Sagalai / Wife Sister Husband (சகலை)' },
-  { id: 'MACHAI_MACHAN', label: 'Machan / Cross Cousin (மச்சான்)' },
-  { id: 'FATHER', label: 'Father (அப்பா)' },
-  { id: 'MOTHER', label: 'Mother (அம்மா)' },
-  { id: 'ELDER_BROTHER', label: 'Elder Brother (அண்ணன்)' },
-  { id: 'YOUNGER_BROTHER', label: 'Younger Brother (தம்பி)' },
-  { id: 'ELDER_SISTER', label: 'Elder Sister (அக்கா)' },
-  { id: 'YOUNGER_SISTER', label: 'Younger Sister (தங்கச்சி)' },
 ];
 
 
@@ -69,34 +51,6 @@ export default function CreateEventScreen() {
   const [groomName, setGroomName] = useState('Rahul Kapoor');
   const [brideName, setBrideName] = useState('Priya Sharma');
   const [agenda, setAgenda] = useState('1. Project Plan\n2. Q&A Session');
-
-  // Family & Kinship Attached Members state
-  const [attachedMembers, setAttachedMembers] = useState<EventMemberInput[]>([]);
-
-  const handleAddMember = () => {
-    setAttachedMembers((prev) => [
-      ...prev,
-      {
-        fullName: '',
-        gender: 'M',
-        roleInEvent: 'GUEST',
-        relationshipTypeToOrganizer: 'MAMA',
-        contextTag: 'In-Village',
-      },
-    ]);
-  };
-
-  const handleRemoveMember = (index: number) => {
-    setAttachedMembers((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const handleUpdateMember = (index: number, key: string, value: any) => {
-    setAttachedMembers((prev) => {
-      const updated = [...prev];
-      updated[index] = { ...updated[index], [key]: value };
-      return updated;
-    });
-  };
 
   const handlePickImage = async () => {
     try {
@@ -123,9 +77,6 @@ export default function CreateEventScreen() {
       return;
     }
 
-    // Filter valid attached members
-    const validMembers = attachedMembers.filter((m) => m.fullName.trim().length > 0);
-
     createMutation.mutate(
       {
         input: {
@@ -142,7 +93,6 @@ export default function CreateEventScreen() {
           groomName: category === 'MARRIAGE' ? groomName : undefined,
           brideName: category === 'MARRIAGE' ? brideName : undefined,
           agenda: category === 'MEETING' ? agenda : undefined,
-          attachedMembers: validMembers.length > 0 ? validMembers : undefined,
         },
         userRole: user.role,
       },
@@ -150,7 +100,7 @@ export default function CreateEventScreen() {
         onSuccess: (createdEvent) => {
           const statusNotice =
             createdEvent.status === 'APPROVED'
-              ? 'Event auto-approved and published with family network members!'
+              ? 'Event auto-approved and published!'
               : 'Event submitted! Pending Moderator review.';
           if (Platform.OS === 'web') alert(statusNotice);
           else Alert.alert('Success', statusNotice);
@@ -322,11 +272,6 @@ export default function CreateEventScreen() {
         onChangeText={setDetails}
         testID="input-event-details"
       />
-
-      {/* Modular Kinship Network Member Picker Component */}
-      <KinshipMemberPicker members={attachedMembers} onChange={setAttachedMembers} />
-
-
 
       {/* Image Picker Button */}
       <ThemedText variant="caption" bold style={styles.label}>

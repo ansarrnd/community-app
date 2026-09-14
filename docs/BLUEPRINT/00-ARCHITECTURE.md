@@ -24,12 +24,8 @@ flowchart TB
 
   subgraph infra [Infrastructure - adapter per backend]
     Factory["RepositoryFactory"]
-    Repos["Mock + Firebase repos"]
+    Repos["Mock + Firebase + Go repos"]
     Services["whatsapp, openGraph, grantRole"]
-  end
-
-  subgraph modules [Optional modules]
-    Kinship["modules/kinship/"]
   end
 
   Screens --> Hooks
@@ -43,10 +39,8 @@ flowchart TB
   Hooks --> Stores
   UseCases --> Interfaces
   UseCases --> Models
-  UseCases --> Kinship
   Factory --> Repos
   Repos --> Interfaces
-  Kinship --> Repos
 ```
 
 ## Layer rules
@@ -55,9 +49,8 @@ flowchart TB
 |-------|------|------------|-----------------|
 | UI | `app/`, `components/` | application, domain types, context | Firebase SDK directly |
 | Application | `application/` | domain, infrastructure factory | UI components |
-| Domain | `domain/` | `modules/kinship` domain only (CreateEvent) | React, Firebase, Expo |
+| Domain | `domain/` | (none — portable) | React, Firebase, Expo |
 | Infrastructure | `infrastructure/`, `config/` | domain interfaces | UI, React hooks |
-| Modules | `modules/kinship/` | own domain + infra | app screens |
 
 ## Backend switching
 
@@ -67,8 +60,7 @@ flowchart TB
 |--------------------------------|-------|------|------|
 | unset / `mock` | `MockEventRepository` | `MockAuthRepository` | `MockUserRepository` |
 | `firebase` | `FirebaseEventRepository` | `FirebaseAuthRepository` | `FirebaseUserRepository` |
-
-Kinship: `KinshipRepositoryFactory` mirrors the same env flag.
+| `go` | `GoEventRepository` | `GoAuthRepository` | `GoUserRepository` |
 
 ## Navigation (Expo Router)
 
@@ -92,6 +84,7 @@ flowchart LR
 | Firestore rules | `firestore.rules` | Security model |
 | Firestore indexes | `firestore.indexes.json` | Category + pagination queries |
 | Cloud Functions | `functions/src/` | `grantRole`, `eventSharePage`, `whatsappWebhook` |
+| Go API (startup) | `backend/` | SQLite + JWT REST — [10-GO-BACKEND.md](10-GO-BACKEND.md) |
 | Supabase (optional) | `supabase/schema.sql` | Alternate SQL + RLS schema |
 | EAS / OTA | `eas.json`, `app.json` | Manual release profiles |
 
@@ -102,7 +95,6 @@ flowchart LR
 | `events` | Community events; `status`: PENDING → APPROVED \| REJECTED |
 | `rsvps` | Per-user RSVP documents |
 | `users` | Profile + role (synced with Auth custom claims) |
-| `persons`, `relationships`, `villages` | Kinship module |
 | `templates` | Event invitation templates (ADMIN write) |
 
 ## Event lifecycle
@@ -122,5 +114,5 @@ Order: `SafeAreaProvider` → `ThemeProvider` → `QueryClientProvider` (persist
 
 ## Optional follow-up
 
-- Publish `domain/` + kinship domain as `@community-connect/core` npm package
+- Publish `domain/` as `@community-connect/core` npm package
 - Generate OpenAPI-style YAML from repository interface method signatures

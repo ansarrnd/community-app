@@ -73,4 +73,4 @@ describe('Community Connect native smoke', () => {
 
 | Date | Decision |
 |------|----------|
-| 2026-08-12 | Detox deferred; Maestro + Playwright remain primary E2E stack. Kinship/theme consolidation reduces visual drift between modules. |
+| 2026-08-12 | Detox deferred; Maestro + Playwright remain primary E2E stack. Theme consolidation reduces visual drift between screens. |

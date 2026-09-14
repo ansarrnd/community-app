@@ -43,7 +43,6 @@ How to reimplement Community Connect in another stack using this blueprint.
 | `application/hooks/` | **Reimplement** with your async/state library |
 | `app/`, `components/` | **Rebuild** from screen specs + tokens |
 | `infrastructure/` | **New adapters** — same interface contracts |
-| `modules/kinship/` | **Optional** — swap taxonomy file for locale |
 
 ---
 
@@ -111,6 +110,5 @@ Extract to `packages/core`:
 - `domain/models/*`
 - `domain/usecases/*`
 - `domain/repositories/*` (interfaces only)
-- `modules/kinship/domain/*`, `taxonomy/*`
 
 Publish as `@community-connect/core` for TypeScript web + React Native consumers.

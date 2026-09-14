@@ -46,14 +46,6 @@ Source: `domain/repositories/`. Implement these interfaces for any backend (Fire
 
 ---
 
-## Kinship repository (module)
-
-**File:** `modules/kinship/database/RelationshipRepository.ts` (interface)
-
-See [04-KINSHIP-MODULE.md](04-KINSHIP-MODULE.md). Used by `CreateEventUseCase` via `processEventKinshipPayload`.
-
----
-
 ## Factory wiring
 
 ```text
