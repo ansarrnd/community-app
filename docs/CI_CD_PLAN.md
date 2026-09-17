@@ -1,9 +1,9 @@
 # CI/CD Plan — Community Connect
 
-**Last updated:** 2026-08-12  
+**Last updated:** 2026-09-17  
 **Stack:** Expo SDK 55 · React 19 · RN 0.83 · Playwright · Jest
 
-**Active automation:** GitHub Actions only — single workflow [`.github/workflows/ci.yml`](../.github/workflows/ci.yml).  
+**Active automation:** GitHub Actions — [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) (quality) and [`.github/workflows/deploy-web.yml`](../.github/workflows/deploy-web.yml) (GitHub Pages preview).  
 Maestro self-hosted, EAS release, and legacy hybrid workflows are **disabled** (manual / local only).
 
 ---
@@ -12,7 +12,8 @@ Maestro self-hosted, EAS release, and legacy hybrid workflows are **disabled** (
 
 1. **Every PR** gets fast Linux feedback on GitHub-hosted runners.
 2. Native Maestro, EAS Build/Submit, and Firebase deploy stay **manual** until explicitly re-enabled.
-3. Detox / Chromatic / Fastlane remain deferred.
+3. Phone testing uses a **$0 GitHub Pages** static export (`deploy-web.yml`) with the mock backend.
+4. Detox / Chromatic / Fastlane remain deferred.
 
 ---
 
@@ -44,7 +45,8 @@ Triggers: all `pull_request` events; push to `main` / `develop`.
 
 | File | Status |
 |------|--------|
-| **`ci.yml`** | ✅ **Enabled** — sole active pipeline |
+| **`ci.yml`** | ✅ **Enabled** — quality, web e2e, screenshots |
+| **`deploy-web.yml`** | ✅ **Enabled** — GitHub Pages static preview (push `main` + `workflow_dispatch`) |
 | `quality.yml` | ⛔ Disabled (`workflow_dispatch` + `if: false`) |
 | `web-e2e.yml` | ⛔ Disabled (merged into `ci.yml`) |
 | `ui-screenshots.yml` | ⛔ Disabled (merged into `ci.yml`) |
@@ -157,4 +159,5 @@ npm run screenshots:candidate && npm run screenshots:compare
 | `docs/testing/TESTING_STRATEGY.md` | Test inventory |
 | `docs/testing/MAESTRO_CI.md` | Local Maestro (CI disabled) |
 | `docs/testing/DETOX_EVALUATION.md` | Detox deferred |
+| `docs/WEB_MOBILE_PREVIEW.md` | GitHub Pages URL for phone testing |
 | `eas.json` | Profiles for manual EAS releases |

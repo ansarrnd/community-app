@@ -15,6 +15,7 @@ Cross-platform community events app for neighborhoods and village networks — w
 
 - [Features](#features)
 - [Quick start](#quick-start)
+- [Try it on your phone](#try-it-on-your-phone)
 - [Local CI (Linux / macOS)](#local-ci-linux--macos)
 - [App structure](#app-structure-high-level)
 - [Documentation](#documentation)
@@ -114,6 +115,18 @@ Do **not** deploy Cloud Functions or Hosting for this workflow — cloud Functio
 
 ---
 
+## Try it on your phone
+
+Free HTTPS preview of the **web** app (mock backend, no Firebase bill):
+
+**https://ansarrnd.github.io/community-app/**
+
+One-time: repo **Settings → Pages → Source = GitHub Actions**, then merge to `main` (or run the **Deploy web (GitHub Pages)** workflow). Open that URL in Safari or Chrome on your phone.
+
+Details: [`docs/WEB_MOBILE_PREVIEW.md`](docs/WEB_MOBILE_PREVIEW.md)
+
+---
+
 ## Local CI (Linux / macOS)
 
 Mirror GitHub Actions before every push:
@@ -152,6 +165,7 @@ Details: [`docs/CI_CD_PLAN.md`](docs/CI_CD_PLAN.md) · [`scripts/ci-local.sh`](s
 | [`docs/testing/TESTING_STRATEGY.md`](docs/testing/TESTING_STRATEGY.md) | Test inventory |
 | [`docs/IMPLEMENTATION_GAP_ANALYSIS.md`](docs/IMPLEMENTATION_GAP_ANALYSIS.md) | Plan vs codebase |
 | [`docs/screenshots/README.md`](docs/screenshots/README.md) | Screenshot capture |
+| [`docs/WEB_MOBILE_PREVIEW.md`](docs/WEB_MOBILE_PREVIEW.md) | Free GitHub Pages URL for phone testing |
 
 ---
 
