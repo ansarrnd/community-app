@@ -15,6 +15,7 @@ Cross-platform community events app for neighborhoods and village networks — w
 
 - [Features](#features)
 - [Quick start](#quick-start)
+- [Run locally on Android and web](#run-locally-on-android-and-web)
 - [Try it on your phone](#try-it-on-your-phone)
 - [Local CI (Linux / macOS)](#local-ci-linux--macos)
 - [App structure](#app-structure-high-level)
@@ -115,6 +116,12 @@ Do **not** deploy Cloud Functions or Hosting for this workflow — cloud Functio
 
 ---
 
+## Run locally on Android and web
+
+For prerequisites, Firebase emulator setup, Android device forwarding, and platform-specific launch steps, see [`docs/LOCAL_DEVELOPMENT.md`](docs/LOCAL_DEVELOPMENT.md).
+
+---
+
 ## Try it on your phone
 
 Free HTTPS preview of the **web** app (mock backend, no Firebase bill):
@@ -166,6 +173,7 @@ Details: [`docs/CI_CD_PLAN.md`](docs/CI_CD_PLAN.md) · [`scripts/ci-local.sh`](s
 | [`docs/IMPLEMENTATION_GAP_ANALYSIS.md`](docs/IMPLEMENTATION_GAP_ANALYSIS.md) | Plan vs codebase |
 | [`docs/screenshots/README.md`](docs/screenshots/README.md) | Screenshot capture |
 | [`docs/WEB_MOBILE_PREVIEW.md`](docs/WEB_MOBILE_PREVIEW.md) | Free GitHub Pages URL for phone testing |
+| [`docs/LOCAL_DEVELOPMENT.md`](docs/LOCAL_DEVELOPMENT.md) | Run locally on Android and web with Firebase emulators |
 
 ---
 
