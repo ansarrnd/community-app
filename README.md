@@ -110,7 +110,7 @@ npm run web:firebase:static
 
 Optional check that Firestore round-trips work: `npm run validate:emulators`. After serving the static app, `npm run check:web:emulators` confirms the feed is reading emulator data (not the mock backend).
 
-Demo logins (seeded into the Auth emulator): `resident@demo.community`, `mod@demo.community`, `admin@demo.community` — password `DemoPass123!`. Switch roles on the Profile tab.
+Demo logins (seeded into the Auth emulator): `resident@demo.community`, `mod@demo.community`, `admin@demo.community` — password `demo-password`. Switch roles on the Profile tab.
 
 Do **not** deploy Cloud Functions or Hosting for this workflow — cloud Functions typically require a Blaze billing account. The seed script sets Auth custom claims locally, so USER/MOD/ADMIN work without `grantRole` in the cloud.
 

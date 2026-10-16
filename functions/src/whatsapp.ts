@@ -1,7 +1,35 @@
+import * as crypto from 'crypto';
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
-const VERIFY_TOKEN = process.env.META_WA_VERIFY_TOKEN || 'community-connect-verify-token';
+const VERIFY_TOKEN = process.env.META_WA_VERIFY_TOKEN;
+const APP_SECRET = process.env.META_WA_APP_SECRET;
+
+function getRequestBodyBuffer(req: functions.Request): Buffer {
+  const requestWithRawBody = req as functions.Request & { rawBody?: Buffer | string };
+
+  if (Buffer.isBuffer(requestWithRawBody.rawBody)) return requestWithRawBody.rawBody;
+  if (typeof requestWithRawBody.rawBody === 'string') return Buffer.from(requestWithRawBody.rawBody, 'utf8');
+  if (req.body === undefined || req.body === null) return Buffer.alloc(0);
+  if (typeof req.body === 'string') return Buffer.from(req.body, 'utf8');
+  return Buffer.from(JSON.stringify(req.body), 'utf8');
+}
+
+function validateMetaWebhookSignature(req: functions.Request): boolean {
+  if (!APP_SECRET) return false;
+
+  const signatureHeader = (req.get('x-hub-signature-256') || '').trim();
+  if (!signatureHeader.startsWith('sha256=')) return false;
+
+  const rawBody = getRequestBodyBuffer(req);
+  const expected = `sha256=${crypto.createHmac('sha256', APP_SECRET).update(rawBody).digest('hex')}`;
+
+  try {
+    return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(signatureHeader));
+  } catch {
+    return false;
+  }
+}
 
 interface WhatsAppWebhookBody {
   object?: string;
@@ -21,6 +49,11 @@ interface WhatsAppWebhookBody {
  */
 export const whatsappWebhook = functions.https.onRequest(async (req, res) => {
   if (req.method === 'GET') {
+    if (!VERIFY_TOKEN) {
+      res.status(500).send('Webhook verification token is not configured.');
+      return;
+    }
+
     const mode = req.query['hub.mode'];
     const token = req.query['hub.verify_token'];
     const challenge = req.query['hub.challenge'];
@@ -36,6 +69,16 @@ export const whatsappWebhook = functions.https.onRequest(async (req, res) => {
 
   if (req.method !== 'POST') {
     res.status(405).send('Method not allowed');
+    return;
+  }
+
+  if (!APP_SECRET) {
+    res.status(500).send('Webhook app secret is not configured.');
+    return;
+  }
+
+  if (!validateMetaWebhookSignature(req)) {
+    res.status(401).send('Invalid webhook signature.');
     return;
   }
 
