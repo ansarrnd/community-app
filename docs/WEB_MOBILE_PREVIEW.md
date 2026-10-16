@@ -29,9 +29,9 @@ You can also **Add to Home Screen** for a full-screen icon.
 
 Mock demo users (same as local):
 
-- `resident@demo.community` / `DemoPass123!`
-- `mod@demo.community` / `DemoPass123!`
-- `admin@demo.community` / `DemoPass123!`
+- `resident@demo.community` / `demo-password`
+- `mod@demo.community` / `demo-password`
+- `admin@demo.community` / `demo-password`
 
 This is **not** a native APK/IPA. Camera, WhatsApp share, and some native modules may differ from Expo Go. It is the right path for layout, navigation, and flows on a real phone without store review.
 

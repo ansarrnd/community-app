@@ -23,6 +23,7 @@ import { getAuth, connectAuthEmulator, signInWithEmailAndPassword, signOut } fro
 const PROJECT_ID = process.env.GCLOUD_PROJECT || 'demo-community-app';
 const FIRESTORE_HOST = process.env.FIRESTORE_EMULATOR_HOST || '127.0.0.1:8080';
 const AUTH_HOST = process.env.FIREBASE_AUTH_EMULATOR_HOST || '127.0.0.1:9099';
+const DEMO_PASSWORD = process.env.DEMO_AUTH_PASSWORD || 'dev-demo-password-change-me';
 
 const [fsHost, fsPort] = FIRESTORE_HOST.split(':');
 const authUrl = AUTH_HOST.startsWith('http') ? AUTH_HOST : `http://${AUTH_HOST}`;
@@ -71,7 +72,7 @@ async function main() {
   assert(restEvents.length >= 2, `Expected at least 2 seeded events, got ${restEvents.length}`);
   console.log(`[validate] REST listed ${restEvents.length} events`);
 
-  await signInWithEmailAndPassword(auth, 'resident@demo.community', 'DemoPass123!');
+  await signInWithEmailAndPassword(auth, 'resident@demo.community', DEMO_PASSWORD);
   const approvedSnap = await getDocs(
     query(collection(db, 'events'), where('status', '==', 'APPROVED'), orderBy('createdAt', 'desc'))
   );
@@ -79,7 +80,7 @@ async function main() {
   const approved = approvedSnap.docs[0];
   console.log(`[validate] Feed OK — approved "${approved.data().title}" (${approved.id})`);
 
-  await signInWithEmailAndPassword(auth, 'resident@demo.community', 'DemoPass123!');
+  await signInWithEmailAndPassword(auth, 'resident@demo.community', DEMO_PASSWORD);
   const created = await addDoc(collection(db, 'events'), {
     title: `Validation pending ${Date.now()}`,
     category: 'CULTURAL',
@@ -99,7 +100,7 @@ async function main() {
   console.log(`[validate] Created pending event ${created.id}`);
 
   await signOut(auth);
-  await signInWithEmailAndPassword(auth, 'mod@demo.community', 'DemoPass123!');
+  await signInWithEmailAndPassword(auth, 'mod@demo.community', DEMO_PASSWORD);
   const pendingSnap = await getDocs(
     query(collection(db, 'events'), where('status', '==', 'PENDING'), orderBy('createdAt', 'desc'))
   );
@@ -117,7 +118,7 @@ async function main() {
   console.log(`[validate] Moderation OK — approved pending event ${pending.id}`);
 
   await signOut(auth);
-  await signInWithEmailAndPassword(auth, 'resident@demo.community', 'DemoPass123!');
+  await signInWithEmailAndPassword(auth, 'resident@demo.community', DEMO_PASSWORD);
   const userId = auth.currentUser.uid;
   const eventId = approved.id;
   const eventRef = doc(db, 'events', eventId);

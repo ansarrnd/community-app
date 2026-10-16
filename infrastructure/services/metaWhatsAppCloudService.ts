@@ -13,13 +13,18 @@ export interface MetaCloudConfig {
 }
 
 export function getMetaCloudConfigFromEnv(): MetaCloudConfig | null {
-  const phoneNumberId = process.env.EXPO_PUBLIC_META_WA_PHONE_NUMBER_ID;
-  const accessToken = process.env.EXPO_PUBLIC_META_WA_ACCESS_TOKEN;
+  if (typeof window !== 'undefined') {
+    return null;
+  }
+
+  const phoneNumberId = process.env.META_WA_PHONE_NUMBER_ID;
+  const accessToken = process.env.META_WA_ACCESS_TOKEN;
   if (!phoneNumberId || !accessToken) return null;
+
   return {
     phoneNumberId,
     accessToken,
-    apiVersion: process.env.EXPO_PUBLIC_META_WA_API_VERSION || 'v21.0',
+    apiVersion: process.env.META_WA_API_VERSION || 'v21.0',
   };
 }
 
