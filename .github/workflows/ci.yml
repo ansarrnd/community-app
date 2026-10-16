@@ -1,7 +1,7 @@
 name: CI
 
-# Sole active pipeline — GitHub-hosted ubuntu runners only.
-# Maestro / EAS release / legacy hybrid pipelines are disabled.
+# Quality pipeline — GitHub-hosted ubuntu runners.
+# Pages preview: deploy-web.yml. Maestro / EAS / legacy pipelines are disabled.
 # See docs/CI_CD_PLAN.md
 
 on:
