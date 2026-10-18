@@ -97,7 +97,7 @@ Open the URL printed by Expo (typically <http://localhost:8081>). Since the brow
 
 ## Demo sign-in
 
-Use one of the seeded accounts; all have password `DemoPass123!`:
+Use one of the seeded accounts; all have password `demo-password`:
 
 | Role | Email |
 |------|-------|

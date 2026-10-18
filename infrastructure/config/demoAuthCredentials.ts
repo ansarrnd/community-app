@@ -9,11 +9,13 @@ export interface DemoAuthCredential {
   phoneNumber: string;
 }
 
+const demoAuthPassword = process.env.EXPO_PUBLIC_DEMO_AUTH_PASSWORD ?? process.env.DEMO_AUTH_PASSWORD ?? 'dev-demo-password-change-me';
+
 export const DEMO_AUTH_CREDENTIALS: DemoAuthCredential[] = [
   {
     uid: 'demo-user-resident',
     email: 'resident@demo.community',
-    password: 'DemoPass123!',
+    password: demoAuthPassword,
     role: 'USER',
     displayName: 'Alex Mercer',
     phoneNumber: '+15550192834',
@@ -21,7 +23,7 @@ export const DEMO_AUTH_CREDENTIALS: DemoAuthCredential[] = [
   {
     uid: 'demo-user-mod',
     email: 'mod@demo.community',
-    password: 'DemoPass123!',
+    password: demoAuthPassword,
     role: 'MOD',
     displayName: 'Maya Moderator',
     phoneNumber: '+15550192835',
@@ -29,7 +31,7 @@ export const DEMO_AUTH_CREDENTIALS: DemoAuthCredential[] = [
   {
     uid: 'demo-user-admin',
     email: 'admin@demo.community',
-    password: 'DemoPass123!',
+    password: demoAuthPassword,
     role: 'ADMIN',
     displayName: 'Arun Administrator',
     phoneNumber: '+15550192836',

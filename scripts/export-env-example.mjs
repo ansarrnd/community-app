@@ -40,11 +40,12 @@ EXPO_PUBLIC_APP_CHECK_DEBUG_TOKEN=
 # Use Skia aurora background instead of LinearGradient
 EXPO_PUBLIC_USE_SKIA_AURORA=false
 
-# --- Meta WhatsApp Cloud API (optional admin broadcast) ---
-EXPO_PUBLIC_META_WA_PHONE_NUMBER_ID=
-EXPO_PUBLIC_META_WA_ACCESS_TOKEN=
-EXPO_PUBLIC_META_WA_API_VERSION=v21.0
-EXPO_PUBLIC_META_WA_SUBSCRIBER_PHONES=
+# --- Meta WhatsApp Cloud API (optional admin broadcast; server-only) ---
+# Never add EXPO_PUBLIC_ here: tokens are rendered into the client bundle.
+META_WA_PHONE_NUMBER_ID=
+META_WA_ACCESS_TOKEN=
+META_WA_API_VERSION=v21.0
+META_WA_SUBSCRIBER_PHONES=
 
 # --- Server / seed only (not EXPO_PUBLIC — set in shell for scripts) ---
 # FIRESTORE_EMULATOR_HOST=127.0.0.1:8080
