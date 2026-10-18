@@ -167,6 +167,7 @@ Details: [`docs/CI_CD_PLAN.md`](docs/CI_CD_PLAN.md) · [`scripts/ci-local.sh`](s
 | Doc | Topic |
 |-----|-------|
 | [`docs/BLUEPRINT/README.md`](docs/BLUEPRINT/README.md) | **Portability blueprint** — domain, UI, architecture, tests |
+| [`docs/COMPOSE_MULTIPLATFORM_MIGRATION.md`](docs/COMPOSE_MULTIPLATFORM_MIGRATION.md) | **Compose Multiplatform migration tracker** — front-end checklist, decisions, and progress |
 | [`docs/CI_CD_PLAN.md`](docs/CI_CD_PLAN.md) | GitHub Actions CI + local golden pipeline |
 | [`docs/testing/AUTOMATED_REGRESSION_PLAN.md`](docs/testing/AUTOMATED_REGRESSION_PLAN.md) | Regression coverage map |
 | [`docs/testing/TESTING_STRATEGY.md`](docs/testing/TESTING_STRATEGY.md) | Test inventory |

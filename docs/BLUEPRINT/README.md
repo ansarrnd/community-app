@@ -55,6 +55,7 @@ node scripts/export-env-example.mjs     # → .env.example
 
 ## Related
 
+- [Compose Multiplatform front-end migration tracker](../COMPOSE_MULTIPLATFORM_MIGRATION.md)
 - [CI/CD plan](../CI_CD_PLAN.md)
 - [Testing strategy](../testing/TESTING_STRATEGY.md)
 - [Automated regression plan](../testing/AUTOMATED_REGRESSION_PLAN.md)
