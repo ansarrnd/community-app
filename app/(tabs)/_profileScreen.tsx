@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
+import { useRouter } from 'expo-router';
 import { useAuthStore } from '../../application/stores/useAuthStore';
 import { useUserRsvps } from '../../application/hooks/useEventsQuery';
+import { useRoleGuard } from '../../application/hooks/useRoleGuard';
 import { LiquidGlassCard } from '../../components/LiquidGlassCard';
 import { RoleBadge } from '../../components/RoleBadge';
 import { ThemedText } from '../../components/ThemedText';
@@ -26,7 +28,9 @@ const THEME_OPTIONS: { id: ThemeMode; label: string; icon: React.ComponentType<a
 ];
 
 export default function ProfileScreen() {
+  const router = useRouter();
   const { user, setUser } = useAuthStore();
+  const { isMod, isAdmin } = useRoleGuard();
   const { theme, themeMode, setThemeMode } = useTheme();
   const { contentBottomPadding } = useLayoutInsets();
   const { data: userRsvps = {} } = useUserRsvps(user.uid);
@@ -37,6 +41,25 @@ export default function ProfileScreen() {
       style={styles.container}
       contentContainerStyle={[styles.contentContainer, { paddingBottom: contentBottomPadding }]}
     >
+      <ThemedText variant="subtitle" bold style={styles.sectionTitle}>
+        Quick actions
+      </ThemedText>
+      <ThemedText variant="caption" muted style={styles.sectionDesc}>
+        Create an event or open tools available to your role.
+      </ThemedText>
+      <SelectableCard
+        title="Host an event"
+        description="Create and submit a community event."
+        onPress={() => router.push('/create')}
+      />
+      {(isMod || isAdmin) && (
+        <SelectableCard
+          title="Moderation queue"
+          description="Review pending community events."
+          onPress={() => router.push('/admin')}
+        />
+      )}
+
       {/* Profile Card */}
       <LiquidGlassCard style={styles.profileCard} glowColor={theme.colors.glowAccent}>
         <View style={styles.profileHeader}>

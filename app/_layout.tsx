@@ -46,6 +46,8 @@ function AppNav() {
           }}
         >
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="create" options={{ title: 'Host an Event' }} />
+          <Stack.Screen name="admin" options={{ title: 'Moderation Queue' }} />
           <Stack.Screen
             name="e/[id]"
             options={{
