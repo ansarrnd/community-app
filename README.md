@@ -174,6 +174,7 @@ Details: [`docs/CI_CD_PLAN.md`](docs/CI_CD_PLAN.md) · [`scripts/ci-local.sh`](s
 | [`docs/screenshots/README.md`](docs/screenshots/README.md) | Screenshot capture |
 | [`docs/WEB_MOBILE_PREVIEW.md`](docs/WEB_MOBILE_PREVIEW.md) | Free GitHub Pages URL for phone testing |
 | [`docs/LOCAL_DEVELOPMENT.md`](docs/LOCAL_DEVELOPMENT.md) | Run locally on Android and web with Firebase emulators |
+| [`docs/REACT_NATIVE_CONCEPTS.md`](docs/REACT_NATIVE_CONCEPTS.md) | React Native concepts with explanations and examples from the app |
 
 ---
 
