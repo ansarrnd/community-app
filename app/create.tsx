@@ -1,9 +1,9 @@
 import React, { Suspense, lazy } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
-const AdminModerationScreen = lazy(() => import('./_adminScreen'));
+const CreateEventScreen = lazy(() => import('./(tabs)/_createScreen'));
 
-export default function AdminTab() {
+export default function CreateRoute() {
   return (
     <Suspense
       fallback={
@@ -12,7 +12,7 @@ export default function AdminTab() {
         </View>
       }
     >
-      <AdminModerationScreen />
+      <CreateEventScreen />
     </Suspense>
   );
 }

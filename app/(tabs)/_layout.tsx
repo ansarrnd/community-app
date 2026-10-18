@@ -1,16 +1,13 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Calendar, PlusCircle, ShieldAlert, User } from 'lucide-react-native';
+import { Calendar, Ellipsis, User } from 'lucide-react-native';
 import { useTheme } from '../../context/ThemeContext';
-import { useRoleGuard } from '../../application/hooks/useRoleGuard';
 import { TAB_BAR_BASE_HEIGHT } from '../../application/hooks/useLayoutInsets';
 
 export default function TabsLayout() {
-  const { isMod, isAdmin } = useRoleGuard();
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
-  const canModerate = isMod || isAdmin;
 
   return (
     <Tabs
@@ -38,34 +35,17 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Explore Events',
-          tabBarLabel: 'Explore',
+          title: 'Community Events',
+          tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => <Calendar color={color} size={size} />,
-        }}
-      />
-      <Tabs.Screen
-        name="create"
-        options={{
-          title: 'Host an Event',
-          tabBarLabel: 'Create',
-          tabBarIcon: ({ color, size }) => <PlusCircle color={color} size={size} />,
-        }}
-      />
-      <Tabs.Screen
-        name="admin"
-        options={{
-          title: 'Moderation Queue',
-          tabBarLabel: 'Moderation',
-          href: canModerate ? '/admin' : null,
-          tabBarIcon: ({ color, size }) => <ShieldAlert color={color} size={size} />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'My Profile & Settings',
-          tabBarLabel: 'Profile',
-          tabBarIcon: ({ color, size }) => <User color={color} size={size} />,
+          title: 'More',
+          tabBarLabel: 'More',
+          tabBarIcon: ({ color, size }) => <Ellipsis color={color} size={size} />,
         }}
       />
     </Tabs>
