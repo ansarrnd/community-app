@@ -19,6 +19,7 @@ How to reimplement Community Connect in another stack using this blueprint.
 | RN / Expo (this project) | Flutter | Next.js / React web | Notes |
 |------------------------|---------|---------------------|-------|
 | Expo Router file routes | `go_router` | App Router `app/` pages | Tab + stack for `/e/[id]` |
+| React Native UI | Compose Multiplatform | React components | Android/iOS migration tracking: [Compose Multiplatform migration](../COMPOSE_MULTIPLATFORM_MIGRATION.md) |
 | FlashList | `ListView.builder` / `SliverList` | `@tanstack/react-virtual` | Infinite scroll + `onEndReached` |
 | expo-blur LiquidGlassCard | `BackdropFilter` + `ImageFilter.blur` | CSS `backdrop-filter` | `blurEnabled=false` on list rows |
 | Zustand | Riverpod / Bloc | Zustand or Redux | Auth + filter stores |

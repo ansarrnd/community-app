@@ -8,6 +8,11 @@ playwright-report
 .ci-reports
 docs/screenshots/.ci-candidate
 functions/lib
+composeApp/.gradle
+composeApp/.kotlin
+composeApp/**/build
+composeApp/local.properties
+*.hprof
 firebase-debug.log
 firestore-debug.log
 ui-debug.log
